@@ -80,13 +80,3 @@ exports.update = (req, res) => {
     res.status(200).send("updated successfully");
   });
 };
-
-// Delete a User by Id
-exports.delete = (req, res) => {
-  const id = req.params.userId;
-  User.destroy({
-    where: { id: id }
-  }).then(() => {
-    res.status(200).send("deleted successfully ");
-  });
-};
