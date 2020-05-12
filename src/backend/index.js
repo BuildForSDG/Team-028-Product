@@ -9,9 +9,7 @@ app.use(bodyParser.json());
 const db = require("./config/db.config");
 
 //sync db
-db.sequelize.sync().then(() => {
-  console.log("Connection Successfully Established");
-});
+db.sequelize.sync().then(() => {});
 
 require("./routes/user.route")(app);
 require("./routes/userCat.route")(app);
@@ -19,5 +17,5 @@ require("./routes/userOganization.route")(app);
 require("./routes/previlege.route")(app);
 
 app.listen(PORT, () => {
-  console.log("App listening at port", PORT);
+  PORT;
 });

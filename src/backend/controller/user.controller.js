@@ -77,7 +77,7 @@ exports.update = (req, res) => {
     },
     { where: { id: req.params.userId } }
   ).then(() => {
-    res.status(200).send('updated successfully a user with id = ' + id);
+    res.status(200).send("updated successfully");
   });
 };
 
@@ -87,6 +87,6 @@ exports.delete = (req, res) => {
   User.destroy({
     where: { id: id }
   }).then(() => {
-    res.status(200).send('deleted successfully a user with id = ' + id);
+    res.status(200).send("deleted successfully ");
   });
 };
