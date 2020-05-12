@@ -3,10 +3,11 @@ const Previlege = db.userPrevilege;
 
 // Post a User
 exports.create = (req, res) => {
-  if (!req.body)
+  if (!req.body){
     return res.status(400).send({
       message: "Previleges not assigened",
     });
+  }
 
   const previlege = new Previlege({
     userId: req.body.useruserIdCatId,

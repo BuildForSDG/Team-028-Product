@@ -3,10 +3,11 @@ const Organization = db.userOrganization;
 
 // Post a User
 exports.create = (req, res) => {
-  if (!req.body)
+  if (!req.body){
     return res.status(400).send({
       message: "User organization details cannot be empty",
     });
+  }
 
   // create new instance of user organization
   const userOrganization = new Organization({

@@ -3,10 +3,12 @@ const UserCategory = db.userCategory;
 
 // Post a User
 exports.create = (req, res) => {
-  if (!req.body)
+  if (!req.body){
     return res.status(400).send({
       message: "User details cannot be empty",
     });
+  }
+    
   // create new user instance
   const userCategory = new UserCategory({
     userCatId: req.body.userCatId,

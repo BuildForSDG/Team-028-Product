@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const RolePrevilege = sequelize.define('roleprevilege', {
+  const RolePrevilege = sequelize.define("roleprevilege", {
     rolePrevilegeId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
