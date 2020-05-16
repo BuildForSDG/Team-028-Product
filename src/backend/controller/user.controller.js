@@ -201,14 +201,14 @@ module.exports.findOne = (req, res) => {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.kind === "ObjectId") {
+      if (err.kind === 'ObjectId') {
         return res.status(404).send({
-          message: "User Profile not found "
+          message: 'User Profile not found '
         });
       }
 
       return res.status(500).send({
-        message: "Something went wrong retrieving User profile "
+        message: 'Something went wrong retrieving User profile '
       });
     });
 };

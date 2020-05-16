@@ -1,6 +1,6 @@
-module.exports = (app) => {
-  const organization = require("../controller/userOrganisation.controller");
+const organization = require('../controller/userOrganisation.controller');
 
-  //post to organization table organization
-  app.post("/organizations", organization.create);
+module.exports = (app) => {
+  // post to organization table organization
+  app.post('/organizations', organization.create);
 };
