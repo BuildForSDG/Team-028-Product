@@ -1,15 +1,22 @@
 const env = {
-  database: "eazsme_db",
-  username: "root",
-  password: "",
-  host: "localhost",
-  dialect: "mysql",
+  database: 'eazsme_db',
+  username: 'root',
+  password: '',
+  host: 'localhost',
+  dialect: 'mysql',
   pool: {
     max: 5,
     min: 0,
     acquire: 30000,
-    idle: 10000,
+    idle: 10000
   },
+  mail: {
+    host: 'smtp.mailtrap.io',
+    port: '2525',
+    user: '928c4a67b335f8',
+    pass: '2c48789092020c'
+  },
+  jwtsecret: 'mysecret'
 };
 
 module.exports = env;
