@@ -1,32 +1,32 @@
 module.exports = (sequelize, DataTypes) => {
-  const Payment = sequelize.define("payments", {
+  const Payment = sequelize.define('payments', {
     paymentId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       allowNull: false,
-      primaryKey: true,
+      primaryKey: true
     },
     fundId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER
     },
     bankAccount: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER
     },
     bankName: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
     amount: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.DOUBLE
     },
     status: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
     confirmationDate: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATE
     },
     confirmBy: {
-      type: DataTypes.INTEGER,
-    },
+      type: DataTypes.INTEGER
+    }
   });
   return Payment;
 };

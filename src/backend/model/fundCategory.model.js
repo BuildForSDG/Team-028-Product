@@ -1,23 +1,23 @@
 module.exports = (sequelize, DataTypes) => {
-  const FundCategory = sequelize.define("fundcategories", {
+  const FundCategory = sequelize.define('fundcategories', {
     fundCatId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       allowNull: false,
-      primaryKey: true,
+      primaryKey: true
     },
     categoryName: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
     dateCreated: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATE
     },
     createdBy: {
-      type: DataTypes.STRING,
-    },
+      type: DataTypes.STRING
+    }
   });
   return FundCategory;
 };

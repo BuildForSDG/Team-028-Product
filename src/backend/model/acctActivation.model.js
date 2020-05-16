@@ -1,23 +1,23 @@
 module.exports = (sequelize, DataTypes) => {
-  const AcctActivation = sequelize.define("useractivations", {
+  const AcctActivation = sequelize.define('useractivations', {
     activationId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       allowNull: false,
-      primaryKey: true,
+      primaryKey: true
     },
     userId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER
     },
     email: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
     activationStatus: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.BOOLEAN
     },
     activationDate: {
-      type: DataTypes.DATE,
-    },
+      type: DataTypes.DATE
+    }
   });
   return AcctActivation;
 };

@@ -1,15 +1,15 @@
 module.exports = (sequelize, DataTypes) => {
-  const UserCategory = sequelize.define('usercategories', {
-    userCatId: {
+  const Privilege = sequelize.define('privileges', {
+    id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       allowNull: false,
       primaryKey: true
     },
     userId: {
-      type: DataTypes.INTEGER
+      type: DataTypes.STRING
     },
-    categoryName: {
+    privilegeName: {
       type: DataTypes.STRING
     },
     description: {
@@ -22,5 +22,5 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     }
   });
-  return UserCategory;
+  return Privilege;
 };
