@@ -15,6 +15,7 @@
     "test:watch": "jest --watch",
     "test:cover": "jest --coverage",
     "lint": "eslint \"src/**/*.js\"",
+    "lint:fix": "eslint \"src/**/*.js\" --fix",
     "frontend": "yarn workspace frontend start",
     "backend": "yarn workspace backend start",
     "start": "concurrently --kill-others-on-fail \"yarn frontend\"  \"yarn backend\""
