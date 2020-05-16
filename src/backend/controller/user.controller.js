@@ -125,7 +125,7 @@ module.exports.register = async (req, res) => {
 
   // send email
   const templateHtml = `${appRoot}/templates/verifyUrl.hbs`;
-  const source = fs.readFileSync(templateHtml, "utf-8");
+  const source = await fs.readFile(templateHtml, "utf-8");
   const template = Handlebars.compile(source);
 
   const transporter = nodemailer.createTransport({
