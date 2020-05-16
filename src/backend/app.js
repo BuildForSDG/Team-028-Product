@@ -2,8 +2,11 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
+const path = require("path");
 
 const app = express();
+
+const appRoot = path.dirname(require.main.filename);
 
 const logger = require("./config/logger");
 
@@ -29,3 +32,5 @@ require("./routes/privilege.route")(app);
 app.listen(PORT, () => {
   logger.info(`Backend Server runs on port ${PORT}`);
 });
+
+module.exports = appRoot;
