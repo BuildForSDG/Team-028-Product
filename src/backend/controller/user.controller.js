@@ -24,7 +24,9 @@ module.exports.register = async (req, res) => {
 
   // verify if user email exists already
   const user = await User.findOne({ where: { userEmail: req.body.email } });
-  if (user) return res.status(400).json({ status: "error", message: "email already exists" });
+  if (user) {
+    return res.status(400).json({ status: "error", message: "email already exists" });
+  }
 
   const creatorId = parseInt(req.body.creatorId, 10);
   const creatorRole = parseInt(req.body.creatorRole, 10);
@@ -53,7 +55,9 @@ module.exports.register = async (req, res) => {
 
   if (userPrivileges) {
     const privilege = userPrivileges.filter((element) => element.privilegeId === 1);
-    if (!privilege) return res.status(400).json({ status: "error", message: "you don't have this privilege" });
+    if (!privilege) {
+      return res.status(400).json({ status: "error", message: "you don't have this privilege" });
+    }
   }
 
   // To create a user, the creator must be a System Admin or and admin of that Organization
@@ -119,7 +123,8 @@ module.exports.register = async (req, res) => {
   }
 
   // send email
-  const source = fs.readFileSync(path.join(__dirname, "/../templates/verifyUrl.hbs"), "utf-8");
+  const templateHtml = path.join(__dirname, "/../templates/verifyUrl.hbs");
+  const source = fs.readFileSync(templateHtml, "utf-8");
   const template = Handlebars.compile(source);
 
   const transporter = nodemailer.createTransport({
