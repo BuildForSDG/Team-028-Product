@@ -1,5 +1,5 @@
-const privilege = require('../controller/userPrivilege.controller');
+const privilege = require("../controller/userPrivilege.controller");
 
 module.exports = (app) => {
-  app.post('/privileges', privilege.create);
+  app.post("/privileges", privilege.create);
 };

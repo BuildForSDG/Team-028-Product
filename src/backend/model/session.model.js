@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const ManageSession = sequelize.define('usersessions', {
+  const ManageSession = sequelize.define("usersessions", {
     sessionId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,

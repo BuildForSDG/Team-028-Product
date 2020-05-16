@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Privilege = sequelize.define('privileges', {
+  const Privilege = sequelize.define("privileges", {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,

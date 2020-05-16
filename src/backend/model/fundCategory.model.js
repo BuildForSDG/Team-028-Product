@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const FundCategory = sequelize.define('fundcategories', {
+  const FundCategory = sequelize.define("fundcategories", {
     fundCatId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,

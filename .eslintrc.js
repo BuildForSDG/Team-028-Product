@@ -18,6 +18,7 @@ module.exports = {
     'comma-dangle': ['error', 'never'],
     'no-param-reassign': ['error', { props: false }],
     'import/no-dynamic-require': "off",
-    "linebreak-style": 0
+    'linebreak-style': 0,
+    'quotes': ["error", "double", { "allowTemplateLiterals": true }]
   }
 };

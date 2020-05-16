@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const UserOrgnization = sequelize.define('organizations', {
+  const UserOrgnization = sequelize.define("organizations", {
     organizationId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,

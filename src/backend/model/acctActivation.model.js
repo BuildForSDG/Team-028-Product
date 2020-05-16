@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const AcctActivation = sequelize.define('useractivations', {
+  const AcctActivation = sequelize.define("useractivations", {
     activationId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,

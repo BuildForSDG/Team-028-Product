@@ -1,12 +1,12 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
-const Handlebars = require('handlebars');
-const fs = require('fs');
-const path = require('path');
-const db = require('../config/db.config');
-const logger = require('../config/logger');
-const env = require('../config/env');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
+const Handlebars = require("handlebars");
+const fs = require("fs");
+const path = require("path");
+const db = require("../config/db.config");
+const logger = require("../config/logger");
+const env = require("../config/env");
 
 const User = db.users;
 const Organization = db.organizations;
@@ -24,7 +24,7 @@ module.exports.register = async (req, res) => {
 
   // verify if user email exists already
   const user = await User.findOne({ where: { userEmail: req.body.email } });
-  if (user) return res.status(400).json({ status: 'error', message: 'email already exists' });
+  if (user) return res.status(400).json({ status: "error", message: "email already exists" });
 
   const creatorId = parseInt(req.body.creatorId, 10);
   const creatorRole = parseInt(req.body.creatorRole, 10);
@@ -32,35 +32,35 @@ module.exports.register = async (req, res) => {
   const userOrganization = parseInt(req.body.organization, 10);
 
   // find organization users by creator Id
-  const organization = await Organization.findByPk(creatorOrganization, { include: ['users'] });
+  const organization = await Organization.findByPk(creatorOrganization, { include: ["users"] });
   let userInOrganization = null;
   try {
     const organizationUsers = organization.get({ plain: true }).users;
     userInOrganization = organizationUsers.filter((element) => element.userID === creatorId);
   } catch (error) {
     logger.warn(error.message);
-    logger.info('No users in this company');
+    logger.info("No users in this company");
   }
 
   // get role privileges;
-  const userRoles = await Role.findByPk(creatorRole, { include: ['privileges'] });
+  const userRoles = await Role.findByPk(creatorRole, { include: ["privileges"] });
   let userPrivileges;
   try {
     userPrivileges = userRoles.get({ plain: true }).privileges;
   } catch (error) {
-    logger.warn('User has no privileges Assigned Yet');
+    logger.warn("User has no privileges Assigned Yet");
   }
 
   if (userPrivileges) {
     const privilege = userPrivileges.filter((element) => element.privilegeId === 1);
-    if (!privilege) return res.status(400).json({ status: 'error', message: "you don't have this privilege" });
+    if (!privilege) return res.status(400).json({ status: "error", message: "you don't have this privilege" });
   }
 
   // To create a user, the creator must be a System Admin or and admin of that Organization
   if (!(userInOrganization || creatorRole === 1 || creatorOrganization === userOrganization)) {
     return res
       .status(400)
-      .json({ status: 'error', message: 'you are not allowed to create users for this organization' });
+      .json({ status: "error", message: "you are not allowed to create users for this organization" });
   }
 
   // hash the password
@@ -85,8 +85,8 @@ module.exports.register = async (req, res) => {
     usr = await User.create(userData);
   } catch (error) {
     return res.status(500).json({
-      status: 'error',
-      message: error.message || 'Some error occurred while creating user'
+      status: "error",
+      message: error.message || "Some error occurred while creating user"
     });
   }
 
@@ -97,15 +97,15 @@ module.exports.register = async (req, res) => {
   // add token to data
   const privateKey = env.jwtsecret;
   const token = jwt.sign(data, privateKey, {
-    expiresIn: '1h'
+    expiresIn: "1h"
   });
   data.token = token;
 
   // update audit
   const auditData = {};
 
-  auditData.action = 'register';
-  auditData.actionStatus = 'success';
+  auditData.action = "register";
+  auditData.actionStatus = "success";
   auditData.performedBy = data.userID;
   auditData.actionTime = data.createdAt;
 
@@ -113,13 +113,13 @@ module.exports.register = async (req, res) => {
     await Audit.create(auditData);
   } catch (error) {
     return res.status(400).json({
-      status: 'error',
-      message: error.message || 'User registered, but there are errors generating audit data'
+      status: "error",
+      message: error.message || "User registered, but there are errors generating audit data"
     });
   }
 
   // send email
-  const source = fs.readFileSync(path.join(__dirname, '/../templates/verifyUrl.hbs'), 'utf-8');
+  const source = fs.readFileSync(path.join(__dirname, "/../templates/verifyUrl.hbs"), "utf-8");
   const template = Handlebars.compile(source);
 
   const transporter = nodemailer.createTransport({
@@ -133,13 +133,13 @@ module.exports.register = async (req, res) => {
     logger: true
   });
 
-  const host = req.get('host');
+  const host = req.get("host");
   const verifyUrl = `http://${host}/api/v1/user/verify?token=${token}&email=${data.userEmail}`;
 
   const mailOptions = {
-    from: 'vindication@ezSME.com',
+    from: "vindication@ezSME.com",
     to: `${data.userEmail}`,
-    subject: 'Verify your email',
+    subject: "Verify your email",
     html: template({ verifyUrl })
   };
 
@@ -155,7 +155,7 @@ module.exports.register = async (req, res) => {
 
   organizationData.userID = data.userID;
   organizationData.userCatId = data.userCategory;
-  organizationData.companyName = req.body.companyName || 'default';
+  organizationData.companyName = req.body.companyName || "default";
   organizationData.RCNumber = req.body.rcnumber;
   organizationData.email = req.body.companyEmail || data.userEmail;
   organizationData.BVN = req.body.BVN;
@@ -165,11 +165,11 @@ module.exports.register = async (req, res) => {
   try {
     await Organization.create(organizationData);
   } catch (error) {
-    logger.warn(error.message || 'error creating user organization');
+    logger.warn(error.message || "error creating user organization");
   }
   return res.status(200).json({
-    status: 'success',
-    message: 'You have registered successfully',
+    status: "success",
+    message: "You have registered successfully",
     data
   });
 };
@@ -181,7 +181,7 @@ module.exports.findAll = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || 'Something wrong while retrieving users.'
+        message: err.message || "Something wrong while retrieving users."
       });
     });
 };
@@ -193,7 +193,7 @@ module.exports.findOne = (req, res) => {
     .then((user) => {
       if (!user) {
         return res.status(404).send({
-          message: 'User Profile not found'
+          message: "User Profile not found"
         });
       }
 
@@ -201,14 +201,14 @@ module.exports.findOne = (req, res) => {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.kind === 'ObjectId') {
+      if (err.kind === "ObjectId") {
         return res.status(404).send({
-          message: 'User Profile not found '
+          message: "User Profile not found "
         });
       }
 
       return res.status(500).send({
-        message: 'Something went wrong retrieving User profile '
+        message: "Something went wrong retrieving User profile "
       });
     });
 };

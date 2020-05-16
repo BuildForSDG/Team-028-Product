@@ -1,4 +1,4 @@
-const db = require('../config/db.config');
+const db = require("../config/db.config");
 
 const UserCategory = db.userCategory;
 
@@ -7,7 +7,7 @@ const UserCategory = db.userCategory;
 exports.create = (req, res) => {
   if (!req.body) {
     return res.status(400).send({
-      message: 'User details cannot be empty'
+      message: "User details cannot be empty"
     });
   }
 
@@ -22,11 +22,11 @@ exports.create = (req, res) => {
   userCategory
     .save()
     .then(() => {
-      res.status(200).send('User Category Saved');
+      res.status(200).send("User Category Saved");
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || 'Something wrong while creating the user category profile.'
+        message: err.message || "Something wrong while creating the user category profile."
       });
     });
 };

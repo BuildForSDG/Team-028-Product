@@ -1,4 +1,4 @@
-const db = require('../config/db.config');
+const db = require("../config/db.config");
 
 const Previlege = db.userPrevilege;
 
@@ -7,7 +7,7 @@ const Previlege = db.userPrevilege;
 exports.create = (req, res) => {
   if (!req.body) {
     return res.status(400).send({
-      message: 'Previleges not assigened'
+      message: "Previleges not assigened"
     });
   }
 
@@ -20,11 +20,11 @@ exports.create = (req, res) => {
   previlege
     .save()
     .then(() => {
-      res.status(200).send('User previleges assigned');
+      res.status(200).send("User previleges assigned");
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || 'Previleges not assigned'
+        message: err.message || "Previleges not assigned"
       });
     });
 };
