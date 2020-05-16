@@ -1,11 +1,13 @@
-const db = require("../config/db.config");
+const db = require('../config/db.config');
+
 const Organization = db.userOrganization;
 
 // Post a User
+// eslint-disable-next-line consistent-return
 exports.create = (req, res) => {
   if (!req.body) {
     return res.status(400).send({
-      message: "User organization details cannot be empty"
+      message: 'User organization details cannot be empty'
     });
   }
 
@@ -23,12 +25,12 @@ exports.create = (req, res) => {
   });
   userOrganization
     .save()
-    .then((data) => {
-      res.status(200).send("Organization details Saved");
+    .then(() => {
+      res.status(200).send('Organization details Saved');
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Unable to save organization details."
+        message: err.message || 'Unable to save organization details.'
       });
     });
 };
