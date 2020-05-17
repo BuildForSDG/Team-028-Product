@@ -2,12 +2,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const Handlebars = require("handlebars");
-const fs = require("fs");
+const read = require("read-file");
+const path = require("path");
 const db = require("../config/db.config");
 const logger = require("../config/logger");
 const env = require("../config/env");
-
-const appRoot = require("../app");
 
 const User = db.users;
 const Organization = db.organizations;
@@ -124,8 +123,8 @@ module.exports.register = async (req, res) => {
   }
 
   // send email
-  const templateHtml = `${appRoot}/templates/verifyUrl.hbs`;
-  const source = await fs.readFile(templateHtml, "utf-8");
+  const templatePath = path.join(__dirname, "/../../templates/verifyUrl.hbs");
+  const source = read(templatePath, { encoding: "utf8" });
   const template = Handlebars.compile(source);
 
   const transporter = nodemailer.createTransport({
