@@ -123,8 +123,8 @@ module.exports.register = async (req, res) => {
   }
 
   // send email
-  const templatePath = path.join(__dirname, "/../../templates/verifyUrl.hbs");
-  const source = read(templatePath, { encoding: "utf8" });
+  const templatePath = path.join(__dirname, "/../templates/verifyUrl.hbs");
+  const source = read.sync(templatePath, { encoding: "utf8" });
   const template = Handlebars.compile(source);
 
   const transporter = nodemailer.createTransport({
