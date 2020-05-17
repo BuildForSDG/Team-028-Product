@@ -31,6 +31,10 @@ db.userLogin = require("../model/userLoggin.model")(sequelize, Sequelize);
 db.roles = require("../model/role.model")(sequelize, Sequelize);
 db.roleprivileges = require("../model/roleprivileges.model")(sequelize, Sequelize);
 db.audits = require("../model/audit.model")(sequelize, Sequelize);
+db.fund = require("../model/funds.model")(sequelize, Sequelize);
+db.fundCategory = require("../model/fundCategory.model")(sequelize, Sequelize);
+db.fundApplication = require("../model/fundApplication.model")(sequelize, Sequelize);
+db.fundDisbursment = require("../model/disbursment.model")(sequelize, Sequelize);
 
 
 db.users.belongsTo(db.organizations, { foreignKey: "organizationId", as: "organizations" });
