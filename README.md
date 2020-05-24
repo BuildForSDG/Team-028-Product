@@ -40,19 +40,13 @@ This starter template used to setup the development environment uses [Parcel](ht
 
 ## Hints
 
-- Run `yarn install` to get started.
-
-
-- Install additional dependencies: `yarn add <dependency-name> [-D]`
-
-
-- Run tests: `yarn test`
-
-- Run tests with test coverage info: `yarn test:cover`
-
-- Check the codebase for proper syntax and formatting compliance: `yarn lint`
-
-- Run your app in local dev mode: `yarn start`. This puts the bundled app in a `dist` folder, set up a local web server at localhost:1234, and continues to watch for your code changes which it syncs with the local server. This means if you loaded the app in a browser, it will auto-refresh as you code along. Parcel was only added as a sample and for those looking for a simple but effective solution to the hassle of bundlers. 
+-Run `yarn install` in the root directory to get started. This will install all the dependencies on both
+the frontend and backend directory.
+-Create .env file in the frontend directory, paste "SKIP_PREFLIGHT_CHECK=true" in the file, without the quotation mark.
+-Run tests: `yarn test`
+-Run tests with test coverage info: `yarn test:cover`.
+-Check the codebase for proper syntax and formatting compliance: `yarn lint`
+-Run your app in local dev mode: `yarn start`. This puts the bundled app in a `dist` folder, set up a local web server at localhost:1234, and continues to watch for your code changes which it syncs with the local server. This means if you loaded the app in a browser, it will auto-refresh as you code along. Parcel was only added as a sample and for those looking for a simple but effective solution to the hassle of bundlers. 
 
 ## Authors
 

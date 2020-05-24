@@ -7,18 +7,6 @@ class Carousel extends React.Component {
   render() {
     return (
         <div class="">
-            {/* <div class="row">
-              <div class="col-md-4">
-                  <div class="body-text">
-                    <h3>Recent Updates</h3>
-                  </div>
-              </div>
-              <div class="col-md-8">
-                  <div class="body-text">
-                  <h5 className="text-primary">Built with your needs in mind, Access your financial leverage everywhere.</h5>
-                  </div>
-              </div>
-          </div> */}
 
               <div id="myCarousel" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
@@ -30,7 +18,7 @@ class Carousel extends React.Component {
                   <div class="carousel-item active">
                   <img src="https://res.cloudinary.com/lordefid/image/upload/v1589989860/carousel-3_j2auen.jpg" class="d-block w-100" alt="..."/>
                     <div class="container">
-                      <div class="carousel-caption text-left">
+                      <div class="carousel-caption text-left text1">
                         <h1>Financial Leverage.</h1>
                   <p>We are ever ready to give you advice and guidance on acquiring and maximizing   funds to 
                   attain that business growth you have always dreamt about. We are your your instrument to a better financial prospect. 
@@ -53,8 +41,8 @@ class Carousel extends React.Component {
             <img src="https://res.cloudinary.com/lordefid/image/upload/c_scale,f_auto,h_757/v1589989872/carousel-1_e7h7w8.jpg" class="d-block w-100" alt="..."/>
               <div class="container">
                 <div class="carousel-caption text-right">
-                  <h1>One more for good measure.</h1>
-                  <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                  <h1>Community Friendly</h1>
+                  <p>We aim at providing a better prospect for people in our commuinties to have equal opportunities at acquiring that capital that will bring out the financial giants in them.</p>
                   <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
                 </div>
               </div>

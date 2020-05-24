@@ -1,27 +1,37 @@
-const db = require("../config/db.config");
-const Login = db.userLogin;
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+process.env.SECRET_KEY = "secret";
 
-// Post a User
-exports.create = (req, res) => {
-  if (!req.body) {
-    return res.status(400).send({
-      message: "User login credentials cannot be empty"
-    });
-  }
-  // create new user instance
-  const user = new Login({
-    userId: req.body.userId,
+// Require database
+const db = require("../config/db.config");
+const User = db.userLogin;
+
+exports.findOne = (req, res) => {
+  let request = {
     username: req.body.username,
     password: req.body.password
-  });
-  user
-    .save()
+  };
+  User.findOne({
+    where: {
+      username: request.username
+    }
+  })
     .then((data) => {
-      res.status(200).send(data);
+      if (bcrypt.compareSync(request.password, data.password)) {
+        let payload = { subject: data };
+        let token = jwt.sign(payload, process.env.SECRET_KEY, {
+          expiresIn: 1440
+        });
+        res.status(200).send({ token });
+      } else {
+        res.status(401).send({
+          message: "Invalid username or password"
+        });
+      }
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Something wrong while creating the user profile."
+        message: err.message || "Something went wrong"
       });
     });
 };

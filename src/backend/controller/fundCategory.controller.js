@@ -16,28 +16,27 @@ exports.create = (req, res) => {
       message: "Fields cannot be empty"
     });
   }
-  
-    FundCategory.findOne({ where: { fundCatId: req.body.fundCatId } }).then((data) => {
-      if (data) {
-        res.status(400).send({
-          message: "Fund category lready exist"
-        });
-      } else {
-        // create fund category instance
-        const fundCategory = new FundCategory(requests);
-        fundCategory
-          .save()
-          .then((data) => {
-            res.status(200).send(data);
-          })
-          .catch((err) => {
-            res.status(500).send({
-              message: err.message || "Something went wrong."
-            });
+
+  FundCategory.findOne({ where: { fundCatId: req.body.fundCatId } }).then((data) => {
+    if (data) {
+      res.status(400).send({
+        message: "Fund category lready exist"
+      });
+    } else {
+      // create fund category instance
+      const fundCategory = new FundCategory(requests);
+      fundCategory
+        .save()
+        .then((data) => {
+          res.status(200).send(data);
+        })
+        .catch((err) => {
+          res.status(500).send({
+            message: err.message || "Something went wrong."
           });
-      }
-    });
-  }
+        });
+    }
+  });
 };
 
 //Get categories
