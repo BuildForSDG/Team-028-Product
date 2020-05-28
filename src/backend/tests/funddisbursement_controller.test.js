@@ -38,3 +38,50 @@ describe("create()", () => {
     expect(res.statusCode).toEqual(200);
   });
 });
+
+describe("GET /disbursed/all with findAll()", () => {
+  beforeEach(async () => {
+    if (!(apiServer && apiServer.listen)) {
+      apiServer = supertest(app);
+    }
+  });
+  afterEach(async () => {
+    if (apiServer.close) {
+      await apiServer.close();
+    }
+  });
+  it("findAll() should be a function", () => {
+    const res = typeof fundDisbusControllers.findAll;
+    expect(res).toEqual("function");
+  });
+  it("should fetch fund disbursements from the server", async () => {
+    const res = await apiServer.get("/disbursed/all");
+    expect(res.statusCode).toEqual(200);
+  });
+});
+
+describe("GET /disbursed with findOne()", () => {
+  beforeEach(async () => {
+    if (!(apiServer && apiServer.listen)) {
+      apiServer = supertest(app);
+    }
+  });
+  afterEach(async () => {
+    if (apiServer.close) {
+      await apiServer.close();
+    }
+  });
+  it("findOne() should be a function", () => {
+    const res = typeof fundDisbusControllers.findOne;
+    expect(res).toEqual("function");
+  });
+  it("should fetch single fund disbursement info from the server", async () => {
+    const res = await apiServer.get("/disbursed").send({ disbursementId: "2" });
+    expect(res.statusCode).toEqual(200);
+  });
+  it("should not fetch fund disbursement data for an invalid id", async () => {
+    const res = await apiServer.get("/disbursed").send({ disbursementId: "slfkgio" });
+    expect(res.statusCode).toEqual(404);
+  });
+});
+

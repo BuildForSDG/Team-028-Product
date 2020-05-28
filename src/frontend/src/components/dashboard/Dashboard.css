@@ -1,4 +1,3 @@
-
 .header {
   padding: 0;
   color: white;
@@ -23,11 +22,6 @@ iframe {
   background: #f90;
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
-}
-
-.avatar {
-  float: right;
-  margin-right: 100px;
 }
 
 .ant-layout-sider-trigger {
@@ -55,6 +49,60 @@ iframe {
 
 .dashboard-img > img {
   height: 3rem;
-  margin-left: 20px;
 }
 
+ul.dashboard-items {
+  list-style-type: none;
+  width: 95%;
+}
+
+li.dashboard-item-1 {
+  display: inline;
+  margin-right: 30px;
+}
+
+.item-right {
+  float: right;
+}
+
+.ant-badge-count,
+.ant-badge-dot,
+.ant-badge .ant-scroll-number-custom-component {
+  position: absolute;
+  font-size: 8px;
+  top: 0;
+  right: 0;
+  -webkit-transform: translate(50%, -50%);
+  transform: translate(50%, -50%);
+  -webkit-transform-origin: 100% 0%;
+  transform-origin: 100% 0%;
+}
+
+.ant-badge-count {
+  min-width: 10px;
+  height: 10px;
+  padding: 0 2px;
+  line-height: 10px;
+  margin-right: -18px;
+  margin-top: -10px;
+}
+
+.menu-icon {
+  color: #3d6cb9;
+}
+
+span.anticon-bell {
+  font-size: 20px;
+  color: #3d6cb9;
+}
+
+#dropdown-menu {
+  margin-top: 20px;
+  margin-right: -10px;
+  background-color: #f90;
+}
+
+a.ant-dropdown-trigger {
+  margin-left: -20px;
+  color: #3d6cb9;
+}

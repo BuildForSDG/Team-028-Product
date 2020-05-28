@@ -35,3 +35,50 @@ describe("create()", () => {
     expect(res.statusCode).toEqual(200);
   });
 });
+
+describe("GET /projects/category with findAll()", () => {
+  beforeEach(async () => {
+    if (!(apiServer && apiServer.listen)) {
+      apiServer = supertest(app);
+    }
+  });
+  afterEach(async () => {
+    if (apiServer.close) {
+      await apiServer.close();
+    }
+  });
+  it("findAll() should be a function", () => {
+    const res = typeof projectCatControllers.findAll;
+    expect(res).toEqual("function");
+  });
+  it("should fetch project categories from the server", async () => {
+    const res = await apiServer.get("/projects/category");
+    expect(res.statusCode).toEqual(200);
+  });
+});
+
+describe("GET /projects/category/one with findOne()", () => {
+  beforeEach(async () => {
+    if (!(apiServer && apiServer.listen)) {
+      apiServer = supertest(app);
+    }
+  });
+  afterEach(async () => {
+    if (apiServer.close) {
+      await apiServer.close();
+    }
+  });
+  it("findOne() should be a function", () => {
+    const res = typeof projectCatControllers.findOne;
+    expect(res).toEqual("function");
+  });
+  it("should fetch single project category info from the server", async () => {
+    const res = await apiServer.get("/projects/category/one").send({ projectCatId: "1" });
+    expect(res.statusCode).toEqual(200);
+  });
+  it("should not fetch project category data for an invalid id", async () => {
+    const res = await apiServer.get("/projects/category/one").send({ projectCatId: "sfdf" });
+    expect(res.statusCode).toEqual(404);
+  });
+});
+

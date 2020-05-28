@@ -36,3 +36,24 @@ describe("create()", () => {
     expect(res.statusCode).toEqual(200);
   });
 });
+
+describe("GET /category/all with findAll()", () => {
+  beforeEach(async () => {
+    if(!(apiServer && apiServer.listen)){
+      apiServer = supertest(app);
+    } 
+  });
+  afterEach(async () => {
+    if (apiServer.close){
+      await apiServer.close();
+    } 
+  });
+  it("findAll() should be a function", () => {
+    const res = typeof userCatControllers.findAll;
+    expect(res).toEqual("function");
+  });
+  it("should fetch all user categories from the server", async () => {
+    const res = await apiServer.get("/category/all");
+    expect(res.statusCode).toEqual(200);
+  });
+});

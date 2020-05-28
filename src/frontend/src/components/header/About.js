@@ -45,7 +45,7 @@ class About extends React.Component {
             <Row>
               <Col className="text-center pr-1">
                 <Modal.Title id="login" className="text-light">
-                  About eazSME
+                  WE ARE eazSME
                 </Modal.Title>
               </Col>
             </Row>
@@ -53,9 +53,26 @@ class About extends React.Component {
           <Modal.Body bsPrefix="modal-body">
             <div>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit enim architecto placeat. Expedita
-                assumenda porro voluptatibus illum cum, quasi, deserunt repellendus optio labore libero facilis
-                consequatur alias placeat itaque iste.
+                We believe Small and Medium Size Businessess aren't getting the finance they need to start and grow thier business. 
+                this is why we strive  to review your organizations financial history so as to provide you the excellent service you
+                deserve, this service enable you access funds recieved from the Government and internation bodies.
+              </p>
+              <hr/>
+              <h1>WHY eazSME?</h1>
+              <p>
+                SMEs are crucial contributor to industry in emerging markets contributing up to 60% of total employment. However, 200 
+                million SMEs lack access to affordable financial services and credit.
+              </p>
+              <p>
+                This, among other factors are why we started eazSME to provide a platform through which SMEs can access investment funds
+                from potential investors through a transparent and regulated process
+              </p>
+              <hr/>
+              <h1>MEET OUR TEAM</h1>
+              <p>
+                We area a skilled team of Business Analyst, Software Developers, Project Managers who identified a gap in financing Small 
+                and Medium Enterprises and have decided to bridge the gap. Our mission is to make investment funds accessbile to SMEs and 
+                the utilization of the funds monitored and regulated.
               </p>
             </div>
           </Modal.Body>

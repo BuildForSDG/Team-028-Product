@@ -36,3 +36,49 @@ describe("create()", () => {
     expect(res.statusCode).toEqual(200);
   });
 });
+
+describe("GET /fund/applications/list with findAll()", () => {
+  beforeEach(async () => {
+    if(!(apiServer && apiServer.listen)){
+      apiServer = supertest(app);
+    } 
+  });
+  afterEach(async () => {
+    if (apiServer.close){
+      await apiServer.close();
+    } 
+  });
+  it("findAll() should be a function", () => {
+    const res = typeof fundAppControllers.findAll;
+    expect(res).toEqual("function");
+  });
+  it("should fetch all fund applications from the server", async () => {
+    const res = await apiServer.get("/fund/applications/list");
+    expect(res.statusCode).toEqual(200);
+  });
+});
+
+describe("GET /fund/application/:id with findOne()", () => {
+  beforeEach(async () => {
+    if(!(apiServer && apiServer.listen)){
+      apiServer = supertest(app);
+    } 
+  });
+  afterEach(async () => {
+    if (apiServer.close){
+      await apiServer.close();
+    } 
+  });
+  it("findOne() should be a function", () => {
+    const res = typeof fundAppControllers.findOne;
+    expect(res).toEqual("function");
+  });
+  it("should fetch single fund application info from the server", async () => {
+    const res = await apiServer.get("/fund/application/1");
+    expect(res.statusCode).toEqual(200);
+  });
+  it("should not fetch fund application data for an invalid id", async () => {
+    const res = await apiServer.get("/fund/application/dfdfe");
+    expect(res.statusCode).toEqual(500);
+  });
+});
