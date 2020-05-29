@@ -3,7 +3,7 @@ const Role = db.role;
 
 exports.create = (req, res) => {
   let date = new Date();
-  let request = {
+  let request = {  
     roleName: req.body.roleName,
     description: req.body.description,
     dateCreated: date
@@ -34,4 +34,17 @@ exports.create = (req, res) => {
       }
     });
   }
+};
+
+// Retrieve all 
+exports.findAll = (req, res) => {
+  Role.findAll()
+    .then((roles) => {
+      return res.status(200).send(roles);
+    })
+    .catch((err) => {
+      return res.status(500).send({
+        message: err.message
+      });
+    });
 };

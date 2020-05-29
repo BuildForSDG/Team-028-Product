@@ -3,5 +3,5 @@ module.exports = (app) => {
 
   app.post("/proposals", proposal.create);
 
-  app.get("/proposals", proposal.findAll);
+  app.get("/proposals/all", proposal.findAll);
 };

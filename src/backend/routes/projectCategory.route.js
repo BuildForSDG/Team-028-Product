@@ -5,5 +5,5 @@ module.exports = (app) => {
 
   app.get("/projects/category", category.findAll);
 
-  app.get("/projects/category/one", category.findOne);
+  app.get("/projects/category/:id", category.findOne);
 };

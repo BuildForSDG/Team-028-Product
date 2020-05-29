@@ -5,11 +5,11 @@ module.exports = (app) => {
   app.post("/invest", fund.create);
 
   // Retrieve all funds
-  app.get("/funds", fund.findAll);
+  app.get("/funds/all", fund.findAll);
 
   // Retrieve all funds with given status
-  app.get("/funds/status", fund.findOne);
+  app.get("/funds/status", fund.findAll);
 
   // Retrieve all funds donated by investor
-  app.get("/funds/organizationId", fund.findOne);
+  app.get("/funds/:id", fund.findOne);
 };

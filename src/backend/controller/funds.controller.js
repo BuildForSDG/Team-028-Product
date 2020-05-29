@@ -58,7 +58,7 @@ exports.findAll = (req, res) => {
 
 // Get funds by organisation
 exports.findOne = (req, res) => {
-  Fund.findAll({ where: { organizationId: req.body.organizationId } })
+  Fund.findOne({ where: { organizationId: req.body.organizationId } })
     .then((data) => {
       if (!data) {
         return res.status(400).send({
@@ -76,7 +76,7 @@ exports.findOne = (req, res) => {
 };
 
 // Get funds by status
-exports.findOne = (req, res) => {
+exports.findAll = (req, res) => {
   Fund.findAll({ where: { status: req.body.status } })
     .then((data) => {
       if (!data) {

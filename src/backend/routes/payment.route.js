@@ -5,14 +5,14 @@ module.exports = (app) => {
   app.post("/payment", payment.create);
 
   // Retrieve all payments
-  app.get("/payments", payment.findAll);
+  app.get("/payments/all", payment.findAll);
 
   // Retrieve payments by Id
-  app.get("/payments", payment.findOne);
+  app.get("/pay/:id", payment.findOne);
 
   // Retrieve all payment with given status
   app.get("/payments/status", payment.findAll);
 
   // Retrieve all payments made by SME
-  app.get("/payments/sme", payment.findAll);
+  app.get("/payment/org", payment.findAll);
 };

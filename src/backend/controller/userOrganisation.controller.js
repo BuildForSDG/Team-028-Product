@@ -77,7 +77,7 @@ exports.findOne = (req, res) => {
 
 // Find organization by Category
 exports.findAll = (req, res) => {
-  Organization.findAll({ where: { userCatId: req.body.userCatId } })
+  Organization.findAll({ where: { category: req.body.category } })
     .then((data) => {
       if (!data) {
         return res.status(401).send({

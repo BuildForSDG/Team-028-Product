@@ -5,8 +5,8 @@ module.exports = (app) => {
   app.post("/projects", project.create);
 
   // Retrieve all projects
-  app.get("/projects/list", project.findAll);
+  app.get("/projects/all", project.findAll);
 
   // Get single project
-  app.get("/project", project.findOne);
+  app.get("/project/:id", project.findOne);
 };

@@ -1,7 +1,7 @@
 const db = require("../config/db.config");
 const FundApplication = db.fundApplication;
 
-// Post a application
+// Post application
 exports.create = (req, res) => {
   let date = new Date();
   let requests = {
