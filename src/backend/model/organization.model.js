@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       category: {
         type: DataTypes.STRING
-      },
+      },  
       RCNumber: {
         type: DataTypes.STRING  
       },

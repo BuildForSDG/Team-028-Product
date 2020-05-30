@@ -7,9 +7,6 @@ module.exports = (sequelize, Sequelize) => {
         primaryKey: true,
         allowNull: false
       },
-      organizationId: {
-        type: Sequelize.STRING
-      },
       firstName: {
         type: Sequelize.STRING
       },
@@ -20,18 +17,23 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
         required: true
       },
+      otherName:{
+        type: Sequelize.STRING
+      },
       phoneNumber: {
         type: Sequelize.STRING
       },
-      role: {
+      organizationId: {
         type: Sequelize.STRING
       },
-      privilege: {
+      roleId: {
         type: Sequelize.STRING
       },
-      isVerified: {
-        type: Sequelize.BOOLEAN,
-        default: false
+      state: {
+        type: Sequelize.STRING
+      },
+      lga: {
+        type: Sequelize.STRING
       },
       dateCreated: {
         type: Sequelize.DATE
