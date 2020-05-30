@@ -111,12 +111,14 @@ div > #registration.text-light.modal-title.h4 {
 div.modal-body {
   position: relative;
   margin: 0 auto;
+  width: 85%;
 }
 
 div.modal-content {
+/* div.modal-content {
   width: 70%;
   margin: 0 auto;
-}
+} */
 
 .btn-danger {
   display: none;
