@@ -8,7 +8,7 @@ exports.create = (req, res) => {
     companyName: req.body.companyName,
     category: req.body.category,
     RCNumber: req.body.RCNumber,
-    email: req.body.email,
+    email: req.body.email2,
     BVN: req.body.BVN,
     address: req.body.address,
     dateIncorporated: req.body.dateIncorporated
@@ -31,7 +31,7 @@ exports.create = (req, res) => {
         userOrganization
           .save()
           .then((data) => {
-            return res.status(200).send(data);
+            return res.status(200)
           })
           .catch((err) => {
             return res.status(500).send({
