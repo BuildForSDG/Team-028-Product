@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable quotes */
 /*eslint quotes: ["error", "double"]*/
 /*eslint-env es6*/
@@ -270,10 +271,9 @@ class Registration extends React.Component {
                       User Category<sup className="text-danger">*</sup>
                     </Form.Label>
                     <Form.Control as="select" required name="userType">
-                      <option value="sme">Administrator</option>
                       <option value="investor">Investor</option>
                       <option value="regulator">Regulator</option>
-                      <option value="regulator">SMEs</option>
+                      <option value="sme">SMEs</option>
                     </Form.Control>
                   </Form.Group>
                 </Col>
