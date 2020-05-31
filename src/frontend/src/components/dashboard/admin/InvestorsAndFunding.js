@@ -28,25 +28,25 @@ export default class InvestorsAndFunding extends Component {
               <td>Pending Background Check</td>
               <td>15</td>
               <td>25/05/2020</td>
-              <td> <button style={{background:"grey"}}> View Details</button> </td>
+              <td> <button className="table-btn"> View Details</button> </td>
             </tr>
             <tr>
               <td>Checked/Approved</td>
               <td>7</td>
               <td>25/05/2020</td>
-              <td> <button style={{background:"grey"}}> View Details</button> </td>
+              <td> <button className="table-btn"> View Details</button> </td>
             </tr>
             <tr>
               <td>Checked/Not Approved</td>
               <td>10</td>
               <td>25/05/2020</td>
-              <td> <button style={{background:"grey"}}> View Details</button> </td>
+              <td> <button className="table-btn"> View Details</button> </td>
             </tr>
             <tr>
               <td>Blacklisted</td>
               <td>3</td>
               <td>25/05/2020</td>
-              <td> <button style={{background:"grey"}}> View Details</button> </td>
+              <td> <button className="table-btn"> View Details</button> </td>
             </tr>
           </tbody>
 

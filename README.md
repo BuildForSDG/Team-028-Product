@@ -57,6 +57,7 @@ Fidelis: lordeFid
 Abdulhafiz: elfizzy
 Moses Nwaeze: MosesNwaeze
 Emilia: emmydame
+Samuel Adranyi: sadranyi
 
 ## Acknowledgements
 

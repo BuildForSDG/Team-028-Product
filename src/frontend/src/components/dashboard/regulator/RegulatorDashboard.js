@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 /* eslint no-console: "error" */
 
@@ -20,32 +21,21 @@ import Create from "./user/Create";
 import Remove from "./user/Remove";
 import Update from "./user/Update";
 
+
 const menu = (
   <Menu id="dropdown-menu">
     <Menu.Item className="menu-icon" icon={<UserOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Profile
-      </a>
+    <Link to="/regulator/Profile"> Profile</Link>
     </Menu.Item>
     <Menu.Item className="menu-icon" icon={<UsergroupAddOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Manage Users
-      </a>
+    <Link to="/regulator/OrgUsers"> Manage Users</Link>
     </Menu.Item>
-    <Menu.Item className="menu-icon" icon={<FileDoneOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Review Reports
-      </a>
-    </Menu.Item>
-    <Menu.Item className="menu-icon" icon={<SettingOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Settings
-      </a>
+      <Menu.Item className="menu-icon" icon={<SettingOutlined />}>
+      <Link to="/regulator/Settings"> Settings</Link>
     </Menu.Item>
     <Menu.Item className="menu-icon" icon={<LogoutOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Logout
-      </a>
+    <Link to="#"> Log out</Link>
+     
     </Menu.Item>
   </Menu>
 );
@@ -109,6 +99,7 @@ class RegulatorDashboard extends React.Component {
                 <BellFilled className="notificationBell" />
               </li>
             </ul>
+
           </Header>
           <Content style={{ margin: "0 16px" }}>
             <Router history={this.props.history}>
@@ -116,7 +107,7 @@ class RegulatorDashboard extends React.Component {
                 <Route path="/regulator/create-user" component={Create} />
                 <Route path="/regulator/update-user" component={Update} />
                 <Route path="/regulator/deactivate-user" component={Remove} />
-              </Switch>
+             </Switch>
             </Router>
           </Content>
           {/* <Footer style={{ textAlign: "center" }}>Ant Design ©2018 Created by Ant UED</Footer> */}

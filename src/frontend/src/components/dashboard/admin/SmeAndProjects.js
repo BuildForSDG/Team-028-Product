@@ -30,43 +30,43 @@ export default class SmeAndProjects extends Component {
               <td>Pending Background Check</td>
               <td>3</td>
               <td>25/05/2020</td>
-              <td> <button style={{background:"grey"}}> View Details</button> </td>
+              <td> <button className="table-btn"> View Details</button> </td>
             </tr>
             <tr>
               <td>Checked/Approved</td>
               <td>12</td>
               <td>25/05/2020</td>
-              <td> <button style={{background:"grey"}}> View Details</button> </td>
+              <td> <button className="table-btn"> View Details</button> </td>
             </tr>
             <tr>
               <td>Checked/Not Approved</td>
               <td>15</td>
               <td>25/05/2020</td>
-              <td> <button style={{background:"grey"}}> View Details</button> </td>
+              <td> <button className="table-btn"> View Details</button> </td>
             </tr>
             <tr>
               <td>Recieved Projects</td>
               <td>16</td>
               <td>25/05/2020</td>
-              <td> <button style={{background:"grey"}}> View Details</button> </td>
+              <td> <button className="table-btn"> View Details</button> </td>
             </tr>
             <tr>
               <td>Feasible Projects</td>
               <td>9</td>
               <td>25/05/2020</td>
-              <td> <button style={{background:"grey"}}> View Details</button> </td>
+              <td> <button className="table-btn"> View Details</button> </td>
             </tr>
             <tr>
               <td>Projects approved for funding</td>
               <td>5</td>
               <td>25/05/2020</td>
-              <td> <button style={{background:"grey"}}> View Details</button> </td>
+              <td> <button className="table-btn"> View Details</button> </td>
             </tr>
             <tr>
               <td>Blacklisted</td>
               <td>1</td>
               <td>25/05/2020</td>
-              <td> <button style={{background:"grey"}}> View Details</button> </td>
+              <td> <button className="table-btn"> View Details</button> </td>
             </tr>
           </tbody>
 

@@ -111,15 +111,15 @@ div > #registration.text-light.modal-title.h4 {
 div.modal-body {
   position: relative;
   margin: 0 auto;
-}
-
-div.modal-content {
-  width: 70%;
-  margin: 0 auto;
+  width: 85%;
 }
 
 .btn-danger {
   display: none;
+}
+
+.terms-text {
+  text-align: center;
 }
 
 div.ml-4,
@@ -139,9 +139,25 @@ div > input:invalid:required {
   background-image: none;
 }
 
+.dev-frame {
+  border: 1px solid #3d6cb9;
+  margin: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.form-section-text {
+  color: #f90;
+  font-weight: 600;
+}
+
+.incorpDate {
+  margin-left: -20px;
+}
+
 .form-control {
   display: block;
-  width: 100%;
+  width: 90%;
   height: calc(1.5em + 0.75rem + 2px);
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
@@ -170,9 +186,9 @@ div > input:invalid:required {
   height: 65vh;
 }
 
-@media (min-width: 768px) {
-  .bd-placeholder-img-lg {
-    font-size: 3.5rem;
+@media (max-width: 960px) {
+  .d-block {
+    height:50vh;
   }
 }
 
@@ -183,6 +199,11 @@ div > input:invalid:required {
 .btn-lg {
   background-color: #3379b794;
   border: none;
+}
+
+.btn-block {
+  width: 30%;
+  margin-bottom: 15px;
 }
 
 .btn-lg:hover {

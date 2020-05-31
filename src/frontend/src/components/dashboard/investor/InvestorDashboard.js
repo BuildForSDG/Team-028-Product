@@ -21,14 +21,10 @@ import { Switch, Router, Route, Link } from "react-router-dom";
 const menu = (
   <Menu id="dropdown-menu">
     <Menu.Item className="menu-icon" icon={<UserOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Profile
-      </a>
+      <Link to="/investor/">Profile</Link>
     </Menu.Item>
     <Menu.Item className="menu-icon" icon={<UsergroupAddOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Manage Users
-      </a>
+      <Link to="/investor/AllUsers">Manage Users</Link>
     </Menu.Item>
     <Menu.Item className="menu-icon" icon={<FileDoneOutlined />}>
       <a target="_blank" rel="noopener noreferrer" href="#">
@@ -79,6 +75,7 @@ class InvestorDashboard extends React.Component {
                 <Link to="/investor/deactivate-user">Deactivate</Link>
               </Menu.Item>
             </SubMenu>
+
           </Menu>
         </Sider>
         <Layout className="site-layout">
@@ -115,6 +112,7 @@ class InvestorDashboard extends React.Component {
                 <Route path="/investor/deactivate-user" component={Remove} />
               </Switch>
             </Router>
+
           </Content>
           {/* <Footer style={{ textAlign: "center" }}>eaZSME ©2020  Created by Team-028</Footer> */}
         </Layout>

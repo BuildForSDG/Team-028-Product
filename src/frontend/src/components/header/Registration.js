@@ -13,6 +13,11 @@ import Row from "react-bootstrap/Row";
 import "../../styles/modal.css";
 import { Redirect } from "react-router";
 import { Link } from "react-router";
+import { DatePicker } from "antd";
+import moment from "moment";
+
+const dateFormat = "YYYY/MM/DD";
+const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 
 class Registration extends React.Component {
   constructor(props) {
@@ -85,7 +90,8 @@ class Registration extends React.Component {
               <Form.Text className="text-danger h4 d-none" bsPrefix="form-text">
                 Fields mark * are required
               </Form.Text>
-
+              <h5 className="form-section-text">Bio-Data</h5>
+              <hr></hr>
               <Row>
                 <Col>
                   <Form.Group controlId="formBasicText1">
@@ -115,103 +121,48 @@ class Registration extends React.Component {
                 <Col>
                   <Form.Group controlId="formBasicSelect">
                     <Form.Label className="font-weight-bold">
-                      Select Type<sup className="text-danger">*</sup>
+                      Position Held<sup className="text-danger">*</sup>
                     </Form.Label>
                     <Form.Control as="select" required name="type">
-                      <option value="sme">SME</option>
-                      <option value="investor">Investor</option>
-                      <option value="regulator">Regulator</option>
+                      <option value="sme">Select Position</option>
+                      <option value="sme">Director</option>
+                      <option value="investor">Deputy Director</option>
+                      <option value="regulator">Manager</option>
+                      <option value="regulator">Supervisor</option>
+                      <option value="regulator">Junior Staff</option>
                     </Form.Control>
                   </Form.Group>
                 </Col>
               </Row>
-
+                
               <Row>
                 <Col>
                   <Form.Group controlId="formBasicText4">
                     <Form.Label className="font-weight-bold">
-                      Name Of Organization<sup className="text-danger">*</sup>
+                      Phone Number  <sup className="text-danger">*</sup>
                     </Form.Label>
-                    <Form.Control type="text" placeholder="Enter Name of Organization" required name="orgName" />
+                    <Form.Control type="text" placeholder="Enter Name of Organization" required name="phoneNumber1" />
                   </Form.Group>
                 </Col>
                 <Col>
                   <Form.Group controlId="formBasicEmail2">
                     <Form.Label className="font-weight-bold">
-                      Email address<sup className="text-danger">*</sup>
+                      Email<sup className="text-danger">*</sup>
                     </Form.Label>
                     <Form.Control type="email" placeholder="Enter email" required name="email" />
                   </Form.Group>
                 </Col>
               </Row>
-
               <Row>
-                <Col>
-                  <Form.Group controlId="formBasicPassword2">
-                    <Form.Text className="text-warning font-weight-bold">
-                      Password including numbers, special characters is advised
-                    </Form.Text>
+              <Col>
+                  <Form.Group controlId="exampleForm.ControlTextarea1">
                     <Form.Label className="font-weight-bold">
-                      Password<sup className="text-danger">*</sup>
+                      Address<sup className="text-danger">*</sup>
                     </Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder="Password"
-                      name="password"
-                      onChange={this.handlePasswordChange}
-                      required
-                    />
+                    <Form.Control as="textarea" rows="2" cols="2" required name="address" maxLength="200" placeholder="Address text here..." />
                   </Form.Group>
                 </Col>
                 <Col>
-                  <Form.Group controlId="formBasicPassword3">
-                    <Form.Label className="font-weight-bold">Confirm Password</Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder="Confirm password"
-                      name="confirmPassword"
-                      onChange={this.handleConfirmPasswordChange}
-                      onBlur={this.handleBlur}
-                    />
-                    <Form.Text
-                      className="text-danger font-weight-bold d-none h5"
-                      bsPrefix="form-text"
-                      ref={this.confPassword}
-                    >
-                      Password doesnt match
-                    </Form.Text>
-                  </Form.Group>
-                </Col>
-              </Row>
-
-              <Row>
-                <Col>
-                  <Form.Group controlId="formBasicCAC">
-                    <Form.Label className="font-weight-bold">
-                      CAC Number<sup className="text-danger">*</sup>
-                    </Form.Label>
-                    <Form.Control type="text" placeholder="Enter CAC Number" name="cac" required />
-                  </Form.Group>
-                </Col>
-
-                <Col>
-                  <Form.Group controlId="formBasicPhoneNum">
-                    <Form.Label className="font-weight-bold">
-                      Phone Number<sup className="text-danger">*</sup>
-                    </Form.Label>
-                    <Form.Control type="text" placeholder="Enter Phone Number" name="phoneNumber" required />
-                  </Form.Group>
-                </Col>
-              </Row>
-
-              <Row>
-                <Col>
-                  <Form.Text className="font-weight-bold h4 text-light">Business Address</Form.Text>
-                </Col>
-              </Row>
-
-              <Row>
-                <Col md="6">
                   <Form.Group controlId="formBasicSelect2">
                     <Form.Label className="font-weight-bold">
                       Select State<sup className="text-danger">*</sup>
@@ -262,8 +213,11 @@ class Registration extends React.Component {
                     </Form.Control>
                   </Form.Group>
                 </Col>
-
-                <Col md="3">
+                
+              </Row>
+              
+              <Row>
+                <Col md="6">
                   <Form.Group controlId="formBasicSelect3">
                     <Form.Label className="font-weight-bold">
                       LGA<sup className="text-danger">*</sup>
@@ -279,48 +233,7 @@ class Registration extends React.Component {
                 </Col>
 
                 <Col md="3">
-                  <Form.Group controlId="formBasicSelect4">
-                    <Form.Label className="font-weight-bold">
-                      Town/Village<sup className="text-danger">*</sup>
-                    </Form.Label>
-                    <Form.Control
-                      as="select"
-                      required
-                      ref={this.props.town}
-                      onChange={this.mapLGAToTown}
-                      name="town"
-                    ></Form.Control>
-                  </Form.Group>
-                </Col>
-              </Row>
-
-              <Row>
-                <Col>
-                  <Form.Group controlId="formBasicPostal">
-                    <Form.Label className="font-weight-bold">Postal Address</Form.Label>
-                    <Form.Control type="text" placeholder="Enter Phone Number" name="phoneNumber" />
-                  </Form.Group>
-                </Col>
-                <Col>
-                  <Form.Group controlId="formBasicLandmark">
-                    <Form.Label className="font-weight-bold">Nearest Landmark</Form.Label>
-                    <Form.Control type="text" placeholder="Enter Phone Number" name="landmark" />
-                  </Form.Group>
-                </Col>
-              </Row>
-
-              <Row>
-                <Col md="6">
-                  <Form.Group controlId="exampleForm.ControlTextarea1">
-                    <Form.Label className="font-weight-bold">
-                      Address<sup className="text-danger">*</sup>
-                    </Form.Label>
-                    <Form.Control as="textarea" rows="7" cols="" required name="address" />
-                  </Form.Group>
-                </Col>
-
-                <Col md="auto">
-                  <Form.Group controlId="exampleForm.Date">
+                  <Form.Group controlId="exampleForm.Date" class="form-group">
                     <Form.Label className="font-weight-bold">
                       Date Registered<sup className="text-danger">*</sup>
                     </Form.Label>
@@ -329,32 +242,151 @@ class Registration extends React.Component {
                 </Col>
               </Row>
 
+              <hr></hr>
+                <h5 className="form-section-text">Organization Details</h5>
+              <hr></hr>
               <Row>
-                <Col md="auto">{/**Implemet terms and conditon later */}</Col>
                 <Col>
-                  <Form.Group controlId="formBasicCheckbox">
-                    <Form.Check
-                      type="checkbox"
-                      label="Agreed to terms and condition?"
-                      className="font-weight-bold"
-                      name="termsOfCondition"
-                    />
+                  <Form.Group controlId="formBasicText1">
+                    <Form.Label className="font-weight-bold">
+                      Comapany Name<sup className="text-danger">*</sup>
+                    </Form.Label>
+                    <Form.Control type="text" placeholder="Enter name of company" required name="companyName" />
+                  </Form.Group>
+                </Col>
+                <Col>
+                  <Form.Group controlId="formBasicText2">
+                    <Form.Label className="font-weight-bold">
+                      Company I.D<sup className="text-danger">*</sup>
+                    </Form.Label>
+                    <Form.Control type="text" placeholder="Enter Company ID" required name="companyId" />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row>
+                <Col md="6">
+                  <Form.Group controlId="formBasicSelect">
+                    <Form.Label className="font-weight-bold">
+                      User Category<sup className="text-danger">*</sup>
+                    </Form.Label>
+                    <Form.Control as="select" required name="userType">
+                      <option value="sme">Administrator</option>
+                      <option value="investor">Investor</option>
+                      <option value="regulator">Regulator</option>
+                      <option value="regulator">SMEs</option>
+                    </Form.Control>
+                  </Form.Group>
+                </Col>
+                <Col md="3">
+                  <Form.Group controlId="formBasicText2">
+                    <Form.Label className="font-weight-bold">
+                      RCC Number<sup className="text-danger">*</sup>
+                    </Form.Label>
+                    <Form.Control type="text" placeholder="Enter RCC Number" required name="rccNumber" />
+                  </Form.Group>
+                </Col>
+                <Col md="3" className="incorpDate">
+                  <Form.Group controlId="exampleForm.Date">
+                    <Form.Label className="font-weight-bold">
+                      Incorporation Date<sup className="text-danger">*</sup>
+                    </Form.Label>
+                    <Form.Control type="date" required name="dateIncorporated" />
                   </Form.Group>
                 </Col>
               </Row>
 
               <Row>
                 <Col>
+                  <Form.Group controlId="formBasicCAC">
+                    <Form.Label className="font-weight-bold">
+                      BVN Number<sup className="text-danger">*</sup>
+                    </Form.Label>
+                    <Form.Control type="text" placeholder="Bank verification number" name="bvn" required />
+                  </Form.Group>
+                </Col>
+
+                <Col>
+                  <Form.Group controlId="formBasicPhoneNum">
+                    <Form.Label className="font-weight-bold">
+                      Company Phone<sup className="text-danger">*</sup>
+                    </Form.Label>
+                    <Form.Control type="text" placeholder="Enter Phone Number" name="companyPhone" required />
+                  </Form.Group>
+                </Col>
+              </Row>
+                <Row>
+                <Col>
+                  <Form.Group controlId="exampleForm.ControlTextarea1">
+                    <Form.Label className="font-weight-bold">
+                      Company Address<sup className="text-danger">*</sup>
+                    </Form.Label>
+                    <Form.Control as="textarea" rows="2" cols="" required name="companyAddress" maxLength="200" placeholder="Company Address..." />
+                  </Form.Group>
+                </Col>
+                <Col>
+                  <Form.Group controlId="formBasicEmail2">
+                    <Form.Label className="font-weight-bold">
+                      Company Email<sup className="text-danger">*</sup>
+                    </Form.Label>
+                    <Form.Control type="email" placeholder="Enter email" required name="companyEmail" />
+                  </Form.Group>
+                </Col>
+                </Row>
+                
+              <hr></hr>
+
+                <h5 className="form-section-text">Create Password</h5>
+              <hr></hr>
+              <Row>
+                <Col>
+                  <Form.Group controlId="formBasicPassword2">
+                    <Form.Text className="text-warning font-weight-bold">
+                      Password including numbers, special characters is advised
+                    </Form.Text>
+                    <Form.Label className="font-weight-bold">
+                      Password<sup className="text-danger">*</sup>
+                    </Form.Label>
+                    <Form.Control
+                      type="password"
+                      placeholder="Password"
+                      name="password"
+                      onChange={this.handlePasswordChange}
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+                <Col>
+                  <Form.Group controlId="formBasicPassword2">
+                    <Form.Text className="text-warning font-weight-bold">
+                      Password including numbers, special characters is advised
+                    </Form.Text>
+                    <Form.Label className="font-weight-bold">
+                      Confirm Password<sup className="text-danger">*</sup>
+                    </Form.Label>
+                    <Form.Control
+                      type="password"
+                      placeholder="Confirm Password"
+                      name="confirmPassword"
+                      onChange={this.handlePasswordChange}
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+                
+              </Row><br></br>
+
+                {/**Implemet terms and conditon later */}
+                    <Form.Check
+                      type="checkbox"
+                      label="Agreed to terms and conditions?"
+                      className="font-weight-bold terms-text"
+                      name="termsOfCondition"
+                    /><br></br>
+                  
                   <Button variant="success" type="submit" className="btn-block" onClick={this.submitRegistration}>
                     Register
                   </Button>
-                </Col>
-                <Col>
-                  <Button type="submit" variant="danger" onClick={this.closeRegistration} className="btn-block">
-                    Cancel
-                  </Button>
-                </Col>
-              </Row>
+                  
             </Form>
           </Modal.Body>
         </Modal>
