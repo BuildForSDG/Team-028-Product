@@ -37,7 +37,8 @@ exports.create = (req, res) => {
                 return res.status(401).send({
                   message: "User already exist"
                 });
-              } else {
+                
+              } else {   
                 let orgId = Math.floor(Math.random() * 10000) + 1;
                 let userRole = "Admin";
                 let userPrivilege = "Level 1";
