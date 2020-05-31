@@ -21,7 +21,7 @@ require("./routes/userLogin.route")(app);
 require("./routes/userOganization.route")(app);
 require("./routes/privilege.route")(app);
 require("./routes/funds.route")(app);
-require("./routes/fundCategory.route")(app);  
+require("./routes/fundCategory.route")(app);
 require("./routes/fundApplication.route")(app);
 require("./routes/fundDisbursment.route")(app);
 require("./routes/project.route")(app);
@@ -31,7 +31,7 @@ require("./routes/states.route")(app);
 require("./routes/lga.route")(app);
 require("./routes/role.route")(app);
 
-if (process.env.NODE_ENV !== "test"){
+if (process.env.NODE_ENV !== "test") {
   app.listen(PORT, () => {
     PORT;
   });

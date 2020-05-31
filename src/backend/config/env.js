@@ -1,8 +1,8 @@
 const env = {
   database: "eazsme_db",
-  username: "team028",
-  password: "password",
-  host: "b4free.net",
+  username: "root",
+  password: "Pass123%",
+  host: "localhost",
   dialect: "mysql",
   pool: {
     max: 5,
