@@ -16,9 +16,6 @@ module.exports = (sequelize, Sequelize) => {
       lastName: {
         type: Sequelize.STRING
       },
-      otherName: {
-        type: Sequelize.STRING
-      },
       email: {
         type: Sequelize.STRING,
         required: true
