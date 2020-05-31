@@ -115,11 +115,7 @@ exports.create = (req, res) => {
                                           res.send(data)
                                         })
                                     }
-                                    //Generate token
-                                    // let payload = { subject: data };
-                                    // let token = jwt.sign(payload, secret);
-                                    // return res.status(200).send({ token });
-                                    //res.send(data);
+                                    
                                   })
                                   .catch((err) => {
                                     res.status(500).send({
