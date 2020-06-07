@@ -72,7 +72,7 @@ class Invest extends React.Component {
     formFields.organizationId = this.props.user.organizationId;
     
     axios
-      .post(`https://eazsme-backend.herokuapp.com//invest`, formFields)
+      .post(`https://eazsme-backend.herokuapp.com/invest`, formFields)
       .then((data) => {
         if (data.data.status === `success`) {
           this.setState({ 
