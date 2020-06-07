@@ -3,6 +3,16 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
+// add a logger
+const winston = require('winston');
+
+
+const logger = winston.createLogger({
+    transports: [
+        new winston.transports.Console()
+    ]
+});
+
 const app = express();
 const PORT = process.env.PORT || 4000;
 
@@ -24,9 +34,6 @@ const corsOptionsDelegate = (req, callback) => {
 };
 app.use(cors(corsOptionsDelegate));
 
-//sync db
-db.sequelize.sync({ force: false }).then(() => {});
-
 
 require("./routes/user.route")(app);
 require("./routes/userCat.route")(app);
@@ -45,10 +52,13 @@ require("./routes/lga.route")(app);
 require("./routes/role.route")(app);
 require("./routes/milestone.route")(app);
 
-if (process.env.NODE_ENV !== "test") {
-  app.listen(PORT, () => {
-    PORT;
-  });
-}
+//sync db
+db.sequelize.sync({ force: false }).then(() => {
+  if (process.env.NODE_ENV !== "test") {
+    app.listen(PORT, () => {
+      logger.info(`Server running on port ${PORT}`);
+    });
+  }
+});
 
 module.exports = { app };
