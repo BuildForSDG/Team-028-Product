@@ -83,7 +83,7 @@ class Create extends React.Component {
         <Row>
           <Col>
             <Form name="create-project">
-             {/** <Form.Group controlId="catId">
+            {/** <Form.Group controlId="catId">
                 <Form.Label>Project ID:</Form.Label>
                 <Form.Control type="text" placeholder="Project ID" name="projectId" />
               </Form.Group>
@@ -91,7 +91,8 @@ class Create extends React.Component {
               {/** Make a request for all the project category and populate select  store value in redux state*/}
               <Form.Group controlId="projectCatId">
                 <Form.Label>Category Type:</Form.Label>
-                <Form.Control as="select" ref={this.categorySelect} name="categoryCatId"></Form.Control>
+                <Form.Control as="select" ref={this.categorySelect} name="categoryCatId">
+                  <option selected>Choose...</option></Form.Control>
               </Form.Group>
 
               <Form.Group controlId="projectName">
@@ -125,7 +126,7 @@ class Create extends React.Component {
 
               <Form.Group controlId="createdBy">
                 <Form.Label>Created By:</Form.Label>
-                <Form.Control type="text" placeholder="Created by" name="createdBy" />
+                <Form.Control type="text" placeholder="Created by" name="createdBy"></Form.Control>
               </Form.Group>
 
               <Form.Group controlId="dateStarted">

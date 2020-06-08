@@ -237,6 +237,30 @@ h6 {
   padding: 10px;
 }
 
+input.form-control::placeholder {
+  color: #9e9e9eb0;
+  opacity: 1;
+}
+
+div>select.form-control {
+  border: 0.5px solid #3d6cb9;
+}
+
+input#dateStarted.form-control,
+select.form-control,
+input#dateEnded.form-control {
+  color: #9e9e9eb0;
+  opacity: 1;
+}
+
+.user-btn {
+  background-color: #3d6cb9;
+}
+
+.user-btn:hover {
+  background-color: #375c97;
+}
+
 .download {
   text-align: right;
   margin: 20px;

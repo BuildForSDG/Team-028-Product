@@ -71,27 +71,27 @@ class Create extends React.Component {
                   <div class="form-row" controlId="userFirstName">
                     <div class="form-group col-md-6">
                       <label for="inputEmail4">First Name</label>
-                      <input type="text" class="form-control" id="inputFirstName" name="userFirstName" />
+                      <input type="text" class="form-control" placeholder="First Name" id="inputFirstName" name="userFirstName" />
                     </div>
                     <div class="form-group col-md-6" controlId="userLastName">
                       <label for="InputName">Last Name</label>
-                      <input type="text" class="form-control" id="inputName" name="userLastName" />
+                      <input type="text" class="form-control" placeholder="Last Name" id="inputName" name="userLastName" />
                     </div>
                   </div>
                   <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="inputAddress">Email Address</label>
-                    <input type="email" class="form-control" id="inputEmail" name="userEmail" />
+                    <input type="email" class="form-control" placeholder="Email Address" id="inputEmail" name="userEmail" />
                   </div>
                   <div class="form-group col-md-6">
                     <label for="inputAddress">Address</label>
-                    <input type="text" class="form-control" id="inputAddress" name="userAddress" />
+                    <input type="text" class="form-control" placeholder="Address" id="inputAddress" name="userAddress" />
                   </div>
                   </div>
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="inputPhone">Phone</label>
-                      <input type="phone" class="form-control" id="inputPhone" name="userPhone" />
+                      <input type="phone" class="form-control" placeholder="Valid Phone Number" id="inputPhone" name="userPhone" />
                     </div>
                     <div class="form-group col-md-6">
                       <label for="inputTeam">Assign Project to Supervise</label>
@@ -132,6 +132,7 @@ class Create extends React.Component {
                     </div>
                   </div>
                   <Form.Group>
+                    <br></br>
                 <Form.Label>Task details</Form.Label>
                 <Editor
                   apiKey="oym93hgea69gv4o5cjoxfc1baobo49f82d4ah9j66v3n955r"
@@ -153,6 +154,8 @@ class Create extends React.Component {
                   onChange={this.handleEditorChange}
                   name="description"
                 /><br></br>
+                <br></br>
+                
 
 <h6 className="content-text">Create Login Details</h6>
 <hr></hr>
@@ -208,6 +211,7 @@ class Create extends React.Component {
   </Col>
 </Row>
 <br></br>
+<br></br>
               </Form.Group>
                   <div class="form-group">
                     <div class="form-check">
@@ -217,7 +221,7 @@ class Create extends React.Component {
                       </label>
                     </div>
                   </div>
-                  <Button variant="primary" type="submit" onClick={this.handleClick}>
+                  <Button variant="primary"className="user-btn" type="submit" onClick={this.handleClick}>
                   Create User
               </Button>
             </form>

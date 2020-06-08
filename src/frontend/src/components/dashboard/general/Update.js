@@ -79,7 +79,7 @@ class Update extends React.Component {
     const { fullName, description } = data;
     return (
       <Card.Body>
-         {success ? (
+        {success ? (
           <Form.Text className="text-bold text-success">{success}</Form.Text>
         ) : (
           <Form.Text className="text-bold text-danger">{error}</Form.Text>
