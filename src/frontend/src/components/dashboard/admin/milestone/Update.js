@@ -25,21 +25,21 @@ class Update extends React.Component {
     };
 
     this.submitUpdate = this.submitUpdate.bind(this);
-    this.getCategoryId = this.getCategoryId.bind(this);
+    this.getMilestoneId = this.getMilestoneId.bind(this);
   }
 
   componentDidMount() {
-    this.getCategoryId();
+    this.getMilestoneId();
   }
 
-  async getCategoryId(e) {
+  async getMilestoneId(e) {
     e.preventDefault();
-    const { categoryId } = this.props.match;
+    const { milestoneId } = this.props.match;
     await axios
-      .get("http://localhost:4000/projects/category/" + categoryId)
+      .get("http://localhost:4000/milestones/" + milestoneId)
       .then((data) => {
         if (data.status === "success") {
-          this.setState({ catID: data.projectCatId });
+          this.setState({ catID: data.id });
           this.setState({ data });
         }
       })
@@ -52,7 +52,7 @@ class Update extends React.Component {
     const formFields = serialize(form, { hash: true });
     const { catID } = this.state;
     await axios
-      .patch("http://localhost:4000/projects/category/" + catID, formFields)
+      .patch("http://localhost:4000/projects/name/" + catID, formFields)
       .then((data) => {
         if (data.status === "success") {
           this.setState({ success: "Update was successful!" });
@@ -67,10 +67,14 @@ class Update extends React.Component {
     const data = this.state.data;
     const success = this.state.success;
     const error = this.state.error;
-    const projectCatId = data.projectCatId;
-    const categoryName = data.categoryName;
-    const categoryDescription = data.categoryDescription;
-    const createdBy = data.createdBy;
+    const id = data.id;
+    const applicationId = data.applicationId;
+    const name = data.name;
+    const description = data.description;
+    const startDate = data.startDate;
+    const endDate = data.endDate;
+    const progress = data.progress;
+    const status = data.status;
     return (
       <Card.Body>
         {success ? (
@@ -85,21 +89,21 @@ class Update extends React.Component {
         <Row>
           <Col>
             <Form name="update">
-              <Form.Group controlId="catId">
-                <Form.Label>Category Id:</Form.Label>
-                <Form.Control type="text" name="projectCatId" defaultValue={projectCatId} />
+              <Form.Group controlId="id">
+                <Form.Label>Milestone ID:</Form.Label>
+                <Form.Control type="text" name="id" defaultValue={id} />
               </Form.Group>
 
-              <Form.Group controlId="catName">
-                <Form.Label>Category Name:</Form.Label>
-                <Form.Control type="text" name="categoryName" defaultValue={categoryName} />
+              <Form.Group controlId="name">
+                <Form.Label>Milestone Name:</Form.Label>
+                <Form.Control type="text" name="categoryName" defaultValue={name} />
               </Form.Group>
 
               <Form.Group>
                 <Form.Label>Description</Form.Label>
                 <Editor
                   apiKey="oym93hgea69gv4o5cjoxfc1baobo49f82d4ah9j66v3n955r"
-                  initialValue={categoryDescription}
+                  initialValue={description}
                   init={{
                     height: 200,
                     menubar: false,
@@ -114,17 +118,37 @@ class Update extends React.Component {
                     alignleft aligncenter alignright | \
                     bullist numlist outdent indent | help"
                   }}
-                  name="categoryDescription"
+                  name="description"
                 />
               </Form.Group>
 
-              <Form.Group controlId="createdBy">
-                <Form.Label>Created By:</Form.Label>
-                <Form.Control type="text" name="createdBy" defaultValue={createdBy} />
+              <Form.Group controlId="applicationId">
+                <Form.Label>Application ID:</Form.Label>
+                <Form.Control type="text" name="applicationId" defaultValue={applicationId} />
+              </Form.Group>
+
+              <Form.Group controlId="startDate">
+                <Form.Label>Start Date:</Form.Label>
+                <Form.Control type="date" name="startDate" defaultValue={startDate} />
+              </Form.Group>
+
+              <Form.Group controlId="endDate">
+                <Form.Label>End Date:</Form.Label>
+                <Form.Control type="date" name="endDate" defaultValue={endDate} />
+              </Form.Group>
+
+              <Form.Group controlId="progress">
+                <Form.Label>Progress:</Form.Label>
+                <Form.Control type="text" name="progress" defaultValue={progress} />
+              </Form.Group>
+
+              <Form.Group controlId="status">
+                <Form.Label>Status:</Form.Label>
+                <Form.Control type="text" name="status" defaultValue={status} />
               </Form.Group>
 
               <Button variant="primary" type="submit" onClick={this.submitUpdate}>
-                Update Project Category
+                Update Milestone
               </Button>
             </Form>
           </Col>

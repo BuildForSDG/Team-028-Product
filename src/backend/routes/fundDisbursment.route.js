@@ -6,4 +6,6 @@ module.exports = (app) => {
   app.get("/disbursed/all", disbursedFund.findAll);
 
   app.get("/disbursed/:id", disbursedFund.findOne);
+  
+  app.get("/disbursements/:organizationId", disbursedFund.findByOrganizationId);
 };

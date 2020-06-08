@@ -53,7 +53,7 @@ require("./routes/role.route")(app);
 require("./routes/milestone.route")(app);
 
 //sync db
-db.sequelize.sync({ force: false }).then(() => {
+db.sequelize.sync({ alter: true }).then(() => {
   if (process.env.NODE_ENV !== "test") {
     app.listen(PORT, () => {
       logger.info(`Server running on port ${PORT}`);

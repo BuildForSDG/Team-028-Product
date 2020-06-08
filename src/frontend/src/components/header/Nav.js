@@ -76,6 +76,7 @@ class Nav extends React.Component {
     event.preventDefault();
     const form = document.querySelector(`form[name="registration"]`);
     const formFields = serialize(form, { hash: true });
+    console.log(formFields);
     axios
       .post("http://localhost:4000/register", formFields)
       .then(({ data }) => {

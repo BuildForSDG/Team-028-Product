@@ -20,7 +20,9 @@ class Create extends React.Component {
     super(props);
 
     this.state = {
-      description: "",
+      category: "investor",
+      userId: "",
+      organizationId: "4553",
       success: "",
       error: ""
     };
@@ -38,9 +40,10 @@ class Create extends React.Component {
     const formFields = serialize(form, { hash: true }); // Make api call with form
     console.log(formFields);
     axios
-      .post("http://localhost:4000/create-user", formFields)
+      .post("http://localhost:4000/organizationUser", formFields)
       .then((data) => {
-        if ((data.status === "success")) {
+        
+        if ((data.data.status === "success")) {
           this.setState({ success: "User Successfully created!" });
         } else {
           this.setState({ error: "Error creating User" });
@@ -50,7 +53,9 @@ class Create extends React.Component {
   }
 
   render() {
-    const { success, error } = this.state;
+    //const { success, error } = this.state;
+    const success = this.state.success;
+    const error = this.state.error;
     return (
       <Card.Body>
         {success ? (
@@ -61,27 +66,23 @@ class Create extends React.Component {
         <div className="content-text"><strong>Create a User and Assign Role</strong></div>
         <hr></hr>
         <Row>
-          {/* <Col md="3" className="img-holder">
-          <div class="text-center">
-            <img src="https://res.cloudinary.com/lordefid/image/upload/c_scale,h_200/v1567112037/220190826_163351912_r9yfcl.jpg" class="rounded" alt="..." fluid />
-          </div>
-          </Col> */}
+         
           <Col md="12">
           <form name="create-user" id="createUser">
-                  <div class="form-row" controlId="userFirstName">
+                  <div class="form-row" controlId="firstName">
                     <div class="form-group col-md-6">
-                      <label for="inputEmail4">First Name</label>
-                      <input type="text" class="form-control" id="inputFirstName" name="userFirstName" />
+                      <label for="firstName">First Name</label>
+                      <input type="text" class="form-control" id="firstName" name="firstName" />
                     </div>
-                    <div class="form-group col-md-6" controlId="userLastName">
-                      <label for="InputName">Last Name</label>
-                      <input type="text" class="form-control" id="inputName" name="userLastName" />
+                    <div class="form-group col-md-6" controlId="lastName">
+                      <label for="lastName">Last Name</label>
+                      <input type="text" class="form-control" id="lastName" name="lastName" />
                     </div>
                   </div>
                   <div class="form-row">
                   <div class="form-group col-md-6">
-                    <label for="inputAddress">Email Address</label>
-                    <input type="email" class="form-control" id="inputEmail" name="userEmail" />
+                    <label for="email">Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email" />
                   </div>
                   <div class="form-group col-md-6">
                     <label for="inputAddress">Address</label>
@@ -90,21 +91,18 @@ class Create extends React.Component {
                   </div>
                   <div class="form-row">
                     <div class="form-group col-md-6">
-                      <label for="inputPhone">Phone</label>
-                      <input type="phone" class="form-control" id="inputPhone" name="userPhone" />
+                      <label for="phoneNumber">Phone</label>
+                      <input type="phone" class="form-control" id="phoneNumber" name="phoneNumber" />
                     </div>
-                    <div class="form-group col-md-6">
-                      <label for="inputTeam">Assign Project to Supervise</label>
-                      <select id="inputState" class="form-control" name="userTeam">
-                        <option selected>Choose...</option>
-                        <option>Project 1</option>
-                        <option>Project 2</option>
-                        
-                      </select>
+                     <div class="form-group col-md-2">
+                      <label for="inputDate">Date</label><br></br>
+                      <DatePicker defaultValue={moment("2015/01/01", dateFormat)} format={dateFormat} />
                     </div>
                   </div>
+                 
                   <div class="form-row">
-                  <div class="form-group col-md-6">
+              {/** 
+                   *  <div class="form-group col-md-6">
                       <label for="inputState">Assign Supervisor</label>
                       <select id="inputState" class="form-control">
                         <option selected>Choose...</option>
@@ -115,6 +113,7 @@ class Create extends React.Component {
                         <option>Miss Angela Obi</option>
                       </select>
                     </div>
+                    
                     <div class="form-group col-md-4">
                       <label for="inputState">Assign Role</label>
                       <select id="inputState" class="form-control">
@@ -125,55 +124,31 @@ class Create extends React.Component {
                         <option>Manager</option>
                         <option>Supervisor</option>
                       </select>
+                    </div> 
+                   
+
+                     <div class="form-group col-md-6">
+                      <label for="inputTeam">Assign Project to Supervise</label>
+                      <select id="inputState" class="form-control" name="userTeam">
+                        <option selected>Choose...</option>
+                        <option>Project 1</option>
+                        <option>Project 2</option>
+                        
+                      </select>
                     </div>
-                    <div class="form-group col-md-2">
-                      <label for="inputDate">Date</label><br></br>
-                      <DatePicker defaultValue={moment("2015/01/01", dateFormat)} format={dateFormat} />
-                    </div>
+                    */  }
+                   
                   </div>
                   <Form.Group>
-                <Form.Label>Task details</Form.Label>
-                <Editor
-                  apiKey="oym93hgea69gv4o5cjoxfc1baobo49f82d4ah9j66v3n955r"
-                  initialValue={this.state.description}
-                  init={{
-                    height: 200,
-                    menubar: false,
-                    plugins: [
-                      "advlist autolink lists link image",
-                      "charmap print preview anchor help",
-                      "searchreplace visualblocks code",
-                      "insertdatetime media table paste wordcount"
-                    ],
-                    toolbar:
-                      "undo redo | formatselect | bold italic | \
-                    alignleft aligncenter alignright | \
-                    bullist numlist outdent indent | help"
-                  }}
-                  onChange={this.handleEditorChange}
-                  name="description"
-                /><br></br>
+               
+                <hr></hr>
 
 <h6 className="content-text">Create Login Details</h6>
 <hr></hr>
-<Row>
-  <Col md="12">
-    
-    <Form.Group controlId="username">
-                <Form.Label>Username</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Username for Login"
-                  name="userName"
-                 
-                />
-    </Form.Group>
-  </Col>
-  
-</Row>
+
 <Row>
   <Col>
-    <Form.Group controlId="password1">
+    <Form.Group controlId="password">
       <Form.Text className="text-warning font-weight-bold">
         Password including numbers, special characters is advised
       </Form.Text>

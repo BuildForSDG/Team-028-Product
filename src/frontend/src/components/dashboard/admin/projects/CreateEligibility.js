@@ -41,7 +41,7 @@ class CreateEligibility extends React.Component {
         .post("http://localhost:4000/create-eligibility")
         .then((data) => {
           if ((data.status === "success")) {
-        this.setState({ success: "User Successfully created!" });
+        this.setState({ success: "Eligibility Successfully created!" });
               /*  this.setState({ data: data});*/
           } else {
             this.setState({ error: "Error creating User" });

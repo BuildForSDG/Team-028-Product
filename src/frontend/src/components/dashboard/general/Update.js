@@ -5,7 +5,6 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Image from "react-bootstrap/Image";
 import axios from "axios";
 import { Editor } from "@tinymce/tinymce-react";
 import serialize from "form-serialize";
@@ -14,7 +13,7 @@ class Update extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fullName: "",
+      email: "davidy@test.com",
       description: "",
       userID: "",
       data: {},
@@ -22,8 +21,8 @@ class Update extends React.Component {
       error: ""
     };
 
-    this.update = this.update.bind(this);
-    this.getUserID = this.getUserID.bind(this);
+   /* this.update = this.update.bind(this);
+    this.getUserID = this.getUserID.bind(this);*/
     this.varifyPassword = this.varifyPassword.bind(this);
     this.handleEditorChange = this.handleEditorChange.bind(this);
     this.submitUpdate = this.submitUpdate.bind(this);
@@ -32,15 +31,16 @@ class Update extends React.Component {
   componentDidMount() {
     // this.update();
   }
-
+/**
   update() {
     // make a request to the backend and update here
-    const { userID } = this.state;
-    axios
-      .get("https://eazsme-backend.herokuapp.com//user/" + userID)
+    const { email } = this.state;
+    
+axios
+      .get("http://localhost:4000/updateOrguser" + email)
       .then((data) => this.setState({ data }))
       .catch((error) => console.log(error));
-  }
+  } */    
 
   getUserID(event) {
     event.preventDefault();
@@ -51,7 +51,7 @@ class Update extends React.Component {
   varifyPassword(event) {
     event.preventDefault();
     const value = event.target.value;
-    // axios.get("http://localhost:4000")  make a request for a password and use it to verify password
+    // axios.get("http://localhost:4000")  https://eazsme-backend.herokuapp.com//user/ make a request for a password and use it to verify password
   }
 
   handleEditorChange(e) {
@@ -61,10 +61,12 @@ class Update extends React.Component {
 
   submitUpdate(e) {
     e.preventDefault();
-    const form = document.querySelector(`form[name="update"]`)
+    const form = document.querySelector("form[name=update]")
     const formFields = serialize(form, {hash: true});
-    axios.patch("http://localhost:400/update", formFields)
+   
+    axios.put("http://localhost:4000/updateOrguser", formFields)
     .then((data) => {
+     
       if(data.status === "success") {
         this.setState({success: "Update was successful!"});
       }else {
@@ -76,7 +78,7 @@ class Update extends React.Component {
 
   render() {
     const { data, success, error } = this.state;
-    const { fullName, description } = data;
+    const { email} = data;
     return (
       <Card.Body>
          {success ? (
@@ -90,45 +92,23 @@ class Update extends React.Component {
           </Col> */}
           <Col md="12">
             <Form name="update">
-              <Form.Group controlId="fullName">
-                <Form.Label>Full Name</Form.Label>
+              <Form.Group controlId="email">
+                <Form.Label>Email</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Full name"
-                  name="fullName"
-                  defaultValue={fullName}
-                  onChange={this.getUserID}
+                  placeholder="Email"
+                  name="email"
+                  defaultValue={email}
+                 /* onChange={this.getUserID}*/
                 />
               </Form.Group>
 
-              <Form.Group>
-                <Form.Label>Description</Form.Label>
-                <Editor
-                  apiKey="oym93hgea69gv4o5cjoxfc1baobo49f82d4ah9j66v3n955r"
-                  initialValue={this.state.description}
-                  init={{
-                    height: 200,
-                    menubar: false,
-                    plugins: [
-                      "advlist autolink lists link image",
-                      "charmap print preview anchor help",
-                      "searchreplace visualblocks code",
-                      "insertdatetime media table paste wordcount"
-                    ],
-                    toolbar:
-                      "undo redo | formatselect | bold italic | \
-                    alignleft aligncenter alignright | \
-                    bullist numlist outdent indent | help"
-                  }}
-                  onChange={this.handleEditorChange}
-                  name="description"
-                />
-              </Form.Group>
+            
 
               <Form.Text>Change password</Form.Text>
               <Form.Group controlId="password">
                 <Form.Label>Old Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" name="oldPassword" onBlur={this.varifyPassword} />
+                <Form.Control type="password" placeholder="Password" name="Password" onBlur={this.varifyPassword} />
               </Form.Group>
 
               <Form.Text>Change password</Form.Text>

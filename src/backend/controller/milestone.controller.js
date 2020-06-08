@@ -22,10 +22,9 @@ exports.create = (req, res) => {
     });
   } else {
     //Check if milestone already exist
-    Milestone.findOne({ 
-        where: 
-        {name: req.body.name } })
-        .then((result) => {
+    Milestone.findOne({
+      where: { name: req.body.name }
+    }).then((result) => {
       if (result) {
         return res.status(400).json({
           status: "error",
@@ -43,10 +42,10 @@ exports.create = (req, res) => {
             });
           })
           .catch((err) => {
-              //console.log(err)
+            //console.log(err)
             return res.status(500).json({
               status: "error",
-              message: err.message || "Not saved"               
+              message: err.message || "Not saved"
             });
           });
       }
@@ -85,6 +84,35 @@ exports.findOne = (req, res) => {
           status: "success",
           data
         });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        status: "error",
+        message: err.message
+      });
+    });
+};
+
+// Get milestone by milestone name
+exports.updateMilestone = (req, res) => {
+  Milestone.findOne({ where: { id: req.body.id} })
+    .then((data) => {
+      if (!data) {
+        return res.status(400).json({
+          status: "error",
+          message: " Milestone not found"
+        });
+      } else {
+        // update milestone
+        Milestone.update({ progress: req.body.progress,status: req.body.status},
+          { where: { id:data.id } }
+          ).then(() => {
+          res.status(200).json({
+          status: "success",
+          message: data
+          });  
+         });        
       }
     })
     .catch((err) => {

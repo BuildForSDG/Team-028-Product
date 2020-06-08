@@ -3,19 +3,17 @@
 /* eslint-disable no-console */
 /* eslint no-console: "error" */
 import React from "react";
-import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import { DatePicker } from "antd";
-import moment from "moment";
-import Image from "react-bootstrap/Image";
-import { Editor } from "@tinymce/tinymce-react";
+import { Link, BrowserRouter as Router, withRouter } from "react-router-dom";
 import serialize from "form-serialize";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
+import Form from "react-bootstrap/Form";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import UpdateMilestone from "./UpdateMilestone";
+
+
 
 class ViewMilestones extends React.Component {
     constructor(props) {
@@ -26,31 +24,61 @@ class ViewMilestones extends React.Component {
         description: "",
         data: [],
         success: "",
-        error: ""
+        error: "",
+        showUpdate: false
       };
-      this.handleEditorChange = this.handleEditorChange.bind(this);
-      this.handleClick = this.handleClick.bind(this);
+         
+      this.showMilestoneModal = this.showMilestoneModal.bind(this);
+      this.closeMilestoneModal = this.closeMilestoneModal.bind(this);
+      this.handleMilestoneUpdate = this.handleMilestoneUpdate.bind(this);
     }
-  
-    handleEditorChange(e) {
-      this.setState({ description: e.target.getContent() });
+   
+    componentDidMount() {
+      this.fetchData();
     }
-  
-    handleClick(e) {
-      e.preventDefault();
-     
-      axios
-        .post("http://localhost:4000/create-user")
-        .then((data) => {
-          if ((data.status === "success")) {
-            this.setState({ success: "Projects Loaded!" });
-           
-          } else {
-            this.setState({ error: "Error Loading project field" });
+    showMilestoneModal(event) {      
+      event.preventDefault();
+      this.setState({ showUpdate: true });
+    }  
+    
+    closeMilestoneModal() {
+      this.setState({ showUpdate: false });
+    }
+   
+    async fetchData() {
+      await axios
+        .get("http://localhost:4000/milestones/all")
+        .then(({ data }) => {
+          const status = data.status;
+          const result  = data.data;
+          if (status === "success") {
+            this.setState({ data: result });
           }
         })
         .catch((error) => console.log(error));
     }
+  
+  
+    handleMilestoneUpdate(event) {
+      event.preventDefault();
+      const form = document.querySelector("form[name=updateMilestone]");
+      const formFields = serialize(form, { hash: true });
+    
+      axios
+        .post("http://localhost:4000/milestones/id", formFields)
+        .then(({ data }) => {
+            if (data.status === "success") {
+            this.setState({ success: "Milestone successfully updated!" });
+          } else {
+            this.setState({ error: "Error Updating Milestone" });
+          }
+        })
+        .catch((error) => {
+          /*console.log(error)*/
+          this.setState({ error: "Error Updating Milestone" });
+          
+        });
+      }
 
 render() {
     const data = this.state.data;
@@ -68,11 +96,11 @@ render() {
         <Row>
           
           <Col md="12">
-          <form name="create-eligibility" id="createEligibility">
+          <form name="viewMilestone" id="viewMilestone">
                   <div class="form-row" controlId="ProjectId">
                     <div class="form-group col-md-12">
-                    <label for="inputTeam">Select Project</label>
-                      <select id="inputState" class="form-control" name="userTeam">
+                    <label for="ProjectId">Select Project</label>
+                      <select id="ProjectId" class="form-control" name="ProjectId">
                         <option selected>Choose...</option>
                         <option>Fertilizer Distribution</option>
                         <option>Maize Farming</option>
@@ -109,7 +137,12 @@ render() {
                   <td>{item.Progress}</td>
                   <td>{item.Status}</td>
                   <td>
-                    <Link to={`/view-project/${item.projectId}`}>Update</Link>
+              {/*<Link onClick={this.showMilestoneModal} to={`/view-project/${item.projectId}`}>Update</Link>*/}
+          <Router>
+                   
+                    <Link onClick={this.showMilestoneModal} to="/sme/Funds/UpdateMilestone" > Update </Link>
+              </Router>
+              
                   </td>
                 </tr>
               );
@@ -119,8 +152,14 @@ render() {
             </form>
           </Col>
         </Row>
+        <UpdateMilestone showModal={this.state.showUpdate} closeModal={this.closeMilestoneModal} />
+       
       </Card.Body>
+      
     );
+    
   }
 }
+
+//export default ViewMilestones;
 export default ViewMilestones;
