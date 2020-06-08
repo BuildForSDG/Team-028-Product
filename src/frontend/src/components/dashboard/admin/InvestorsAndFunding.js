@@ -17,8 +17,8 @@ export default class InvestorsAndFunding extends Component {
           {/* dummy data to be replaced with real data */}
         <thead>
             <tr>
-              <th>Organisation Name</th>
-              <th>Project Name</th>
+              <th>Action</th>
+              <th>No. of Investors</th>
               <th>Amount</th>
               <th>Fund Receipt Date</th>
               <th>View</th>
