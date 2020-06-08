@@ -108,7 +108,7 @@ class View extends React.Component {
           </ul>
         </div>
         <Card.Body>
-          <h4>Click on Apply to beging a New Application</h4>
+          <h4 className="fund-text2">Click on Apply to beging a New Application</h4>
           <Table striped bordered hover size="sm" className="d-none" name="one">
             <thead>
               <tr>

@@ -78,10 +78,10 @@ export default class SMEs extends Component {
       return (
         <Card.Body>
           <div className="invest-fund">
-            <h2 style={{textAlign:"center"}}>All SMEs</h2>
+            <h5 style={{textAlign:"center"}}>All SMEs</h5>
           </div>
           <div className="update" style={{textAlign:"center"}}>
-            <h4> *** SMEs View *** </h4>         
+            <h5> *** SMEs View *** </h5>         
           </div>
           <div className="sachBody">
         <ul className="sach">

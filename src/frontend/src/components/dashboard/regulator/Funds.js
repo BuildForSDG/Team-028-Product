@@ -70,10 +70,10 @@ export default class Funds extends Component {
       return (
         <Card.Body>
           <div className="invest-fund">
-            <h2 style={{textAlign:"center"}}>All Funds Application</h2>
+            <h5 style={{textAlign:"center"}}>All Funds Application</h5>
           </div>
           <div className="update" style={{textAlign:"center"}}>
-            <h4> *** Funds Application View *** </h4>         
+            <h5> *** Funds Application View *** </h5>         
           </div>
           <Table columns={columns} dataSource={data} />
         </Card.Body>

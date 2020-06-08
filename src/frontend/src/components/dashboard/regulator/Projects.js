@@ -141,10 +141,10 @@ export default class Projects extends Component {
     return (
       <Card.Body>
         <div className="invest-fund">
-          <h2 style={{textAlign:"center"}}>Funded Projects</h2>
+          <h5 className="update" style={{textAlign:"center"}}>Funded Projects</h5>
         </div>
         <div className="update" style={{textAlign:"center"}}>
-          <h4> *** Projects View *** </h4>         
+          <h5> *** Projects View *** </h5>         
         </div>
         
         <div className="sachBody">

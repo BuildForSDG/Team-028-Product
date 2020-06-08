@@ -78,10 +78,10 @@ export default class Investors extends Component {
       return (
         <Card.Body>
           <div className="invest-fund">
-            <h2 style={{textAlign:"center"}}>All Investors</h2>
+            <h5 style={{textAlign:"center"}}>All Investors</h5>
           </div>
           <div className="update" style={{textAlign:"center"}}>
-            <h4> *** Investors View *** </h4>         
+            <h5> *** Investors View *** </h5>         
           </div>
           <div className="sachBody">
         <ul className="sach">

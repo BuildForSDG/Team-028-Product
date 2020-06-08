@@ -76,7 +76,7 @@ class View extends React.Component {
   render() {
     const data = this.state.projects;
     return (
-      <>
+      <><br></br>
       <div className="sachBody">
         <ul className="sach sme">
           <li><Button style={{float:"right",borderRadius:"5%",background:"orange"}}  variant="default" type="submit" onClick={this.searchProjects} > Search</Button></li>

@@ -6,11 +6,20 @@
 
 import React from "react";
 import { Switch, Router, Route, Link } from "react-router-dom";
-import { FileDoneOutlined } from "@ant-design/icons";
-import { CaretDownFilled, UsergroupAddOutlined, SettingOutlined, LogoutOutlined } from "@ant-design/icons";
+import { 
+  ProfileOutlined, 
+  UsergroupAddOutlined,
+  SettingOutlined,
+  LogoutOutlined,
+  PieChartOutlined,
+  BellFilled,
+  UserOutlined,
+  WalletOutlined,
+  EditOutlined,
+  OrderedListOutlined,
+  UnorderedListOutlined
+} from "@ant-design/icons";
 import { Layout, Menu, Breadcrumb, Row, Col,Badge, Dropdown, Avatar } from "antd";
-import {AppstoreOutlined, RiseOutlined,BellFilled } from "@ant-design/icons";
-import { DesktopOutlined, PieChartOutlined,MailOutlined, FileOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
 
 import Investors from "./Investors";
 import Projects from "./Projects";
@@ -36,6 +45,7 @@ const menu = (
       <Link to="/regulator/Settings"> Settings</Link>
     </Menu.Item>
     <Menu.Item className="menu-icon" icon={<LogoutOutlined />}>
+    <Link to="/regulator/Settings"> Logout</Link>
     </Menu.Item>
   </Menu>
 );
@@ -66,10 +76,10 @@ class RegulatorDashboard extends React.Component {
             selectedKeys={[this.state.current]}
             mode="inline"
           >
-            <Menu.Item key="1" icon={<RiseOutlined />}>
+            <Menu.Item key="1" icon={<ProfileOutlined />}>
               <Link to="/Regulator/ProfileDetails">Profile Details</Link>
             </Menu.Item>
-            <SubMenu key="sub1" icon={<MailOutlined />} title="Projects">
+            <SubMenu key="sub1" icon={<PieChartOutlined />} title="Projects">
               <Menu.Item key="5">
                 <Link to="/regulator/Projectcategories"> Project Categories</Link>
               </Menu.Item>
@@ -77,15 +87,17 @@ class RegulatorDashboard extends React.Component {
                 <Link to="/regulator/Projects">View Projects</Link>
               </Menu.Item>
             </SubMenu>
-              <Menu.Item key="2">
-                <Link to="/regulator/Investors"> Investors List</Link>
+              <Menu.Item key="2" icon={<UnorderedListOutlined />}>
+                <Link to="/regulator/Investors">Investors List</Link>
               </Menu.Item>
-            <Menu.Item key="3">
+            <Menu.Item key="3" icon={<OrderedListOutlined />}>
               <Link to="/regulator/SMEs"> SMEs List</Link>
             </Menu.Item>           
         
-          <SubMenu key="sub2" icon={<SettingOutlined />} title="Funds">
-          <Menu.Item key="7"><Link to="/regulator/Funds"> Funds Application</Link></Menu.Item>             
+          <SubMenu key="sub2" icon={<WalletOutlined />} title="Funds">
+          <Menu.Item key="7" icon={<EditOutlined />}>
+            <Link to="/regulator/Funds"> Funds Application</Link>
+          </Menu.Item>             
           </SubMenu>
           <SubMenu key="sub3" icon={<UserOutlined />} title="User">
               <Menu.Item key="8" icon={<UserOutlined />}>

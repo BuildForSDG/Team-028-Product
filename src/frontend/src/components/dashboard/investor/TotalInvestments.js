@@ -3,9 +3,36 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
+import axios from "axios";
 
 class TotalInvestments extends React.Component {
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      investments: []
+    };
+    this.fetchData = this.fetchData.bind(this);
+  }
+  componentDidMount() {
+    this.fetchData();
+  }
+  async fetchData() {
+    const url = `https://eazsme-backend.herokuapp.com/funds/${this.props.user.organizationId}`;
+    
+    const data = await axios.get(url);
+    const investments = data.data.data;
+
+    this.setState({investments});
+  }
+  sumInvestments(arr){
+    return arr.reduce((acc, investment) => {
+      return acc + parseInt(investment.amount, 10);
+    },0);
+  }
   render() {
+    const data = this.state.investments;
+    const Total = this.sumInvestments(data);
     return (
       <>
         <div className="invest-Title">
@@ -15,37 +42,34 @@ class TotalInvestments extends React.Component {
           <thead>
             <tr>
               <th scope="col">S/N</th>
-              <th scope="col">SMEs</th>
-              <th scope="col">Date</th>
+              <th scope="col">Status</th>
+              <th scope="col">Date Initiated</th>
               <th scope="col">Amount(#)</th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Tubers Ventures</td>
-              <td>20-03-2020</td>
-              <td>2,000,000</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Mobility Enterprises</td>
-              <td>02-05-20202</td>
-              <td>60,000,000</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Zee Nig. Limited</td>
-              <td>29-05-2020</td>
-              <td>500,000</td>
-            </tr>
+            {data.map((item, index, arr) => {
+              return (
+                <tr key={index}>
+                  <td>{index+1}</td>
+                  
+                  <td>{item.status}</td>
+                  <td>{item.dateInitiated}</td>
+                  <td>{item.amount}</td>
+                  <td>
+                    <Link to={`/update-investment/${item.fundId}`}>update payment details</Link>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
           <thead>
             <tr>
               <th scope="col">Total</th>
               <th scope="col"></th>
               <th scope="col"></th>
-              <th scope="col">62,500,000</th>
+              <th scope="col">{Total}</th>
             </tr>
           </thead>
         </table>

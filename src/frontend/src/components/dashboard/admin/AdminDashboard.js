@@ -18,7 +18,8 @@ import {
   FileDoneOutlined,
   BellFilled,
   SwitcherOutlined,
-  ProjectOutlined
+  ProjectOutlined,
+  WalletOutlined
 } from "@ant-design/icons";
 import ProfileDetails from "./user/ProfileDetails";
 import InvestorsAndFunding from "./InvestorsAndFunding";
@@ -135,7 +136,7 @@ class AdminDashboard extends React.Component {
                 <Link to="/admin/deactivate-user">Deactivate</Link>
               </Menu.Item>
             </SubMenu>
-            <SubMenu key="sub4" icon={<fundOutlined />} title="Funds">
+            <SubMenu key="sub4" icon={<WalletOutlined />} title="Funds">
             <Menu.Item key="9" icon={<AppstoreOutlined />}>
               <Link to="/admin/smeandprojects"> SMEs Projects</Link>
             </Menu.Item>

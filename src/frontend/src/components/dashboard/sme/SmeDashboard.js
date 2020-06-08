@@ -7,7 +7,7 @@ import { Switch, Link, Router, Route } from "react-router-dom";
 // import Project from "./Project";
 import Proposal from "./Funds/Proposal";
 import {
-  RiseOutlined,
+  ProfileOutlined,
   UsergroupAddOutlined,
   SettingOutlined,
   UserOutlined,
@@ -15,7 +15,10 @@ import {
   FileDoneOutlined,
   BellFilled,
   ZoomOutOutlined,
-  FileAddOutlined
+  FileAddOutlined,
+  PieChartOutlined,
+  WalletOutlined,
+  PlusCircleOutlined
 } from "@ant-design/icons";
 import Create from "../general/CreateUser";
 import Remove from "../general/Remove";
@@ -80,7 +83,7 @@ class SmeDashboard extends React.Component {
         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse} style={{ paddingTop: "64px" }}>
           <div className="logo"></div>
           <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
-          <Menu.Item key="1" icon={<RiseOutlined />}>
+          <Menu.Item key="1" icon={<ProfileOutlined />}>
               <Link to="/sme/ProfileDetails">Profile Details</Link>
             </Menu.Item>
             <SubMenu key="sub1" icon={<UserOutlined />} title="User">
@@ -94,7 +97,7 @@ class SmeDashboard extends React.Component {
                 <Link to="/sme/deactivate-user">Deactivate</Link>
               </Menu.Item>
             </SubMenu>
-            <SubMenu key="sub2" icon={<UserOutlined />} title="Projects">
+            <SubMenu key="sub2" icon={<PieChartOutlined />} title="Projects">
             <Menu.Item key="5" icon={<ZoomOutOutlined />}>
               <Link to="/sme/Projects/InvestmentProject">View Projects</Link>
             </Menu.Item>
@@ -103,11 +106,11 @@ class SmeDashboard extends React.Component {
             </Menu.Item>
             
             </SubMenu>
-            <SubMenu key="3" icon={<UserOutlined />} title="Funds">
-            <Menu.Item key="8" icon={<ZoomOutOutlined />}>
+            <SubMenu key="3" icon={<WalletOutlined />} title="Funds">
+            <Menu.Item key="8" icon={<PlusCircleOutlined />}>
               <Link to="/sme/Projects/FundedProjects">Create Application</Link>
               </Menu.Item>
-              <Menu.Item key="6" icon={<ZoomOutOutlined />}>
+              <Menu.Item key="6" icon={<PlusCircleOutlined />}>
               <Link to="/sme/Projects/Milestones">Create Milestones</Link>
             </Menu.Item>
               <Menu.Item key="9" icon={<FileAddOutlined />}>
