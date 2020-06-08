@@ -132,7 +132,7 @@ div > input:invalid {
 }
 
 label.form-label,
-label  {
+label {
   color: #3d6cb9;
   font-size: 14px;
   font-weight: 600;
@@ -251,6 +251,7 @@ h3 {
 }
 
 /********** Content Styling starts here *******/
+
 .marketing .col-lg-4 {
   margin-bottom: 1.5rem;
   text-align: center;

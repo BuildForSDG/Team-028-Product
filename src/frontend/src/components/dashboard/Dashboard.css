@@ -242,15 +242,15 @@ input.form-control::placeholder {
   opacity: 1;
 }
 
-div>select.form-control {
-  border: 0.5px solid #3d6cb9;
-}
-
-input#dateStarted.form-control,
 select.form-control,
+input#dateStarted.form-control,
 input#dateEnded.form-control {
   color: #9e9e9eb0;
   opacity: 1;
+}
+
+div > select.form-control {
+  border: 0.5px solid #3d6cb9;
 }
 
 .user-btn {
