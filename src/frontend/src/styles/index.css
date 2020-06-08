@@ -155,7 +155,7 @@ input#dateEnded.form-control {
 
 div > input:invalid:required {
   background-image: none;
-} 
+}
 
 .dev-frame {
   border: 1px solid #3d6cb9;
