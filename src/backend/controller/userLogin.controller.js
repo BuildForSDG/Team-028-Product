@@ -45,7 +45,8 @@ exports.findOne = (req, res) => {
               const result = {
                 category: data.category,
                 email: data.email,
-                organization: data.Organization
+                organization: data.Organization,
+                organizationId: data.organizationId
               };
               return res.status(200).json({
                 status: "success",

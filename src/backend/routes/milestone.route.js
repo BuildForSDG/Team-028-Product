@@ -9,4 +9,7 @@ module.exports = (app) => {
 
   // Retrieve milestone by name
   app.get("/milestones/name", milestone.findOne);
+
+  // Create milestones
+  app.put("/milestones/id", milestone.updateMilestone);
 };

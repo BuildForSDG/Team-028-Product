@@ -56,6 +56,7 @@ render() {
         )}
         <div className="content-text"><h5>Add Milestones to Funds Application</h5></div>
         <Row>
+          
           <Col md="12">
           <form name="create-mileston" id="createMilestones">
                   <div class="form-row" controlId="applicationId">

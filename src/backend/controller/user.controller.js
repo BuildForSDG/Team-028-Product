@@ -15,13 +15,14 @@ const User = db.user;
 const Userpass = db.userLogin;
 const Organization = db.userOrganization;
 
+
 exports.create = (req, res) => {
   let today = new Date();
-  let userRole = "Admin";
+    let userRole = "Admin";
   let userPrivilege = "Level 1";
   let orgId = Math.floor(Math.random() * 10000) + 1;
-  let userID = Math.floor(Math.random() * 100000) + 1;
-  let loginID = Math.floor(Math.random() * 10000) + 1;
+ let loginID = Math.floor(Math.random() * 10000) + 1;
+let userID = Math.floor(Math.random() * 100000) + 1;
 
   //Check empty request
   if (!req.body) {
@@ -53,6 +54,7 @@ exports.create = (req, res) => {
           role: userRole,
           privilege: userPrivilege,
           dateCreated: today
+         
         });
         user
           .save()
@@ -177,7 +179,7 @@ exports.findAll = (req, res) => {
     });
 };
 
-// fine single user by id
+// find single user by id
 exports.findOne = (req, res) => {
   User.findOne({ where: { userId: req.body.userId } })
     .then((user) => {
@@ -196,6 +198,150 @@ exports.findOne = (req, res) => {
       return res.status(500).json({
         status: "error",
         message: err.message
+      });
+    });
+};
+
+// fine single user details by id
+exports.updateOne = (req, res) => {
+  Userpass.findOne({ where: { email: req.body.email } })
+    .then((userpass) => {
+      //get user details from req and save changes    
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(req.body.password, salt, (err, hash) => {
+          // Now we can store the password hash in db.
+          if (err) {
+            return res.status(401).json({
+              status: "error",
+              message: "Unauthorized user"
+            });
+          }
+                 Userpass.update({ password: hash},
+          { where: { id:userpass.id } }
+          ).then(() => {
+          res.status(200).json({
+          status: "success",
+          data: userpass
+          }) ;   
+        })
+      .catch((err) => {
+
+return res.status(500).json({
+status: "error",
+message: err.message
+});
+});  
+            });
+      });
+
+
+  
+});
+};
+
+// create organization's sub-user endpoint
+exports.userOrganization = (req, res) => {
+  let today = new Date();
+let loginID = Math.floor(Math.random() * 10000) + 1;
+let userID = Math.floor(Math.random() * 100000) + 1;
+  let userPrivilege = "Level 2";
+  //Check empty request
+  if (!req.body) {
+    return res.status(204).json({
+      status: "error",
+      message: "User details cannot be empty"
+    });
+  }
+  User.findOne({ where: { email: req.body.email } })
+    .then((data) => {
+      if (data) {
+        // return result if data already exist
+        return res.status(401).json({
+          status : "error",
+          message : "User already exist"
+        });
+      } else {
+        // Create new instance of  user
+        const user = new User({
+          userId: userID,
+          organizationId: req.body.organizationId, //organization id comes from request body
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          otherName: req.body.otherName,
+          email: req.body.email,
+          phoneNumber: req.body.phoneNumber,
+          role:req.body.role,
+          privilege: userPrivilege,
+          dateCreated: today
+        });
+        user
+          .save()
+          .then((data) => {
+            // save login creadentials if user details is successfully saved
+            if (data) {
+              bcrypt.genSalt(10, (err, salt) => {
+                bcrypt.hash(req.body.password, salt, (err, hash) => {
+                  // Now we can store the password hash in db.
+                  if (err) {
+                    return res.status(401).json({
+                      status: "error",
+                      message: "Unauthorized user"
+                    });
+                  }
+                  const pass = new Userpass({
+                    loginId: loginID,
+                    userId: userID,
+                    organizationId: req.body.organizationId,
+                    email: req.body.email,
+                    password: hash,
+                    category: req.body.category
+                  });
+      
+                  pass
+                    .save()
+                    .then((result) => {
+                      if (result) {
+                        let data = {
+                          userId: userID,
+                          organizationId: req.body.organizationId,
+                          companyName: req.body.companyName,
+                          email: req.body.companyEmail,
+                          role: req.body.role,
+                          privilege: userPrivilege
+                        };
+                        return res.status(200).json({
+                          status : "success",
+                          response : data
+                        });
+                      }
+                    })
+                    .catch((err) => {
+                      return res.status(500).json({
+                        status: "error",
+                        message: err.message
+                      });
+                    });
+                });
+              });
+            }  else {
+              return res.status(400).json({
+                status: "error",
+                message: "Not saved"
+              });
+            }
+          })
+          .catch((err) => {
+            return res.status(500).json({
+              status : "error",
+              message : err.message
+            });
+          });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        status : "error",
+        message : err.message
       });
     });
 };
