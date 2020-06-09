@@ -37,9 +37,11 @@ class Update extends React.Component {
     // make a request to the backend and update here
     const { userID } = this.state;
     axios
-      .get("https://eazsme-backend.herokuapp.com//user/" + userID)
+      .get("https://eazsme-backend.herokuapp.com/user/" + userID)
       .then((data) => this.setState({ data }))
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   getUserID(event) {
@@ -51,7 +53,7 @@ class Update extends React.Component {
   varifyPassword(event) {
     event.preventDefault();
     const value = event.target.value;
-    // axios.get("http://localhost:4000")  make a request for a password and use it to verify password
+    // axios.get("https://eazsme-backend.herokuapp.com")  make a request for a password and use it to verify password
   }
 
   handleEditorChange(e) {
@@ -61,9 +63,9 @@ class Update extends React.Component {
 
   submitUpdate(e) {
     e.preventDefault();
-    const form = document.querySelector(`form[name="update"]`)
+    const form = document.querySelector(`form[name="update"]`);
     const formFields = serialize(form, {hash: true});
-    axios.patch("http://localhost:400/update", formFields)
+    axios.patch("https://eazsme-backend.herokuapp.com/update", formFields)
     .then((data) => {
       if(data.status === "success") {
         this.setState({success: "Update was successful!"});
@@ -71,12 +73,18 @@ class Update extends React.Component {
         this.setState({error: "Error performing update"});
       }
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      console.log(error);
+    });
   }
 
   render() {
-    const { data, success, error } = this.state;
-    const { fullName, description } = data;
+    const data = this.state.data;
+    const success = this.state.success;
+    const error  = this.state.error;
+
+    const fullName = data.fullName;
+    
     return (
       <Card.Body>
         {success ? (
