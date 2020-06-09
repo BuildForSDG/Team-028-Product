@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 const db = require("./config/db.config");  
 
 // Set CORS for all headers
-const whitelist = ["http://localhost:3000", "https://eazsme-frontend.herokuapp.com/"];
+const whitelist = ["http://localhost:3000", "https://eazsme-frontend.herokuapp.com"];
 const corsOptionsDelegate = (req, callback) => {
   let corsOptions;
   if (whitelist.indexOf(req.header("Origin")) !== -1) {

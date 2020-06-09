@@ -27,7 +27,8 @@ class TotalInvestments extends React.Component {
   }
   sumInvestments(arr){
     return arr.reduce((acc, investment) => {
-      return acc + parseInt(investment.amount, 10);
+      const value = parseInt(investment.amount, 10) || 0;
+      return acc + value;
     },0);
   }
   render() {
@@ -70,6 +71,7 @@ class TotalInvestments extends React.Component {
               <th scope="col"></th>
               <th scope="col"></th>
               <th scope="col">{Total}</th>
+              <th scope="col"></th>
             </tr>
           </thead>
         </table>

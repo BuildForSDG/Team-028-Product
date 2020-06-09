@@ -27,6 +27,7 @@ class Create extends React.Component {
     this.handleEditorChange = this.handleEditorChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.categorySelect = React.createRef();
+    this.getCategory = this.getCategory.bind(this);
   }
 
   componentDidMount() {

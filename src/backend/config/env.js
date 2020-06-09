@@ -1,7 +1,7 @@
 const env = {
   database: "eazsme_db",
   username: "root",
-  password: "Pass123%",
+  password: "root",
   host: "localhost",
   dialect: "mysql",
   pool: {

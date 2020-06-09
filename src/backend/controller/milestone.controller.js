@@ -22,10 +22,9 @@ exports.create = (req, res) => {
     });
   } else {
     //Check if milestone already exist
-    Milestone.findOne({ 
-        where: 
-        {name: req.body.name } })
-        .then((result) => {
+    Milestone.findOne({
+      where: { name: req.body.name }
+    }).then((result) => {
       if (result) {
         return res.status(400).json({
           status: "error",
@@ -43,10 +42,10 @@ exports.create = (req, res) => {
             });
           })
           .catch((err) => {
-              //console.log(err)
+            //console.log(err)
             return res.status(500).json({
               status: "error",
-              message: err.message || "Not saved"               
+              message: err.message || "Not saved"
             });
           });
       }

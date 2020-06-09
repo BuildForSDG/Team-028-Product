@@ -47,7 +47,7 @@ describe("GET /roles/all with findAll()", () => {
     }
   });
   it("findAll() should be a function", () => {
-    const res = typeof proposalControllers.findAll;
+    const res = typeof roleControllers.findAll;
     expect(res).toEqual("function");
   });
   it("should fetch roles from the server", async () => {

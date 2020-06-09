@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
       fundId: {
         type: DataTypes.STRING
       },
+      projectId: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
       disbursedTo: {
         type: DataTypes.STRING
       },

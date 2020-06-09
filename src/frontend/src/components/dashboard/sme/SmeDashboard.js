@@ -73,19 +73,7 @@ class SmeDashboard extends React.Component {
       collapsed: false
     };
 
-    this.showMilestoneModal = this.showMilestoneModal.bind(this);
-    this.closeMilestoneModal = this.closeMilestoneModal.bind(this);
-    this.handleMilestoneUpdate = this.handleMilestoneUpdate.bind(this);
-    
-  }
-  showMilestoneModal(event) {      
-    event.preventDefault();
-    this.setState({ showUpdate: true });
-  }
-
-  
-  closeMilestoneModal() {
-    this.setState({ showUpdate: false });
+     
   }
  
   handleMilestoneUpdate(event) {

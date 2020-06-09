@@ -110,9 +110,14 @@ export default class Projects extends Component {
     this.setState((prevState) => {
       let filteredProjects = prevState.projects;
       if (query.trim() !== ""){
+       
         filteredProjects = prevState.projects.filter((element) => {
-          return element.projectName.toLowerCase().includes(query.toLowerCase()) ||
-          element.description.toLowerCase().includes(query.toLowerCase());
+          
+          const description = element.description || "";
+          const projectName =  element.projectName || "";
+
+          return description.toLowerCase().includes(query.toLowerCase()) ||
+          projectName.toLowerCase().includes(query.toLowerCase());
         });
       }
       return {
