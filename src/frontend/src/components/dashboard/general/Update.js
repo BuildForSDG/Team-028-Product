@@ -35,12 +35,12 @@ class Update extends React.Component {
 
   update() {
     // make a request to the backend and update here
-    const { userID } = this.state;
+    const userID  = this.state.userID;
     axios
       .get("https://eazsme-backend.herokuapp.com/user/" + userID)
       .then((data) => this.setState({ data }))
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
   }
 
@@ -63,7 +63,7 @@ class Update extends React.Component {
 
   submitUpdate(e) {
     e.preventDefault();
-    const form = document.querySelector(`form[name="update"]`);
+    const form = document.querySelector("form[name='update']");
     const formFields = serialize(form, {hash: true});
     axios.patch("https://eazsme-backend.herokuapp.com/update", formFields)
     .then((data) => {
