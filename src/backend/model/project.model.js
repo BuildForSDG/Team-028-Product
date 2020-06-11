@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
       projectCatId: {
         type: DataTypes.STRING
       },
+      // organizationId: {
+      //   type: DataTypes.STRING,
+      //   allowNull: true
+      // },
       projectName: {
         type: DataTypes.STRING
       },
@@ -25,17 +29,20 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       dateStart: {
-        type: DataTypes.STRING
+        type: DataTypes.DATE
       },
       dateEnd: {
-        type: DataTypes.STRING
+        type: DataTypes.DATE
       },
       fund: {
         type: DataTypes.STRING
       },
       dateCreated: {
         type: DataTypes.DATE
-      }
+      },
+      // status: {
+      //   type: DataTypes.STRING
+      // }
     },
     {
       timestamps: false

@@ -123,7 +123,8 @@ let userID = Math.floor(Math.random() * 100000) + 1;
               organizationId: orgId,
               email: req.body.email,
               password: hash,
-              category: req.body.userType
+              category: req.body.userType,
+              companyName: req.body.companyName 
             });
 
             pass
@@ -224,18 +225,16 @@ exports.updateOne = (req, res) => {
           data: userpass
           }) ;   
         })
-      .catch((err) => {
+          .catch((err) => {
 
-return res.status(500).json({
-status: "error",
-message: err.message
-});
-});  
+        return res.status(500).json({
+            status: "error",
+        message: err.message
+        });
+          });  
             });
-      });
+     });
 
-
-  
 });
 };
 
@@ -257,7 +256,7 @@ let userID = Math.floor(Math.random() * 100000) + 1;
       if (data) {
         // return result if data already exist
         return res.status(401).json({
-          status : "error",
+          status : "exist",
           message : "User already exist"
         });
       } else {

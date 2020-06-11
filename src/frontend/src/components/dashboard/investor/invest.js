@@ -17,28 +17,60 @@ class Invest extends React.Component {
     super(props);
     
     this.state = {
+      projects: [],
       categories: [],
       success: ``,
       error: ``,
-      description: ``
+      description: ``,
+      projectName: ``
     };
 
     this.handleEditorChange = this.handleEditorChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.categorySelect = React.createRef();
+    this.projectSelect=React.createRef();
     this.getCategory = this.getCategory.bind(this);
+    this.getActiveProjects = this.getActiveProjects.bind(this);
   }
 
   componentDidMount() {
     this.getCategory();
+    this.getActiveProjects();
   }
 
+
+  getActiveProjects() {
+    axios
+      .get(`https://eazsme-backend.herokuapp.com/projects/all`)
+      .then((data) => {
+      
+        const projects = data.data.data;    
+        this.setState({projects}, () => {
+          const select = this.projectSelect.current;
+
+          const { projects } = this.state;
+          const data = projects;
+
+          // based on type of data is array
+          for (let i = 0; i < data.length; i++) {
+            const option = document.createElement(`option`);
+            option.innerText = data[parseInt(i,10)].projectName;
+            option.name = data[parseInt(i,10)].projectName;
+            option.value = data[parseInt(i,10)].projectId;
+            select.appendChild(option);
+          }
+        });
+      })
+      .catch((error) => console.log(error));
+  }
+
+  
   getCategory() {
     axios
       .get(`https://eazsme-backend.herokuapp.com/funds/category/all`)
       .then((data) => {
         const categories = data.data.data;
-  
+  console.log(categories);
         this.setState({categories}, () => {
           const select = this.categorySelect.current;
 
@@ -70,7 +102,8 @@ class Invest extends React.Component {
     
     formFields.status = `investment initiated`;
     formFields.organizationId = this.props.user.organizationId;
-    
+    //formFields.projectName=this.state.projectName;
+
     axios
       .post(`https://eazsme-backend.herokuapp.com/invest`, formFields)
       .then((data) => {
@@ -96,11 +129,28 @@ class Invest extends React.Component {
       <Card.Body>
         <Row>
           <Col>
+          {success ? (
+              <div className="text-bold text-success">
+                <h5>{success}</h5>
+              </div>
+            ) : (
+              <div className="text-bold text-success">
+                <h5>{error}</h5>
+              </div>
+            )}
             <Form name="create-investment"> 
              <Form.Group controlId="fundCatId">
                 <Form.Label>Category Type:</Form.Label>
                 <Form.Control as="select" ref={this.categorySelect} name="fundCatId"></Form.Control>
               </Form.Group>
+              <Form.Group controlId="projectId">
+                <Form.Label>Select Project:</Form.Label>
+                <Form.Control as="select" ref={this.projectSelect} name="projectId" 
+                 onChange={(e) => this.setState({projectName: e.target.value})}>>
+                    </Form.Control>
+
+              </Form.Group>
+
               <Form.Group controlId="amount">
                 <Form.Label>Amount Invested:</Form.Label>
                 <Form.Control type="number" placeholder="Amount" name="amount" />
@@ -118,11 +168,7 @@ class Invest extends React.Component {
           </Col>
         </Row>
         <Row>
-          {success ? (
-            <div className="text-bold text-success text-center">{success}</div>
-          ) : (
-            <div className="text-bold text-danger text-center">{error}</div>
-          )}
+    
         </Row>
       </Card.Body>
     );

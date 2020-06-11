@@ -16,6 +16,7 @@ exports.create = (req, res) => {
     disbursedBy: req.body.disbursedBy,
     bankName: req.body.bankName,
     accountNunber: req.body.accountNunber,
+    projectId: req.body.projectId,
     status: req.body.status
   };
   if (!req.body) {

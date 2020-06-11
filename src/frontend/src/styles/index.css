@@ -73,7 +73,7 @@ h3 {
 /********* Modal Styles ***************/
 
 div.modal-header {
-  background-color: #3d6cb9;
+  background-color: #f90;
 }
 
 div.modal-body,
@@ -99,7 +99,7 @@ div > #registration.text-light.modal-title.h4 {
   color: #fff;
   background-color: #3d6cb9;
   border: none;
-  border-radius: 15px;
+  border-radius: 5px;
   width: 60%;
   margin: 0 auto;
 }
@@ -112,10 +112,6 @@ div.modal-body {
   position: relative;
   margin: 0 auto;
   width: 85%;
-}
-
-.btn-danger {
-  display: none;
 }
 
 .terms-text {
@@ -131,8 +127,26 @@ div > input:invalid {
   box-shadow: none;
 }
 
+label.form-label,
+label {
+  color: #3d6cb9;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.tox-tinymce {
+  width: 90%;
+}
+
 div > input:valid {
-  border: none;
+  border: 0.5px solid #3d6cb9;
+}
+
+input#dateStarted.form-control,
+select#projectCatId.form-control,
+input#dateEnded.form-control {
+  color: #9e9e9eb0;
+  opacity: 1;
 }
 
 div > input:invalid:required {
@@ -152,10 +166,6 @@ div > input:invalid:required {
   text-align: left;
 }
 
-.incorpDate {
-  margin-left: -20px;
-}
-
 .form-control {
   display: block;
   width: 90%;
@@ -165,10 +175,11 @@ div > input:invalid:required {
   font-weight: 400;
   line-height: 1.5;
   color: #495057;
-  background-color: #fff;
+  background-color: #e7f0f7;
   background-clip: padding-box;
   border-bottom: 2px solid #337ab7;
   border-radius: 0.5rem;
+  border: 0.5px solid grey;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 

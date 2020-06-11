@@ -4,6 +4,7 @@
 /* eslint-disable no-multi-str */
 /* eslint-disable no-console */
 /* eslint no-console: "error" */
+
 import React from "react";
 import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
@@ -35,7 +36,7 @@ class View extends React.Component {
 
   fetchData() {
     axios
-      .get(`http://localhost:4000/projects/all`)
+      .get(`https://eazsme-backend.herokuapp.com/projects/all`)
       .then(({ data }) => {
         const  status  = data.status;
         const projects = data.data;

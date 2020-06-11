@@ -1,12 +1,25 @@
-export const smes = {};
+export const smes = {
+  companyName: "",
+  category: "",
+  userId: ""
+};
 
-export const investors = {};
+export const investors = {
+  companyName: "",
+  category: "",
+  userId: ""
+};
 
-export const regulators = {};
+export const regulators = {
+  companyName: "",
+  category: "",
+  userId: ""
+};
 
 export const admins = {
-  name: "Moses Nwaeze",
-  login: false
+  companyName: "",
+  category: "",
+  userId: ""
 };
 
 export const projects = {};

@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+/* eslint no-console: "error" */
+
 import React from "react";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -26,7 +29,7 @@ class Remove extends React.Component {
     const form = document.querySelector(`form[name="deactivate"]`);
     const formFields = serialize(form, {hash: true});
 
-    await axios.post("http://localhost:4000/deactivate-user", formFields)
+    await axios.post("https://eazsme-backend.herokuapp.com/deactivate-user", formFields)
     .then((data) => {
       if(data.status === "success") {
         this.setState({success: "User successfully deactivated!"});
@@ -40,23 +43,29 @@ class Remove extends React.Component {
     const { success, error } = this.state;
     return (
       <Card.Body>
-        {success ? (
-          <Form.Text className="text-bold text-success">{success}</Form.Text>
-        ) : (
-          <Form.Text className="text-bold text-danger">{error}</Form.Text>
-        )}
+        
         <Row>
           {/* <Col md="4">
             <Image src="holder.js/100px250" fluid />
           </Col> */}
           <Col md="12">
+
+          {success ? (
+              <div className="text-bold text-success">
+                <h5>{success}</h5>
+              </div>
+            ) : (
+              <div className="text-bold text-success">
+                <h5>{error}</h5>
+              </div>
+            )}
             <Form name="deactivate">
-              <Form.Group controlId="fullName">
+              <Form.Group controlId="email">
                 <Form.Label>Full Name</Form.Label>
-                <Form.Control type="text" placeholder="Enter user name" name="fullName" />
+                <Form.Control type="text" placeholder="Enter user name" name="email" />
               </Form.Group>
 
-              <Button variant="primary" type="submit" onClick={this.deactivate}>
+              <Button className="user-btn" variant="primary" type="submit" onClick={this.deactivate}>
                 Deactivate User
               </Button>
             </Form>

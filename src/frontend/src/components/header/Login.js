@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+/* eslint no-console: "error" */
+
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -12,7 +15,10 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      success: "",
+      error: "",
+    };
     this.closeLogin = this.closeLogin.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.submitLogin = this.submitLogin.bind(this);

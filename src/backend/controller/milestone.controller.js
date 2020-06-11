@@ -8,12 +8,9 @@ exports.create = (req, res) => {
     milestoneId: id,
     applicationId: req.body.applicationId,
     name: req.body.name,
-    description: req.body.description,
     startDate: req.body.startDate,
     endDate: req.body.endDate,
-    progress: req.body.progress,
-    status: req.body.status,
-    update: req.body.update
+    description: req.body.description
   };
   if (!req.body) {
     return res.status(400).json({
@@ -26,7 +23,7 @@ exports.create = (req, res) => {
       where: { name: req.body.name }
     }).then((result) => {
       if (result) {
-        return res.status(400).json({
+        return res.status(400).json({  
           status: "error",
           message: "Milestone already exist with this Id "
         });

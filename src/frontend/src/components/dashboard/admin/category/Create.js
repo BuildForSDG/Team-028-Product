@@ -2,6 +2,8 @@
 /*eslint quotes: ["error", "backtick"]*/
 /*eslint-env es6*/
 /* eslint-disable no-console */
+/* eslint no-console: "error" */
+
 import React from "react";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -17,7 +19,7 @@ class Create extends React.Component {
     super(props);
 
     this.state = {
-      description: ``,
+      categoryDescription: ``,
       success: ``,
       error: ``
     };
@@ -26,21 +28,22 @@ class Create extends React.Component {
   }
 
   handleEditorChange(e) {
-    this.setState({ description: e.target.getContent() });
+    this.setState({ categoryDescription: e.target.getContent() });
   }
-
+ // https://eazsme-backend.herokuapp.com  https://eazsme-backend.herokuapp.com/projects/category
   async handleClick(e) {
     e.preventDefault();
     const form = document.querySelector(`form[name="create-category"]`);
     const formFields = serialize(form, { hash: true }); // Make api call with form
+    formFields.categoryDescription=this.state.categoryDescription;
     await axios
-      .post(`http://localhost:4000/projects/category`, formFields)
+      .post(`https://eazsme-backend.herokuapp.com/projects/category`, formFields)
       .then(({ data }) => {
         const { status } = data;
         if (status === `success`) {
-          this.setState({ success: `User Successfully created!` });
+          this.setState({ success: `Category Successfully created!` });
         } else {
-          this.setState({ error: `Error creating User` });
+          this.setState({ error: `Error creating category` });
         }
       })
       .catch((error) => console.log(error));
@@ -68,11 +71,11 @@ class Create extends React.Component {
                 <Form.Control type="text" placeholder="Category Name" name="categoryName" />
               </Form.Group>
 
-              <Form.Group>
+              <Form.Group controlId="categoryDescription">
                 <Form.Label>Description</Form.Label>
                 <Editor
                   apiKey="oym93hgea69gv4o5cjoxfc1baobo49f82d4ah9j66v3n955r"
-                  initialValue={this.state.description}
+                  initialValue={this.state.categoryDescription}
                   init={{
                     height: 200,
                     menubar: false,
@@ -91,12 +94,12 @@ class Create extends React.Component {
                 />
               </Form.Group>
 
-              <Form.Group controlId="createdBy">
+           {/** <Form.Group controlId="createdBy">
                 <Form.Label>Created By</Form.Label>
                 <Form.Control type="text" placeholder="Created By:" name="createdBy" />
-              </Form.Group>
+              </Form.Group>*/}   
 
-              <Button variant="primary" type="submit" onClick={this.handleClick}>
+              <Button className="user-btn" variant="primary" type="submit" onClick={this.handleClick}>
                 Create Category
               </Button>
             </Form>

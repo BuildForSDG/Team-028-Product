@@ -24,7 +24,7 @@ class Delete extends React.Component {
   async deactivate() {
     const milestoneId = this.props.match.milestoneId;
 
-    await axios.delete("http://localhost:4000/milestone/" + milestoneId).then(({ data }) => {
+    await axios.delete("https://eazsme-backend.herokuapp.com/milestone/" + milestoneId).then(({ data }) => {
       const  status  = data.status;
       if (status === "success") {
         this.setState({ success: "User successfully deactivated!" });

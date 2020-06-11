@@ -114,3 +114,27 @@ exports.findOne = (req, res) => {
       });
     });
 };
+
+// update investment status
+exports.updateStatus = (req, res) => {
+  Fund.findOne({ where: { id: req.body.id } })
+    .then((fund) => {
+      //get user details from req and save changes    
+      fund.update({ status: req.body.status},
+        { where: { id:fund.id } }
+        ).then(() => {
+        res.status(200).json({
+        status: "success",
+        data: fund
+        }) ;   
+      })
+    .catch((err) => {
+
+        return res.status(500).json({
+        status: "error",
+          message: err.message
+        });
+      }); 
+  
+});
+};

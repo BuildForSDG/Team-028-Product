@@ -1,11 +1,71 @@
+/* eslint-disable react/no-direct-mutation-state */
+/* eslint-disable no-console */
+/* eslint no-console: "error" */
+
 import React, { Component } from "react";
 import Card from "react-bootstrap/Card";
-import {Link} from "react-router-dom";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 
 export default class SmeAndProjects extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: [],
+      id: "",
+      searchData: "",
+      foundData: [],
+      valueChange: "",
+      success: "",
+      error: ""
+    };
+
+    this.fetchData = this.fetchData.bind(this);
+    this.approveApplication = this.approveApplication.bind(this);
+    //this.search = this.search.bind(this);
+    //this.handleSearch = this.handleSearch.bind(this);
+  }
+
+  componentDidMount() {
+    this.fetchData();
+  }
+  approveApplication(){
+    console.log(this.state.id);
+    axios
+    .put(`https://eazsme-backend.herokuapp.com/fund/update/${this.state.id}`)
+    .then(({ data }) => {
+      console.log(data);
+      const  status  = data.status;
+      const projects = data.data;
+      if (status === "success") {
+        this.setState({ success: "Fund Application Approved"});
+        
+      }
+    })
+    .catch((error) => console.log(error));
+  }
+
+  fetchData() {
+    axios
+      .get("https://eazsme-backend.herokuapp.com/fund/applications/all")
+      .then(({ data }) => {
+        console.log(data);
+        const  status  = data.status;
+        const projects = data.data;
+        if (status === "success") {
+          this.setState({ data: projects });
+          
+        }
+      })
+      .catch((error) => console.log(error));
+  }
+
+
   render() {
-    
+    const data = this.state.data;
     return (
       <Card.Body>
       <div className="sme-project">
@@ -18,84 +78,32 @@ export default class SmeAndProjects extends Component {
       <table class="table table-striped">
       <thead>
           <tr>
-            <th>Application Name</th>
+          <th>Application Code</th>
             <th>Project Name</th>
+            <th>Description</th>
             <th>Start Date</th>
             <th>End Date</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-            <tr>
-              <td>Pending Background Check</td>
-              <td>3</td>
-              <td>25/05/2020</td>
-              <td>25/05/2020</td>
-              <td><Link to="#">Details <svg class="bi bi-box-arrow-up-right" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M1.5 13A1.5 1.5 0 0 0 3 14.5h8a1.5 1.5 0 0 0 1.5-1.5V9a.5.5 0 0 0-1 0v4a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 0 0-1H3A1.5 1.5 0 0 0 1.5 5v8zm7-11a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.5H9a.5.5 0 0 1-.5-.5z"/>
-              <path fill-rule="evenodd" d="M14.354 1.646a.5.5 0 0 1 0 .708l-8 8a.5.5 0 0 1-.708-.708l8-8a.5.5 0 0 1 .708 0z"/>
-              </svg></Link></td>
-            </tr>
-            <tr>
-              <td>Checked/Approved</td>
-              <td>12</td>
-              <td>25/05/2020</td>
-              <td>25/05/2020</td>
-              <td><Link to="#">Details <svg class="bi bi-box-arrow-up-right" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M1.5 13A1.5 1.5 0 0 0 3 14.5h8a1.5 1.5 0 0 0 1.5-1.5V9a.5.5 0 0 0-1 0v4a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 0 0-1H3A1.5 1.5 0 0 0 1.5 5v8zm7-11a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.5H9a.5.5 0 0 1-.5-.5z"/>
-              <path fill-rule="evenodd" d="M14.354 1.646a.5.5 0 0 1 0 .708l-8 8a.5.5 0 0 1-.708-.708l8-8a.5.5 0 0 1 .708 0z"/>
-              </svg></Link></td>
-            </tr>
-            <tr>
-              <td>Checked/Not Approved</td>
-              <td>15</td>
-              <td>25/05/2020</td>
-              <td>25/05/2020</td>
-              <td><Link to="#">Details <svg class="bi bi-box-arrow-up-right" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M1.5 13A1.5 1.5 0 0 0 3 14.5h8a1.5 1.5 0 0 0 1.5-1.5V9a.5.5 0 0 0-1 0v4a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 0 0-1H3A1.5 1.5 0 0 0 1.5 5v8zm7-11a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.5H9a.5.5 0 0 1-.5-.5z"/>
-              <path fill-rule="evenodd" d="M14.354 1.646a.5.5 0 0 1 0 .708l-8 8a.5.5 0 0 1-.708-.708l8-8a.5.5 0 0 1 .708 0z"/>
-              </svg></Link></td>
-            </tr>
-            <tr>
-              <td>Recieved Projects</td>
-              <td>16</td>
-              <td>25/05/2020</td>
-              <td>25/05/2020</td>
-              <td><Link to="#">Details <svg class="bi bi-box-arrow-up-right" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M1.5 13A1.5 1.5 0 0 0 3 14.5h8a1.5 1.5 0 0 0 1.5-1.5V9a.5.5 0 0 0-1 0v4a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 0 0-1H3A1.5 1.5 0 0 0 1.5 5v8zm7-11a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.5H9a.5.5 0 0 1-.5-.5z"/>
-              <path fill-rule="evenodd" d="M14.354 1.646a.5.5 0 0 1 0 .708l-8 8a.5.5 0 0 1-.708-.708l8-8a.5.5 0 0 1 .708 0z"/>
-              </svg></Link></td>
-            </tr>
-            <tr>
-              <td>Feasible Projects</td>
-              <td>9</td>
-              <td>25/05/2020</td>
-              <td>25/05/2020</td>
-              <td><Link to="#">Details <svg class="bi bi-box-arrow-up-right" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M1.5 13A1.5 1.5 0 0 0 3 14.5h8a1.5 1.5 0 0 0 1.5-1.5V9a.5.5 0 0 0-1 0v4a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 0 0-1H3A1.5 1.5 0 0 0 1.5 5v8zm7-11a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.5H9a.5.5 0 0 1-.5-.5z"/>
-              <path fill-rule="evenodd" d="M14.354 1.646a.5.5 0 0 1 0 .708l-8 8a.5.5 0 0 1-.708-.708l8-8a.5.5 0 0 1 .708 0z"/>
-              </svg></Link></td>
-            </tr>
-            <tr>
-              <td>Projects approved for funding</td>
-              <td>5</td>
-              <td>25/05/2020</td>
-              <td>25/05/2020</td>
-              <td><Link to="#">Details <svg class="bi bi-box-arrow-up-right" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M1.5 13A1.5 1.5 0 0 0 3 14.5h8a1.5 1.5 0 0 0 1.5-1.5V9a.5.5 0 0 0-1 0v4a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 0 0-1H3A1.5 1.5 0 0 0 1.5 5v8zm7-11a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.5H9a.5.5 0 0 1-.5-.5z"/>
-              <path fill-rule="evenodd" d="M14.354 1.646a.5.5 0 0 1 0 .708l-8 8a.5.5 0 0 1-.708-.708l8-8a.5.5 0 0 1 .708 0z"/>
-              </svg></Link></td>
-            </tr>
-            <tr>
-              <td>Blacklisted</td>
-              <td>1</td>
-              <td>25/05/2020</td>
-              <td>25/05/2020</td>
-              <td><Link to="#">Details <svg class="bi bi-box-arrow-up-right" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M1.5 13A1.5 1.5 0 0 0 3 14.5h8a1.5 1.5 0 0 0 1.5-1.5V9a.5.5 0 0 0-1 0v4a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 0 0-1H3A1.5 1.5 0 0 0 1.5 5v8zm7-11a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.5H9a.5.5 0 0 1-.5-.5z"/>
-              <path fill-rule="evenodd" d="M14.354 1.646a.5.5 0 0 1 0 .708l-8 8a.5.5 0 0 1-.708-.708l8-8a.5.5 0 0 1 .708 0z"/>
-              </svg></Link></td>
-            </tr>
+            {data.map((item, index, arr) => {
+            let count = arr.length;
+              return (
+                <tr>
+                  <td > {this.state.id=item.id}</td>
+                  <td key={index}>{item.projectName}</td>
+                  <td key={index}>{item.description}</td>
+                  <td key={index}>{item.dateStart}</td>
+                  <td key={index}>{item.dateEnd}</td>
+                  <td key={index}>
+                   
+                    <Link  onClick={this.approveApplication} to="">Approve</Link>
+                  </td>
+                </tr>
+                
+              );
+            })}
           </tbody>
 
       </table>

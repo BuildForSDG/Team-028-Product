@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint no-console: "error" */
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { Link } from "react-router-dom";
@@ -18,7 +20,8 @@ class TotalInvestments extends React.Component {
     this.fetchData();
   }
   async fetchData() {
-    const url = `https://eazsme-backend.herokuapp.com/funds/${this.props.user.organizationId}`;
+   // const url = `https://eazsme-backend.herokuapp.com/funds/${this.props.user.organizationId}`;
+   const url = `https://eazsme-backend.herokuapp.com/funds/${this.props.user.organizationId}`;
     
     const data = await axios.get(url);
     const investments = data.data.data;
@@ -59,7 +62,7 @@ class TotalInvestments extends React.Component {
                   <td>{item.dateInitiated}</td>
                   <td>{item.amount}</td>
                   <td>
-                    <Link to={`/update-investment/${item.fundId}`}>update payment details</Link>
+                    <Link to={`FundDetails/${item.fundId}`}>update payment details</Link>
                   </td>
                 </tr>
               );

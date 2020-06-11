@@ -35,12 +35,17 @@ class View extends React.Component {
 
   fetchData() {
     axios
-      .get(`http://localhost:4000/projects/all`)
+      .get(`https://eazsme-backend.herokuapp.com/projects/all`)
       .then(({ data }) => {
-        const  status  = data.status;
+        const status = data.status;
         const projects = data.data;
+        console.log(data);
         if (status === `success`) {
-          this.setState({ data: projects });
+          let newResults = projects.filter((items) => {
+            return items.fund === `Funded`;
+          });
+          this.setState({ data: newResults });
+          console.log(newResults);
         }
       })
       .catch((error) => console.log(error));
@@ -69,16 +74,16 @@ class View extends React.Component {
 
   handleSearch(event) {
     event.preventDefault();
-    const  data  = this.state.data;
+    const data = this.state.data;
     const filterInput = data.filter((item) => item.projectName === event.target.value);
     this.setState({ valueChange: filterInput });
   }
   render() {
-    const  data  = this.state.data;
-    const  foundData  = this.state.foundData;
+    const data = this.state.data;
+    const foundData = this.state.foundData;
     return (
       <>
-      <br></br>
+        <br></br>
         <div className="sachBody">
           <ul className="sach sme">
             <li>
@@ -96,7 +101,7 @@ class View extends React.Component {
               <Form.Group controlId="searchId">
                 <Form.Control
                   className="searchBar"
-                  style={{ width: `250px`, float: `right`, marginRight: `10px`,marginBottom:`15px` }}
+                  style={{ width: `250px`, float: `right`, marginRight: `10px`, marginBottom: `15px` }}
                   type="text"
                   placeholder="Enter project name to search"
                   name="search"
@@ -109,47 +114,14 @@ class View extends React.Component {
         </div>
         <Card.Body>
           <h4 className="fund-text2">Click on Apply to beging a New Application</h4>
-          <Table striped bordered hover size="sm" className="d-none" name="one">
-            <thead>
-              <tr>
-                <th>Project Id</th>
-                <th>Category Id</th>
-                <th>Project Name</th>
-                <th>Project Description</th>
-                <th>Created By</th>
-                <th>Date Started</th>
-                <th>Date Ended</th>
-                <th>Date Created</th>
-              </tr>
-            </thead>
-            <tbody>
-              {foundData.map((item, index, arr) => {
-                let count = arr.length;
-                return (
-                  <tr>
-                    <td key={index}>{item.projectId}</td>
-                    <td key={index}>{item.projectCatId}</td>
-                    <td key={index}>{item.projectName}</td>
-                    <td key={index}>{item.description}</td>
-                    <td key={index}>{item.createdBy}</td>
-                    <td key={index}>{item.dateStart}</td>
-                    <td key={index}>{item.dateEnd}</td>
-                    <td key={index}>{item.dateCreated}</td>
-                    <td key={count++}>
-                      <Link to={`/view-project/${item.projectId}`}>View Details</Link>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </Table>
+
           <Table striped bordered hover size="sm" name="all">
             <thead>
               <tr>
                 <th>Project Name</th>
-                <th>Project Description</th> 
-                <th>View</th> 
-                <th>Action</th>                
+                <th>Project Description</th>
+                <th>View</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -160,10 +132,10 @@ class View extends React.Component {
                     <td key={index}>{item.projectName}</td>
                     <td key={index}>{item.description}</td>
                     <td key={count++}>
-                      <Link to={`/view-project/${item.projectId}`}>View Details</Link>
+                      <Link to="">View Details</Link>
                     </td>
                     <td key={count++}>
-                      <Link to={`/view-project/${item.projectId}`}>Apply</Link>
+                      <Link to={`/sme/Funds/NewApplication/${item.projectId}`}>Apply</Link>
                     </td>
                   </tr>
                 );

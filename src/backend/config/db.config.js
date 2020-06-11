@@ -37,11 +37,6 @@ db.lga = require("../model/lga.model")(sequelize, Sequelize);
 db.role = require("../model/role.model")(sequelize, Sequelize);
 db.payment = require("../model/payment.model")(sequelize, Sequelize);
 db.milestone = require("../model/milestone.model")(sequelize, Sequelize);
-
-// Table Associations
-
-// db.userOrganization.hasMany(db.user);
-
-// db.user.belongsTo(db.userOrganization ); 
+db.eligibility = require("../model/eligibility.model")(sequelize, Sequelize);
 
 module.exports = db;

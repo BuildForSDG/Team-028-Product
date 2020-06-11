@@ -12,4 +12,7 @@ module.exports = (app) => {
 
   // Retrieve all funds donated by investor
   app.get("/funds/:id", fund.findInvestmentsByOrganization);
+
+app.put("/funds/update",fund.updateStatus);
+
 };

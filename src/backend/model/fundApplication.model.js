@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       id: {
         type: DataTypes.INTEGER,
-        autoincrement: true,
+        autoIncrement: true,
         allowNull: false,
         primaryKey: true
       },
@@ -18,14 +18,23 @@ module.exports = (sequelize, DataTypes) => {
       fundId: {
         type: DataTypes.STRING
       },
-      fundCatId: {
+
+      projectName: {
         type: DataTypes.STRING
       },
-      status: {
-        type: DataTypes.STRING
+      dateStart: {
+        type: DataTypes.STRING  
       },
-      applicationDate: {
-        type: DataTypes.DATE
+      dateEnd: {
+        type: DataTypes.STRING  
+      },
+      description: {
+        type: DataTypes.STRING  
+      },
+      proposals: {   
+        type: DataTypes.STRING
+      }, status: {   
+        type: DataTypes.STRING
       }
     },
     {

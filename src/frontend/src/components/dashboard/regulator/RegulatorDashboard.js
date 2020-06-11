@@ -20,7 +20,7 @@ import {
   UnorderedListOutlined
 } from "@ant-design/icons";
 import { Layout, Menu, Breadcrumb, Row, Col,Badge, Dropdown, Avatar } from "antd";
-
+import {connect} from "react-redux";
 import Investors from "./Investors";
 import Projects from "./Projects";
 import Users from "./Users";
@@ -64,6 +64,7 @@ class RegulatorDashboard extends React.Component {
   };
 
   render() {
+    // use localStorage.getItem("user") to get the user object
     return (
       <Layout style={{ minHeight: "100vh" }}>
         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse} style={{ paddingTop: "42px" }}>
@@ -155,4 +156,10 @@ class RegulatorDashboard extends React.Component {
   }
 }
 
-export default RegulatorDashboard;
+const mapStateToProps = (state) => ({
+  companyName: state.regulator.companyName,
+  category: state.regulator.category,
+  userId: state.regulator.userId
+});
+
+export default connect(mapStateToProps)(RegulatorDashboard);

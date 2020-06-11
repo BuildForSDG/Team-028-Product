@@ -1,6 +1,7 @@
 /* eslint-disable no-multi-str */
 /* eslint-disable no-console */
 /* eslint no-console: "error" */
+
 import React from "react";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -9,10 +10,9 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { DatePicker } from "antd";
 import moment from "moment";
-import Image from "react-bootstrap/Image";
-import { Editor } from "@tinymce/tinymce-react";
 import serialize from "form-serialize";
 import axios from "axios";
+import { connect } from "react-redux";
 
 const dateFormat = "YYYY/MM/DD";
 class Create extends React.Component {
@@ -22,12 +22,20 @@ class Create extends React.Component {
     this.state = {
       category: "investor",
       userId: "",
-      organizationId: "4553",
+      organizationId: "",
       success: "",
       error: ""
     };
     this.handleEditorChange = this.handleEditorChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+  }
+   
+  componentDidMount(){
+     const smeObj = JSON.parse(localStorage.getItem("userObj"));
+    if (smeObj) {
+      this.setState(() => ({ smeObj }));
+      console.log(smeObj);
+    }
   }
 
   handleEditorChange(e) {
@@ -38,18 +46,26 @@ class Create extends React.Component {
     e.preventDefault();
     const form = document.querySelector(`form[name="create-user"]`);
     const formFields = serialize(form, { hash: true }); // Make api call with form
-    console.log(formFields);
-    axios
-      .post("http://localhost:4000/organizationUser", formFields)
+    formFields.category=this.state.smeObj.category;
+    formFields.organizationId=this.state.smeObj.organizationId;
+
+       axios
+      .post("https://eazsme-backend.herokuapp.com/organizationUser", formFields)
       .then((data) => {
         
         if ((data.data.status === "success")) {
           this.setState({ success: "User Successfully created!" });
-        } else {
+        } else 
+        if ((data.data.status === "exist")) {
+          this.setState({ success: "User already exist!" });
+        }else
+        {
           this.setState({ error: "Error creating User" });
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        this.setState({ error: "Error creating User" });
+      });
   }
 
   render() {
@@ -58,16 +74,21 @@ class Create extends React.Component {
     const error = this.state.error;
     return (
       <Card.Body>
-        {success ? (
-          <Form.Text className="text-bold text-success">{success}</Form.Text>
-        ) : (
-          <Form.Text className="text-bold text-danger">{error}</Form.Text>
-        )}
+      
         <div className="content-text"><strong>Create a User and Assign Role</strong></div>
         <hr></hr>
         <Row>
-         
+      
           <Col md="12">
+          {success ? (
+              <div className="text-bold text-success">
+                <h5>{success}</h5>
+              </div>
+            ) : (
+              <div className="text-bold text-success">
+                <h5>{error}</h5>
+              </div>
+            )}
           <form name="create-user" id="createUser">
                   <div class="form-row" controlId="firstName">
                     <div class="form-group col-md-6">
@@ -192,7 +213,7 @@ class Create extends React.Component {
                       </label>
                     </div>
                   </div>
-                  <Button variant="primary" type="submit" onClick={this.handleClick}>
+                  <Button className="user-btn" variant="primary" type="submit" onClick={this.handleClick}>
                   Create User
               </Button>
             </form>

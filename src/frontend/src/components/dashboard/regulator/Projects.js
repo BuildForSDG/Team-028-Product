@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint no-console: "error" */
 /* eslint-disable no-unused-vars */
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
@@ -110,7 +112,6 @@ export default class Projects extends Component {
     this.setState((prevState) => {
       let filteredProjects = prevState.projects;
       if (query.trim() !== ""){
-       
         filteredProjects = prevState.projects.filter((element) => {
           
           const description = element.description || "";

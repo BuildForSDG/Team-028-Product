@@ -10,13 +10,45 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Link } from "react-router-dom";
-
-
+import axios from "axios";
 
 
 class ProjectDetails extends React.Component {
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      project: {
+        dateCreated: "",
+        projectName: "",
+        projectId: "",
+        address: "",
+        companyName: "",
+        organizationId: "",
+        fund: "",
+        description: "",
+        status: ""
+      }
+    };
+  }
+  componentDidMount() {
+    let projectproposals =  this.props.projectproposals;
+
+    if (projectproposals.length < 1){
+     projectproposals = JSON.parse(localStorage.getItem("proposals"));
+    }
+    
+    const projects = projectproposals.filter(
+      (project) => project.projectId === this.props.match.params.id
+    );
+
+    localStorage.setItem("proposals", JSON.stringify(projectproposals));
+    this.setState({project: projects[0]});
+  }
+ 
     render() {
-  
+
+    const dateCreated = new Date(`${this.state.project.dateCreated}`).toLocaleDateString();
     return (
       <>
       <div class="jumbotron p-4 p-md-5 text-dark rounded shadow-sm">
@@ -24,26 +56,26 @@ class ProjectDetails extends React.Component {
       <div class="container">
               <div class="row justify-content-start stripped">
                 <div class="col-4">
-                  Project Name:
+                  Project Name: 
                 </div>
                 <div class="col-4">
-                  Palm Oil Production
+                {this.state.project.projectName}
                 </div>
               </div>
-              <div class="row justify-content-center">
+              <div class="row justify-content-start stripped">
                 <div class="col-4">
-                  Project ID:
+                  Project ID: 
                 </div>
                 <div class="col-4">
-                  000AAAA1
+                  {this.state.project.projectId}
                 </div>
               </div>
-              <div class="row justify-content-end stripped">
+              <div class="row justify-content-start stripped">
                 <div class="col-4">
                   Application Date:
                 </div>
                 <div class="col-4">
-                  29-05-2020
+                  {dateCreated}
                 </div>
               </div>
               <div class="row justify-content-around">
@@ -51,7 +83,7 @@ class ProjectDetails extends React.Component {
                   Name of SME
                 </div>
                 <div class="col-4">
-                  ZEE Nig. Limited
+                  {this.state.project.companyName}
                 </div>
               </div>
               <div class="row justify-content-between stripped">
@@ -59,7 +91,15 @@ class ProjectDetails extends React.Component {
                   SME ID.: 
                 </div>
                 <div class="col-4">
-                  00000ASZ
+                  {this.state.project.organizationId}
+                </div>
+              </div>
+              <div class="row justify-content-start stripped">
+                <div class="col-4">
+                  Amount Applied for: 
+                </div>
+                <div class="col-4">
+                  N{this.state.project.fund}
                 </div>
               </div>
             </div><br></br>
@@ -69,7 +109,7 @@ class ProjectDetails extends React.Component {
                     SME Address:
                   </div>
                   <div class="col-4">
-                    Lagos Nigeria
+                    {this.state.project.address}
                   </div>
                 </div>
                 <div class="row justify-content-center">
@@ -77,7 +117,7 @@ class ProjectDetails extends React.Component {
                     Milestone:
                   </div>
                   <div class="col-4">
-                    In progress
+                  {this.state.project.status}
                   </div>
                 </div>
                 <div class="row justify-content-end stripped">
@@ -101,7 +141,7 @@ class ProjectDetails extends React.Component {
                     Project Description: 
                   </div>
                   <div class="col-9">
-                    This is the production and distributtion of palm in Wholesale and retail capacituies across the country
+                    {this.state.project.description}
                   </div>
                 </div>
                 <div className="download">

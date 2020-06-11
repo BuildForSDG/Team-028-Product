@@ -36,7 +36,7 @@ class Update extends React.Component {
     e.preventDefault();
     const { milestoneId } = this.props.match;
     await axios
-      .get("http://localhost:4000/milestones/" + milestoneId)
+      .get("https://eazsme-backend.herokuapp.com/milestones/" + milestoneId)
       .then((data) => {
         if (data.status === "success") {
           this.setState({ catID: data.id });
@@ -52,7 +52,7 @@ class Update extends React.Component {
     const formFields = serialize(form, { hash: true });
     const { catID } = this.state;
     await axios
-      .patch("http://localhost:4000/projects/name/" + catID, formFields)
+      .patch("https://eazsme-backend.herokuapp.com/projects/name/" + catID, formFields)
       .then((data) => {
         if (data.status === "success") {
           this.setState({ success: "Update was successful!" });

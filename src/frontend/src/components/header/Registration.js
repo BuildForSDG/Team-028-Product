@@ -78,7 +78,7 @@ class Registration extends React.Component {
                 <h5>{success}</h5>
               </div>
             ) : (
-              <div className="text-bold text-success">
+              <div className="text-bold text-danger">
                 <h5>{error}</h5>
               </div>
             )}
@@ -116,13 +116,13 @@ class Registration extends React.Component {
                   </Form.Group>
                 </Col>
                 <Col>
-                  <Form.Group controlId="positionHeld">
+                  
                     <Form.Group controlId="phoneNumber">
                       <Form.Label className="font-weight-bold">
                         Phone Number <sup className="text-danger">*</sup>
                       </Form.Label>
                       <Form.Control type="text" placeholder="Enter phone number" required name="phoneNumber1" />
-                    </Form.Group>
+                    
                   
                     {/* <Form.Label className="font-weight-bold">
                       Position Held<sup className="text-danger">*</sup>
@@ -179,6 +179,7 @@ class Registration extends React.Component {
                       onChange={this.mapStateToLGA}
                       name="state"
                     >
+                      <option>::Select</option>
                       <option value="Abia">Abia</option>
                       <option value="Abuja">Abuja</option>
                       <option value="Adamawa">Adamawa</option>
@@ -263,9 +264,10 @@ class Registration extends React.Component {
                       User Category<sup className="text-danger">*</sup>
                     </Form.Label>
                     <Form.Control as="select" required name="userType">
+                    <option>::select</option>
                       <option value="investor">Investor</option>
                       <option value="regulator">Regulator</option>
-                      <option value="regulator">SMEs</option>
+                      <option value="sme">SMEs</option>
                     </Form.Control>
                   </Form.Group>
                 </Col>

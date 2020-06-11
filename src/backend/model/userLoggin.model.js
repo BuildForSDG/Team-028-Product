@@ -30,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
       category: {
         type: DataTypes.STRING,
         required: true
+      },
+      companyName: {
+        type: DataTypes.STRING,
+        required: true
       }
     },
     {

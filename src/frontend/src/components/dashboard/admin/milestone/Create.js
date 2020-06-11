@@ -34,7 +34,7 @@ class Create extends React.Component {
     const form = document.querySelector(`form[name="milestone"]`);
     const formFields = serialize(form, { hash: true });
     await axios
-      .post(`http://localhost:4000/milestones`, formFields)
+      .post(`https://eazsme-backend.herokuapp.com/milestones`, formFields)
       .then(({ data }) => {
         const { status } = data;
         const { message } = data;
@@ -122,7 +122,7 @@ class Create extends React.Component {
                 </Form.Control>
               </Form.Group>
 
-              <Button variant="primary" type="submit" onClick={this.handleClick}>
+              <Button className="user-btn" variant="primary" type="submit" onClick={this.handleClick}>
                 Create Milestone
               </Button>
             </Form>

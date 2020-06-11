@@ -9,8 +9,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true
       },
       milestoneId: {
-        type: DataTypes.STRING,
-        
+        type: DataTypes.STRING
       },
       name: {
         type: DataTypes.STRING,
@@ -34,9 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       status: {
         type: DataTypes.STRING
       },
-      update: {
-        type: DataTypes.STRING
-      },
+
       confirmedBy: {
         type: DataTypes.STRING
       },
@@ -45,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     {
-      timestamps: false
+      timestamps: false   
     }
   );
   return Milestone;
