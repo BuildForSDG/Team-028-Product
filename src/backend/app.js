@@ -56,7 +56,7 @@ require("./routes/eligibility.route")(app);
 app.use(express.static(path.join(__dirname, "uploads"))); 
 
 //sync db
-db.sequelize.sync({ alter: true }).then(() => {
+db.sequelize.sync({ force: false }).then(() => {
   if (process.env.NODE_ENV !== "test") {
     app.listen(PORT, () => {
       logger.info(`Server running on port ${PORT}`);
