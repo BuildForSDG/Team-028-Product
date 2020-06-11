@@ -47,7 +47,7 @@ class CreateEligibility extends React.Component {
   
     getActiveProjects() {
       axios
-        .get("http://localhost:4000/projects/all")
+        .get("https://eazsme-backend.herokuapp.com/projects/all")
         .then((data) => {
         
           const projects = data.data.data;    
@@ -81,7 +81,7 @@ class CreateEligibility extends React.Component {
       console.log(formFields);
      
      axios
-        .post("http://localhost:4000/eligibility", formFields)
+        .post("https://eazsme-backend.herokuapp.com/eligibility", formFields)
         .then((data) => {
         
           if ((data.data.status === "success")) {

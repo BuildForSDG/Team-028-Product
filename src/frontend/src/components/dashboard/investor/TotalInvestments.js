@@ -21,7 +21,7 @@ class TotalInvestments extends React.Component {
   }
   async fetchData() {
    // const url = `https://eazsme-backend.herokuapp.com/funds/${this.props.user.organizationId}`;
-   const url = `http://localhost:4000/funds/${this.props.user.organizationId}`;
+   const url = `https://eazsme-backend.herokuapp.com/funds/${this.props.user.organizationId}`;
     
     const data = await axios.get(url);
     const investments = data.data.data;

@@ -50,7 +50,7 @@ class Create extends React.Component {
     formFields.organizationId=this.state.smeObj.organizationId;
 
        axios
-      .post("http://localhost:4000/organizationUser", formFields)
+      .post("https://eazsme-backend.herokuapp.com/organizationUser", formFields)
       .then((data) => {
         
         if ((data.data.status === "success")) {

@@ -30,7 +30,7 @@ class Create extends React.Component {
   handleEditorChange(e) {
     this.setState({ categoryDescription: e.target.getContent() });
   }
- // https://eazsme-backend.herokuapp.com  http://localhost:4000/projects/category
+ // https://eazsme-backend.herokuapp.com  https://eazsme-backend.herokuapp.com/projects/category
   async handleClick(e) {
     e.preventDefault();
     const form = document.querySelector(`form[name="create-category"]`);

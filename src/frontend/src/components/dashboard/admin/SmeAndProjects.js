@@ -35,7 +35,7 @@ export default class SmeAndProjects extends Component {
   approveApplication(){
     console.log(this.state.id);
     axios
-    .put(`http://localhost:4000/fund/update/${this.state.id}`)
+    .put(`https://eazsme-backend.herokuapp.com/fund/update/${this.state.id}`)
     .then(({ data }) => {
       console.log(data);
       const  status  = data.status;
@@ -50,7 +50,7 @@ export default class SmeAndProjects extends Component {
 
   fetchData() {
     axios
-      .get("http://localhost:4000/fund/applications/all")
+      .get("https://eazsme-backend.herokuapp.com/fund/applications/all")
       .then(({ data }) => {
         console.log(data);
         const  status  = data.status;

@@ -35,7 +35,7 @@ class Create extends React.Component {
 
   async getCategory() {
     await axios
-      .get(`http://localhost:4000/projects/category/`)
+      .get(`https://eazsme-backend.herokuapp.com/projects/category/`)
       .then((data) => {
 
         const categories = data.data.data;
@@ -72,7 +72,7 @@ class Create extends React.Component {
     const formFields = serialize(form, { hash: true });
     formFields.description=this.state.description;
       await axios
-      .post(`http://localhost:4000/projects`, formFields)
+      .post(`https://eazsme-backend.herokuapp.com/projects`, formFields)
       .then((data) => {
           console.log(data.data.status);
         if ((data.data.status === `success`)) {

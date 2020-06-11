@@ -63,7 +63,7 @@ axios
     e.preventDefault();
     const form = document.querySelector("form[name=update]")
     const formFields = serialize(form, {hash: true});
-       axios.put("http://localhost:4000/updateOrguser", formFields)
+       axios.put("https://eazsme-backend.herokuapp.com/updateOrguser", formFields)
     .then((data) => {
      console.log(data.status);
       if(data.status === 200) {

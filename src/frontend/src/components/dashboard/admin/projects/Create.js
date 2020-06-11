@@ -37,7 +37,7 @@ class Create extends React.Component {
 
   getCategory() {
     axios
-      .get(`http://localhost:4000/projects/category`)
+      .get(`https://eazsme-backend.herokuapp.com/projects/category`)
       .then((data) => {
         const categories = data.data.data;
   

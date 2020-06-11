@@ -60,7 +60,7 @@ class View extends React.Component {
     
   }
   async fetchData() {
-    const data = await axios.get("http://localhost:4000/projects/all");
+    const data = await axios.get("https://eazsme-backend.herokuapp.com/projects/all");
     const projects = data.data.data;  
     this.setState({projects, filteredProjects: projects});
   }

@@ -79,7 +79,7 @@ class CreateApplication extends React.Component {
     fd.append("proposals", this.state.proposals, this.state.proposals.name);
 
     axios
-      .post("http://localhost:4000/fund/apply", fd)
+      .post("https://eazsme-backend.herokuapp.com/fund/apply", fd)
       .then((res) => {
         let response = res.data;
         console.log(response.status);

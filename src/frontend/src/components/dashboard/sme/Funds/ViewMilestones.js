@@ -49,7 +49,7 @@ class ViewMilestones extends React.Component {
 
   getActiveProjects() {
     axios
-      .get("http://localhost:4000/projects/all")
+      .get("https://eazsme-backend.herokuapp.com/projects/all")
       .then((data) => {
       
         const projects = data.data.data;    
