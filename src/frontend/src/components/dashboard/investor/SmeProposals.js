@@ -27,7 +27,7 @@ class SmeProposals extends React.Component {
     this.setState({projectproposals});
   }
   render() {
-    const data = this.state.projectproposals;
+    const data = this.state.projectproposals || [];
     return (
       <>
       <div className="sachBody">
