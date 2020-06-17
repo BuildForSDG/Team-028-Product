@@ -2,6 +2,13 @@
 /* eslint-disable no-multi-str */
 /* eslint-disable no-console */
 /* eslint no-console: "error" */
+/*eslint quotes: ["error", "backtick"]*/
+/*eslint-env es6*/
+/* eslint no-console: "error" */
+
+
+
+
 import React from "react";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -14,55 +21,74 @@ import Image from "react-bootstrap/Image";
 import { Editor } from "@tinymce/tinymce-react";
 import serialize from "form-serialize";
 import axios from "axios";
-const dateFormat = "YYYY/MM/DD";
+const dateFormat = `YYYY/MM/DD`;
+let url=``;
 
 class CreateMilestone extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       projects: [],
-      description: "",
-      name: "",
+      userD: [],
+      description: ``,
+      name: ``,
       startDate: null,
-      endDate: "",
-      success: "",
-      error: ""
+      endDate: ``,
+      success: ``,
+      error: ``
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.getActiveProjects = this.getActiveProjects.bind(this);
     this.projectSelect=React.createRef();
   }
-  getActiveProjects() {
-    axios
-      .get("https://eazsme-backend.herokuapp.com/projects/all")
+
+  componentDidMount() {
+
+    const userObj = JSON.parse(localStorage.getItem(`userObj`));
+    console.log(`p`+userObj);
+    if (userObj) {
+      this.setState(() => ({ userObj }));
+      const organizationId=userObj.organizationId;
+      const form = document.querySelector(`form[name="create-mileston"]`);
+const formFields = serialize(form, { hash: true }); 
+formFields.organizationId=organizationId;
+      url = (`https://eazsme-backend.herokuapp.com/fund/application/id`,formFields);
+    }
+   
+    this.getActiveProjects();
+  }
+
+  async getActiveProjects() {
+    await axios
+      .get(url)
       .then((data) => {
-      
-        const projects = data.data.data;    
+
+        const projects = data.data.data;
+  
         this.setState({projects}, () => {
           const select = this.projectSelect.current;
 
-          const { projects } = this.state;
-          const data = projects;
+          const { categories } = this.state;
+          const data = categories;
 
           // based on type of data is array
           for (let i = 0; i < data.length; i++) {
-            const option = document.createElement("ption");
+            const option = document.createElement(`option`);
             option.innerText = data[parseInt(i,10)].projectName;
             option.name = data[parseInt(i,10)].projectName;
             option.value = data[parseInt(i,10)].projectId;
             select.appendChild(option);
           }
         });
+
       })
       .catch((error) => console.log(error));
   }
+  
 
   
-  componentDidMount() {
-   
-    this.getActiveProjects();
-  }
+  
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -78,16 +104,16 @@ class CreateMilestone extends React.Component {
     };
     // Make api call with form
     axios
-      .post("https://eazsme-backend.herokuapp.com/milestones", fd)
+      .post(`https://eazsme-backend.herokuapp.com/milestones`, fd)
       .then((data) => {
         console.log(data);
-        if (data.status === "success") {
+        if (data.status === `success`) {
           this.setState({
-            success: "User Successfully created!",
-            projectName: ""
+            success: `User Successfully created!`,
+            projectName: ``
           });
         } else {
-          this.setState({ error: "Error creating User" });
+          this.setState({ error: `Error creating User` });
         }
       })
       .catch((error) => console.log(error));
@@ -157,15 +183,15 @@ class CreateMilestone extends React.Component {
                   height: 200,
                   menubar: false,
                   plugins: [
-                    "advlist autolink lists link image",
-                    "charmap print preview anchor help",
-                    "searchreplace visualblocks code",
-                    "insertdatetime media table paste wordcount"
+                    `advlist autolink lists link image`,
+                    `charmap print preview anchor help`,
+                    `searchreplace visualblocks code`,
+                    `insertdatetime media table paste wordcount`
                   ],
                   toolbar:
-                    "undo redo | formatselect | bold italic | \
+                    `undo redo | formatselect | bold italic | \
                     alignleft aligncenter alignright | \
-                    bullist numlist outdent indent | help"
+                    bullist numlist outdent indent | help`
                 }}
                 onChange={this.handleChange}
               />

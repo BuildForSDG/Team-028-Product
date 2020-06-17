@@ -12,13 +12,12 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      projectCatId: {
+      projectCatId:{
         type: DataTypes.STRING
       },
-      // organizationId: {
-      //   type: DataTypes.STRING,
-      //   allowNull: true
-      // },
+      categoryName: {
+        type: DataTypes.STRING
+      },
       projectName: {
         type: DataTypes.STRING
       },
@@ -29,24 +28,29 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       dateStart: {
-        type: DataTypes.DATE
+        type: DataTypes.STRING
       },
       dateEnd: {
-        type: DataTypes.DATE
+        type: DataTypes.STRING
       },
       fund: {
         type: DataTypes.STRING
       },
+      Status: {
+        type: DataTypes.STRING
+      },
       dateCreated: {
         type: DataTypes.DATE
-      },
-      // status: {
-      //   type: DataTypes.STRING
-      // }
+      }
     },
     {
       timestamps: false
     }
   );
+
+ /* Project.associate = function(models) {
+    Project.belongsTo(models.projectCategory, {foreignKey: 'id', as: 'category'})
+  };*/
+
   return Project;
 };

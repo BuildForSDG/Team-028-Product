@@ -83,7 +83,6 @@ class Nav extends React.Component {
     event.preventDefault();
     const form = document.querySelector(`form[name="registration"]`);
     const formFields = serialize(form, { hash: true });
-    console.log(formFields);
     axios
       .post("https://eazsme-backend.herokuapp.com/register", formFields)
       .then(({ data }) => {
@@ -171,10 +170,11 @@ class Nav extends React.Component {
           localStorage.clear();
           switch (result.category) {
             case "admin":
-              user.companyName = result.companyName;
+            
               user.userId = result.email;
               user.category = result.category;
               user.organizationId=result.organizationId;
+              user.companyName = result.companyName;
               
               admin(user);
               localStorage.setItem("adminObj", JSON.stringify (user));
@@ -200,8 +200,8 @@ class Nav extends React.Component {
               user.organizationId=result.organizationId;
 
               investor(user);
-              localStorage.setItem("investorObj", JSON.stringify (user));
               localStorage.setItem("userObj", JSON.stringify (user));
+              localStorage.setItem("investorObj", JSON.stringify (user));
               this.props.history.push("/investor");
               break;
             case "regulator":
@@ -211,8 +211,8 @@ class Nav extends React.Component {
               user.organizationId=result.organizationId;
 
               regulator(user);
-              localStorage.setItem("regulatorObj", JSON.stringify (user));
-              localStorage.setItem("userObj", JSON.stringify (user));
+             localStorage.setItem("userObj", JSON.stringify (user));
+             localStorage.setItem("regObj", JSON.stringify (user));
               this.props.history.push("/regulator");
               break;
             default:

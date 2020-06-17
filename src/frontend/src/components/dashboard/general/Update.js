@@ -8,14 +8,12 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from "axios";
-import { Editor } from "@tinymce/tinymce-react";
 import serialize from "form-serialize";
 
 class Update extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-     
       email: "davidy@test.com",
       description: "",
       userID: "",
@@ -24,23 +22,22 @@ class Update extends React.Component {
       error: ""
     };
 
-   /* this.update = this.update.bind(this);
+    /* this.update = this.update.bind(this);
     this.getUserID = this.getUserID.bind(this);*/
     this.varifyPassword = this.varifyPassword.bind(this);
-    this.handleEditorChange = this.handleEditorChange.bind(this);
     this.submitUpdate = this.submitUpdate.bind(this);
   }
 
   componentDidMount() {
     // this.update();
   }
-  
- /* submitUpdate(){   
+
+  /* submitUpdate(){   
 axios
       .get("https://eazsme-backend.herokuapp.com/updateOrguser" + email)
       .then((data) => this.setState({ data }))
       .catch((error) => console.log(error));
-  } */  
+  } */
 
   getUserID(event) {
     event.preventDefault();
@@ -54,44 +51,37 @@ axios
     // axios.get("https://eazsme-backend.herokuapp.com")  https://eazsme-backend.herokuapp.com//user/ make a request for a password and use it to verify password
   }
 
-  handleEditorChange(e) {
-    this.setState({ description: e.target.getContent() });
-    console.log("Content was updated:", e.target.getContent());
-  }
-
   submitUpdate(e) {
     e.preventDefault();
-    const form = document.querySelector("form[name=update]")
-    const formFields = serialize(form, {hash: true});
-       axios.put("https://eazsme-backend.herokuapp.com/updateOrguser", formFields)
-    .then((data) => {
-     console.log(data.status);
-      if(data.status === 200) {
-        this.setState({success: "Update was successful!"});
-        console.log(this.state.success);
-      }else {
-        this.setState({error: "Error performing update"});
-      }
-    })
-    .catch((error) => {
-      this.setState({error: "Error performing update"}); 
-      console.log(error);
-    });
+    const form = document.querySelector("form[name=update]");
+    const formFields = serialize(form, { hash: true });
+    axios
+      .put("https://eazsme-backend.herokuapp.com/updateOrguser", formFields)
+      .then((data) => {
+        console.log(data.status);
+        if (data.status === 200) {
+          this.setState({ success: "Update was successful!" });
+        } else {
+          this.setState({ error: "Error performing update" });
+        }
+      })
+      .catch((error) => {
+        this.setState({ error: "Error performing update" });
+      });
   }
 
   render() {
-    const success= this.state.success;
-    const error= this.state.error;
-  
+    const success = this.state.success;
+    const error = this.state.error;
+
     return (
       <Card.Body>
-       
         <Row>
           {/* <Col md="4">
             <Image src="holder.js/100px250" fluid />
           </Col> */}
           <Col md="12">
-          {success ? (
+            {success ? (
               <div className="text-bold text-success">
                 <h5>{success}</h5>
               </div>
@@ -100,6 +90,9 @@ axios
                 <h5>{error}</h5>
               </div>
             )}
+            <div className="content-text text-center text-dark">
+              <strong>Update User</strong>
+            </div>
             <Form name="update">
               <Form.Group controlId="email">
                 <Form.Label>Email</Form.Label>
@@ -107,12 +100,10 @@ axios
                   type="text"
                   placeholder="Email"
                   name="email"
-                 
-                 /* onChange={this.getUserID}*/
+
+                  /* onChange={this.getUserID}*/
                 />
               </Form.Group>
-
-            
 
               <Form.Text>Change password</Form.Text>
               <Form.Group controlId="password">

@@ -72,10 +72,11 @@ exports.findAll = (req, res) => {
 
 /* Find funds by userId
  *
- * This will filter all funds applied by user with application status
- */
+ * This will filter all funds applied by organization with application status
+ **/
 exports.findOne = (req, res) => {
-  FundApplication.findAll({ where: { userId: req.body.organizationId } })
+ 
+  FundApplication.findAll({ where: { organizationId: req.body.organizationId } })
     .then((data) => {
       if (!data) {
         return res.status(400).json({

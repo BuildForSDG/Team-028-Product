@@ -71,10 +71,11 @@ class Create extends React.Component {
     const form = document.querySelector(`form[name="create-project"]`);
     const formFields = serialize(form, { hash: true });
     formFields.description=this.state.description;
+    console.log(formFields);
       await axios
       .post(`https://eazsme-backend.herokuapp.com/projects`, formFields)
       .then((data) => {
-          console.log(data.data.status);
+         
         if ((data.data.status === `success`)) {
           this.setState({ success: `Project Successfully created!` });
         } else {
@@ -127,6 +128,8 @@ class Create extends React.Component {
                   init={{
                     height: 200,
                     menubar: false,
+                    forcedRootBlock: ``,
+                    forceBrNewlines: true,
                     plugins: [
                       `advlist autolink lists link image`,
                       `charmap print preview anchor help`,

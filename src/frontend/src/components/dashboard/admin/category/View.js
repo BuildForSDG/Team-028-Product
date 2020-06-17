@@ -70,7 +70,7 @@ class View extends React.Component {
         <ul className="sach">
           <li><Button style={{float:"right",borderRadius:"5%",background:"orange"}}  variant="default" type="submit" > Search</Button></li>
             <li><Form.Group controlId="searchId">
-            <Form.Control className="searchBar" style={{ width:"250px", float:"right",marginRight:"10px" }} type="text" placeholder="Enter project name to search" name="search" />
+            <Form.Control className="searchBar" style={{ width:"250px", float:"right",marginRight:"10px" }} type="text" placeholder="Enter name to search" name="search" />
           </Form.Group></li>
           </ul>
         </div> 
@@ -89,13 +89,14 @@ class View extends React.Component {
           <tbody>
             {data.map((item, index, arr) => {
               let count = arr.length;
-              return (
+              console.log({index});
+                            return (
                 <tr>
                   {/*<td key={index}>{item.projectCatId}</td>*/}
-                  <td key={index}>{item.categoryName}</td>
-                  <td key={index}>{item.categoryDescription}</td>
-                  <td key={index}>{item.createdBy}</td>
-                  <td key={count++}>
+                  <td >{item.categoryName}</td>
+                  <td >{item.categoryDescription}</td>
+                  <td>{item.createdBy}</td>
+                  <td>
                     <Link to={`/update/${item.projectCatId}`}>Update</Link>
                   </td>
                   <td key={count++}>

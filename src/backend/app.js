@@ -52,6 +52,8 @@ require("./routes/lga.route")(app);
 require("./routes/role.route")(app);
 require("./routes/milestone.route")(app);
 require("./routes/eligibility.route")(app);
+require("./routes/repayment.route")(app);
+require("./routes/payment.route")(app);
 
 app.use(express.static(path.join(__dirname, "uploads"))); 
 
@@ -62,10 +64,6 @@ db.sequelize.sync({ force: false }).then(() => {
       logger.info(`Server running on port ${PORT}`);
     });
   }
-});
-
-app.get('/', (req, res)=>{
-  res.send("eaZSME backend is running");
 });
 
 app.use((req, res, next) => {

@@ -35,7 +35,7 @@ class About extends React.Component {
       <>
         {/*** About Modal */}
         <Modal
-          size="lg"
+          size="xl"
           show={this.props.showModal}
           onHide={this.closeAbout}
           dialogClassName="modal-90w"

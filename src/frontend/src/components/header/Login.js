@@ -61,11 +61,11 @@ class Login extends React.Component {
           </Modal.Header>
           <Modal.Body bsPrefix="modal-body">
           {success ? (
-              <div className="text-bold text-success">
+              <div className="text-bold text-success text-center">
                 <h5>{success}</h5>
               </div>
             ) : (
-              <div className="text-lighter text-success">
+              <div className="text-lighter text-success text-center">
                 <h5>{error}</h5>
               </div>
             )}
@@ -105,8 +105,8 @@ class Login extends React.Component {
             <Row>              
               <Col md="auto" className="ml-4 font-weight-bold">
                 Not a member?&nbsp;
-                <Link to="../header/Registration">Sign Up</Link>                
-                &nbsp;&nbsp; Forget &nbsp;
+                <Link to="/">Sign Up</Link>                
+                &nbsp;&nbsp; Forget&nbsp;
                 <Link to="/recover-password">Password?</Link>
               </Col>
             </Row>

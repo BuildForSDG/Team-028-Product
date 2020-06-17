@@ -5,6 +5,7 @@
 // Invest funds
 const db = require("../config/db.config");
 const Payment = db.payment;
+const Fund = db.fund;
 
 exports.create = (req, res) => {
   let id = Math.floor(Math.random() * 10000) + 1;
@@ -17,7 +18,8 @@ exports.create = (req, res) => {
     amount: req.body.amount,
     status: req.body.status,
     paidBy: req.body.paidBy,
-    paymentDate: req.body.paymentDate
+    paymentDate: req.body.paymentDate,
+    tellerNo: req.body.tellerNo
   };
   if (!req.body) {
     return res.status(400).json({
@@ -25,29 +27,40 @@ exports.create = (req, res) => {
       message: "Please all input fields required"
     });
   } else {
-    Payment.findOne({ where: { paymentId: req.body.paymentId } }).then((data) => {
+    Payment.findOne({ where: { paymentId: id } }).then((data) => {
       if (data) {
         return res.status(400).json({
           status: "error",
           message: "Record already exist"
         });
       } else {
-        // Add Payment
-        const payment = new Payment(requests);
-        payment
-          .save()
-          .then((data) => {
-            return res.status(200).json({
-              status: "success",
-              data
+        db.sequelize.transaction().then((transaction) => {
+           // Add Payment
+          const payment = new Payment(requests);
+          payment
+            .save()
+            .then((data) => {
+              // update fund status
+              Fund.findOne({ where: { fundId: req.body.fundId } }).then((fund) => {
+                fund.status = req.body.status;
+                fund.save().then(() => {
+                  return res.status(200).json({
+                    status: "success",
+                    data
+                  });
+                });
+              });
+            })
+            .catch((err) => {
+              transaction.rollBack();
+              return res.status(500).json({
+                status: "error",
+                message: err.message || "Not saved"
+              });
             });
-          })
-          .catch((err) => {
-            return res.status(500).json({
-              status: "error",
-              message: err.message || "Not saved"
-            });
-          });
+        });
+       
+       
       }
     });
   }

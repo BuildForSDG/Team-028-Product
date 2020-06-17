@@ -12,12 +12,28 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import "../../styles/modal.css";
 
+const validEmailRegex = RegExp(
+  /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+  
+);
+
 class Registration extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      redirect: null
+      redirect: null,
+
+      email: null,
+      password: null,
+      companyEmail: null,
+      confirmPassword: null,
+      errors: {
+        email: "",
+        companyEmail: "",
+        password: "",
+        confirmPassword: ""
+      }
     };
 
     this.closeRegistration = this.closeRegistration.bind(this);
@@ -26,8 +42,50 @@ class Registration extends React.Component {
     this.handleBlur = this.handleBlur.bind(this);
     this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleConfirmPassword = this.handleConfirmPassword.bind(this);
   }
 
+  handleChange = (event) => {
+    event.preventDefault();
+    const { name, value } = event.target;
+    let errors = this.state.errors;
+
+    switch (name) {
+      // case 'fullName':
+      //   errors.fullName =
+      //     value.length < 5
+      //       ? 'Full Name must be at least 5 characters long!'
+      //       : '';
+      //   break;
+      case "email":
+        errors.email = validEmailRegex.test(value) ? "" : "Email is not valid!";
+        break;
+      case "companyEmail":
+        errors.companyEmail = validEmailRegex.test(value) ? "" : "Email is not valid!";
+        break;
+      case "password":
+        errors.password = value.length < 8 ? "Password must be at least 8 characters long!" : "";
+        break;
+      default:
+        break;
+    }
+
+    this.setState({ errors, [name]: value });
+  };
+
+  handleConfirmPassword = (e) => {
+    //const { name, value } = e.target;
+    let errors = this.state.errors;
+
+    if (e.target.value !== this.state.password) {
+      errors.confirmPassword = "Password not matched";
+    } else {
+      errors.confirmPassword = "";
+    }
+    //this.setState({ errors, [name]: value });
+    this.setState({ confirmPassword: e.target.value });
+  };
   closeRegistration() {
     this.props.closeModal();
   }
@@ -55,7 +113,7 @@ class Registration extends React.Component {
   render() {
     const success = this.props.success;
     const error = this.props.error;
-
+    const { errors } = this.state;
     return (
       <>
         {/** Registration Modal */}
@@ -74,11 +132,11 @@ class Registration extends React.Component {
           </Modal.Header>
           <Modal.Body bsPrefix="modal-body">
             {success ? (
-              <div className="text-bold text-success">
+              <div className="text-bold text-success text-center">
                 <h5>{success}</h5>
               </div>
             ) : (
-              <div className="text-bold text-danger">
+              <div className="text-bold text-danger text-center">
                 <h5>{error}</h5>
               </div>
             )}
@@ -116,14 +174,12 @@ class Registration extends React.Component {
                   </Form.Group>
                 </Col>
                 <Col>
-                  
-                    <Form.Group controlId="phoneNumber">
-                      <Form.Label className="font-weight-bold">
-                        Phone Number <sup className="text-danger">*</sup>
-                      </Form.Label>
-                      <Form.Control type="text" placeholder="Enter phone number" required name="phoneNumber1" />
-                    
-                  
+                  <Form.Group controlId="phoneNumber">
+                    <Form.Label className="font-weight-bold">
+                      Phone Number <sup className="text-danger">*</sup>
+                    </Form.Label>
+                    <Form.Control type="text" placeholder="Enter phone number" required name="phoneNumber1" />
+
                     {/* <Form.Label className="font-weight-bold">
                       Position Held<sup className="text-danger">*</sup>
                     </Form.Label>
@@ -145,7 +201,14 @@ class Registration extends React.Component {
                     <Form.Label className="font-weight-bold">
                       Email<sup className="text-danger">*</sup>
                     </Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" required name="email" />
+                    <Form.Control
+                      type="email"
+                      placeholder="Enter email"
+                      name="email"
+                      onChange={this.handleChange}
+                      noValidate
+                    />
+                    {errors.email.length > 0 && <span className="text-danger">{errors.email}</span>}
                   </Form.Group>
                 </Col>
                 <Col>
@@ -166,7 +229,6 @@ class Registration extends React.Component {
                 </Col>
               </Row>
               <Row>
-                
                 <Col>
                   <Form.Group controlId="state">
                     <Form.Label className="font-weight-bold">
@@ -255,7 +317,6 @@ class Registration extends React.Component {
                     <Form.Control type="text" placeholder="Bank verification number" name="bvn" required />
                   </Form.Group>
                 </Col>
-              
               </Row>
               <Row>
                 <Col md="6">
@@ -264,7 +325,7 @@ class Registration extends React.Component {
                       User Category<sup className="text-danger">*</sup>
                     </Form.Label>
                     <Form.Control as="select" required name="userType">
-                    <option>::select</option>
+                      <option>::select</option>
                       <option value="investor">Investor</option>
                       <option value="regulator">Regulator</option>
                       <option value="sme">SMEs</option>
@@ -274,7 +335,7 @@ class Registration extends React.Component {
                 <Col md="6">
                   <Form.Group controlId="formBasicText2">
                     <Form.Label className="font-weight-bold">
-                      RCC Number<sup className="text-danger">*</sup>
+                      RC Number<sup className="text-danger">*</sup>
                     </Form.Label>
                     <Form.Control type="text" placeholder="Enter RCC Number" required name="rccNumber" />
                   </Form.Group>
@@ -282,12 +343,18 @@ class Registration extends React.Component {
               </Row>
 
               <Row>
-              <Col>
+                <Col>
                   <Form.Group controlId="formBasicEmail2">
                     <Form.Label className="font-weight-bold">
                       Company Email<sup className="text-danger">*</sup>
                     </Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" required name="companyEmail" />
+                    <Form.Control
+                      type="email"
+                      placeholder="Enter email"
+                      name="companyEmail"
+                      onChange={this.handleChange}
+                    />
+                    {errors.companyEmail.length > 0 && <span className="text-danger">{errors.companyEmail}</span>}
                   </Form.Group>
                 </Col>
 
@@ -317,7 +384,6 @@ class Registration extends React.Component {
                     />
                   </Form.Group>
                 </Col>
-                
               </Row>
 
               <hr></hr>
@@ -337,9 +403,12 @@ class Registration extends React.Component {
                       type="password"
                       placeholder="Password"
                       name="password"
-                      onChange={this.handlePasswordChange}
-                      required
+                      // onChange={this.handlePasswordChange}
+                      // required
+                      onChange={this.handleChange}
+                      noValidate
                     />
+                    {errors.password.length > 0 && <span className="text-danger">{errors.password}</span>}
                   </Form.Group>
                 </Col>
                 <Col>
@@ -354,9 +423,10 @@ class Registration extends React.Component {
                       type="password"
                       placeholder="Confirm Password"
                       name="confirmPassword"
-                      onChange={this.handlePasswordChange}
-                      required
+                      onChange={this.handleConfirmPassword}
+                      noValidate
                     />
+                    {errors.confirmPassword.length > 0 && <span className="text-danger">{errors.confirmPassword}</span>}
                   </Form.Group>
                 </Col>
               </Row>

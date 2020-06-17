@@ -30,7 +30,7 @@ class View extends React.Component {
   searchProjects(e) {
     e.preventDefault();
 
-    const query = this.state.searchTerm;
+    const query = this.state.searchTerm; 
 
     this.setState((prevState) => {
       let filteredProjects = prevState.projects;

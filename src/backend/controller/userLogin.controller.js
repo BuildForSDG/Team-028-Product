@@ -47,7 +47,8 @@ exports.findOne = (req, res) => {
                 email: data.email,
                 organization: data.Organization,
                 companyName: data.companyName,
-                organizationId: data.organizationId
+                organizationId: data.organizationId,
+                privilege:  data.privilege
 
               };
               return res.status(200).json({

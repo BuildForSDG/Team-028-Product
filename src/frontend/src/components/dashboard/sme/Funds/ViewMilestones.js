@@ -159,13 +159,10 @@ class ViewMilestones extends React.Component {
                         <td>{item.Progress}</td>
                         <td>{item.Status}</td>
                         <td>
-                          {/*<Link onClick={this.showMilestoneModal} to={`/view-project/${item.projectId}`}>Update</Link>*/}
-                          <Router>
-                            <Link onClick={this.showMilestoneModal} to="/sme/Funds/UpdateMilestone">
-                              {" "}
-                              Update{" "}
-                            </Link>
-                          </Router>
+                          <Link onClick={this.showMilestoneModal} to="">
+                            {" "}
+                            Update{" "}
+                          </Link>
                         </td>
                       </tr>
                     );

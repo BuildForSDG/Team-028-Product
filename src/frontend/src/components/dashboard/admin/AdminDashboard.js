@@ -6,26 +6,23 @@ import React from "react";
 import { Switch, Router, Route, Link } from "react-router-dom";
 import { Layout, Menu, Badge, Dropdown, Avatar } from "antd";
 import {
-  UserDeleteOutlined,
   UserAddOutlined,
   ProfileOutlined,
-  UsergroupAddOutlined,
-  SettingOutlined,
   UserOutlined,
   LogoutOutlined,
   AppstoreOutlined,
   DollarCircleOutlined,
-  FileDoneOutlined,
   BellFilled,
   SwitcherOutlined,
   ProjectOutlined,
   WalletOutlined
 } from "@ant-design/icons";
 import ProfileDetails from "./user/ProfileDetails";
+import ProjectDetails from "./ProjectDetails";
+
 import InvestorsAndFunding from "./InvestorsAndFunding";
 import SmeAndProjects from "./SmeAndProjects";
 import Create from "../general/CreateUser";
-import Remove from "../general/Remove";
 import Update from "../general/Update";
 import EditProfile from "./user/EditProfile";
 import CreatCategory from "./category/Create";
@@ -37,43 +34,16 @@ import CreateProject from "../general/Create";
 import CreateEligibility from "./projects/CreateEligibility";
 import CreateMilestone from "./milestone/Create";
 import ViewMilestone from "./milestone/View";
-import UpdateMilestone from "./milestone/Update";
+import InvestmentCategory from "./category/InvestmentCategory";
 import DeleteMilestone from "./milestone/Delete";
 import {connect} from "react-redux";
-// import ViewProject from "./projects/View";
+
 
 const menu = (
   <Menu id="dropdown-menu">
-    <Menu.Item className="menu-icon" icon={<fundOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Fund Application
-      </a>
-    </Menu.Item>
-    <Menu.Item className="menu-icon" icon={<UserOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Profile
-      </a>
-    </Menu.Item>
-    <Menu.Item className="menu-icon" icon={<UsergroupAddOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Manage Users
-      </a>
-    </Menu.Item>
-    <Menu.Item className="menu-icon" icon={<FileDoneOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Review Reports
-      </a>
-    </Menu.Item>
-    <Menu.Item className="menu-icon" icon={<SettingOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Settings
-      </a>
-    </Menu.Item>
     <Menu.Item className="menu-icon" icon={<LogoutOutlined />}>
       {" "}
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Logout
-      </a>
+      <Link to="/logout">Logout</Link>
     </Menu.Item>
   </Menu>
 );
@@ -97,17 +67,34 @@ class AdminDashboard extends React.Component {
 
   render() {
     // use localStorage.getItem("user") to get the user object
+    const user = localStorage.getItem("userObj");
+    const history = this.props.history;
+    if (!user || user === null) {
+      history.push("/");
+    }
     return (
       <Layout style={{ minHeight: "100vh" }}>
-        <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse} style={{ paddingTop: "63px" }}>
-          <div className="logo"></div>
+        <Sider className="admin-sider" collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
+          <div className="logo">
+            <Link className="dashboard-img" to="#">
+              <img
+                src={
+                  "https://res.cloudinary.com/lordefid/image/upload/c_scale,h_50/v1590937828/Group_160_2x_wad30b.png"
+                }
+                alt="logo"
+              />
+            </Link>
+          </div>
           <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
             <Menu.Item key="1" icon={<ProfileOutlined />}>
               <Link to="/admin/ProfileDetails">Profile Details</Link>
             </Menu.Item>
             <SubMenu key="sub1" icon={<SwitcherOutlined />} title="Category">
               <Menu.Item key="1" icon={<SwitcherOutlined />}>
-                <Link to="/admin/create-category">Create Category</Link>
+                <Link to="/admin/create-category">Project Category</Link>
+              </Menu.Item>
+              <Menu.Item key="12" icon={<SwitcherOutlined />}>
+                <Link to="/admin/category/InvestmentCategory">Investment Category</Link>
               </Menu.Item>
               <Menu.Item key="2" icon={<SwitcherOutlined />}>
                 <Link to="/admin/view-category">View Category</Link>
@@ -132,15 +119,8 @@ class AdminDashboard extends React.Component {
               <Menu.Item key="7" icon={<UserOutlined />}>
                 <Link to="/admin/update-user">Update</Link>
               </Menu.Item>
-            {/*  <Menu.Item key="8" icon={<UserDeleteOutlined />}>
-                <Link to="/admin/deactivate-user">Deactivate</Link>
-              </Menu.Item>
-              <Menu.Item key="9" icon={<AppstoreOutlined />}>
-              <Link to="/admin/create-milestone"> Create Milestone</Link>
-            </Menu.Item>*/
-              }
             </SubMenu>
-            <SubMenu key="sub5" icon={<fundOutlined />} title="Funds">
+            <SubMenu key="sub5" icon={<WalletOutlined />} title="Funds">
               <Menu.Item key="11" icon={<AppstoreOutlined />}>
                 <Link to="/admin/smeandprojects"> SMEs Projects</Link>
               </Menu.Item>
@@ -151,23 +131,23 @@ class AdminDashboard extends React.Component {
                 <Link to="/admin/investorsandfunding">Investors Funding</Link>
               </Menu.Item>
             </SubMenu>
-            <Menu.Item key="3" icon={<LogoutOutlined />}>
-              {" "}
-              Log Out
+            <Menu.Item key="12" icon={<LogoutOutlined />}>
+            <Link to="/">Log out</Link>
             </Menu.Item>
           </Menu>
         </Sider>
         <Layout className="site-layout">
           {/* <Header className="site-layout-background header"> */}
-          <nav class="navbar">
-            <Link className="dashboard-img" to="#">
+          <nav class="navbar admin-header">
+            <div className="cat-title bgAd">ADMIN HOME</div>
+            {/* <Link className="dashboard-img" to="#">
               <img
                 src={
                   "https://res.cloudinary.com/lordefid/image/upload/c_scale,h_50/v1590937828/Group_160_2x_wad30b.png"
                 }
                 alt="logo"
               />
-            </Link>
+            </Link> */}
             <div>
               <Badge className="badge-item" count={5}>
                 <a href="#" className="example" />
@@ -188,28 +168,30 @@ class AdminDashboard extends React.Component {
           <Content style={{ margin: "0 16px" }}>
             <div className="content-title"></div>
             <Router history={this.props.history}>
+           
               <Switch>
+              
                 <Route path="/admin/investorsandfunding" component={InvestorsAndFunding} />
                 <Route path="/admin/smeandprojects" component={SmeAndProjects} />
                 <Route path="/admin/create-user" component={Create} />
                 <Route path="/admin/update-user" component={Update} />
-               {/**  <Route path="/admin/deactivate-user" component={Remove} />
-                * <Route path="/admin/update-milestone/:milestoneId" component={UpdateMilestone} />
-                * 
-               */}
+                {/**  <Route path="/admin/deactivate-user" component={Remove} />
+                 * <Route path="/admin/update-milestone/:milestoneId" component={UpdateMilestone} />
+                 *
+                 */}
                 <Route path="/admin/create-category" component={CreatCategory} />
                 <Route path="/admin/view-category" component={ViewCategory} />
                 <Route path="/admin/delete-category/:categoryId" component={DeleteCategory} />
                 <Route path="/admin/update-category/:categoryId" component={UpdateCategory} />
                 <Route path="/admin/create-project" component={CreateProject} />
-                <Route path="/admin/view-projects" component={ViewProject} />
-                <Route path="/admin/view-project/:projectId" component={ViewProject} />
+                <Route path="/admin/view-projects" render={(props) => <ViewProject {...props} userCat="admin" />} />
+                <Route path="/admin/view-project/:projectId" render={(props) => <ProjectDetails {...props}/>}/>
                 <Route path="/admin/ProfileDetails" component={ProfileDetails} />
                 <Route path="/admin/EditProfile" component={EditProfile} />
                 <Route path="/admin/projects/CreateEligibility" component={CreateEligibility} />
                 <Route path="/admin/view-milestone" component={ViewMilestone} />
                 <Route path="/admin/create-milestone" component={CreateMilestone} />
-                
+                <Route path="/admin/category/investmentCategory" component={InvestmentCategory} />
                 <Route path="/admin/delete-milestone/:milestoneId" component={DeleteMilestone} />
               </Switch>
             </Router>
@@ -232,6 +214,7 @@ class AdminDashboard extends React.Component {
 const mapStateToProps = (state) => ({
   companyName: state.admin.companyName,
   category: state.admin.category,
-  userId: state.admin.userId
+  userId: state.admin.userId,
+  organizationId:state.admin.organizationId
 });
 export default connect(mapStateToProps)(AdminDashboard);

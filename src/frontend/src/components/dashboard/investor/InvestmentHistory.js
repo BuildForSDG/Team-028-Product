@@ -24,6 +24,7 @@ class InvesmentHistory extends React.Component {
   async fetchData() {
     //const url = `https://eazsme-backend.herokuapp.com/disbursements/${this.props.user.organizationId}`;
     const url = `https://eazsme-backend.herokuapp.com/funds/disbursements/${this.props.user.organizationId}`;
+
     
     const data = await axios.get(url);
     const disbursements = data.data.data;
@@ -53,7 +54,7 @@ class InvesmentHistory extends React.Component {
             <th scope="col">#</th>
             <th scope="col">SME Name</th>
             <th scope="col">Project Name</th>
-            <th scope="col">Amount Invested</th>
+            <th scope="col">Amount Disbursed</th>
             <th scope="col">status</th>
             <th scope="col"></th>
           </tr>

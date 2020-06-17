@@ -14,6 +14,9 @@ module.exports = (app) => {
 // Create a new organization's user
 app.post("/organizationUser", users.userOrganization);
 
+ // find user by organization id
+ app.get("/users/:orgId", users.findOnebyOrganization);
+
 // update an organization's user
 app.put("/updateOrguser", users.updateOne);
 

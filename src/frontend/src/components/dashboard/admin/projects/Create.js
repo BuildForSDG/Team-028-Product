@@ -46,7 +46,8 @@ class Create extends React.Component {
 
           const { categories } = this.state;
           const data = categories;
-console.log(data);
+//console.log(data);
+
           // based on type of data is array
           for (let i = 0; i < data.length; i++) {
             const option = document.createElement(`option`);
@@ -68,6 +69,7 @@ console.log(data);
     e.preventDefault();
     const form = document.querySelector(`form[name="create-project"]`);
     const formFields = serialize(form, { hash: true });
+    
     await axios
       .post(`https://eazsme-backend.herokuapp.com/projects`, formFields)
       .then(({data}) => {
@@ -104,9 +106,9 @@ console.log(data);
             </Form.Group>*/}
 
               {/** Make a request for all the project category and populate select  store value in redux state*/}
-              <Form.Group controlId="projectCatId">
+              <Form.Group controlId="categoryName">
                 <Form.Label>Category Type:</Form.Label>
-                <Form.Control as="select" ref={this.categorySelect} name="projectCatId"></Form.Control>
+                <Form.Control as="select" ref={this.categorySelect} name="categoryName"></Form.Control>
               </Form.Group>
 
               <Form.Group controlId="projectName">
@@ -122,6 +124,8 @@ console.log(data);
                   init={{
                     height: 200,
                     menubar: false,
+                    forcedRootBlock: ``,
+                    forceBrNewlines: true,
                     plugins: [
                       `advlist autolink lists link image`,
                       `charmap print preview anchor help`,

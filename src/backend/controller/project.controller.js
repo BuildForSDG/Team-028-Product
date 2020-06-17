@@ -1,5 +1,8 @@
 const db = require("../config/db.config");
 const Project = db.project;
+const Eligibility = db.eligibility;
+const ProjectCategory = db.projectCategory;
+const projectCategory = db.projectCategory;
 
 exports.create = (req, res) => {
   let today = new Date();
@@ -7,16 +10,15 @@ exports.create = (req, res) => {
 
   let projects = {
     projectId: id,
-    projectCatId: req.body.projectCatId,
+    categoryName: req.body.categoryName,
     projectName: req.body.projectName,
     description: req.body.description,
     createdBy: req.body.createdBy,
     dateStart: req.body.dateStart,
     dateEnd: req.body.dateEnd,
-    fund: req.body.fund,
-    organizationId: req.body.organizationId,
-    status: "not started",
-    dateCreated: today
+    fundStatus: "Not funded",
+    dateCreated : today
+  
   };
   if (!req.body) {
     return res.status(400).json({
@@ -54,7 +56,7 @@ exports.create = (req, res) => {
 
 // Get all projects
 exports.findAll = (req, res) => {
-  Project.findAll()
+  Project.findAll()  
     .then((result) => {
       return res.status(200).json({
         status: "success",
@@ -67,7 +69,28 @@ exports.findAll = (req, res) => {
         message: err.message || "Something wrong while retrieving Projects."
       });
     });
+};        
+
+
+
+// Get all projects with category name
+exports.findAllwithCategory = (req, res) => {
+  Project.findAll({include: ["category"]})
+    .then((projects) => {
+      return res.status(200).json({
+        status: "success",
+        data: projects
+      });
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        status: "error",
+        message: err.message || "Something wrong while retrieving Projects."
+      });
+    });
 };
+
+
 
 // Get all active projects
 exports.active = (req, res) => { 
@@ -88,7 +111,8 @@ exports.active = (req, res) => {
 
 // Get single Project using  parameter
 exports.findOne = (req, res) => {
-  Project.findOne({ where: { projectId: req.body.projectId || req.params.id } })
+  const projectIds =  req.body.projectId || req.params.id;
+  Project.findOne({ where: { projectId: projectIds  } })
     .then((data) => {
       if (!data) {
         return res.status(400).json({
@@ -96,9 +120,26 @@ exports.findOne = (req, res) => {
           message: " Project not found"
         });
       } else {
-        return res.status(200).json({
-          status: "success",
-          data
+        let result = data.dataValues;
+        result.eligibility = "";
+        
+        Eligibility.findOne({ where: { projectId } }).then((criteria) => {
+          if (criteria) {
+            result.eligibility = criteria.dataValues.eligibilityCreteria;
+          }
+
+          ProjectCategory.findOne({where: { projectCatId: result.projectCatId } }).then((category) => {
+            result.categoryName = "";
+            
+            if (category) {
+              result.categoryName = category.dataValues.categoryName;
+            }
+            
+            return res.status(200).json({
+              status: "success",
+              data: result
+            });
+          });
         });
       }
     })
@@ -113,9 +154,19 @@ exports.findOne = (req, res) => {
 // Get sme based projects details
 exports.findAllSMEProject = (req, res) => {
   db.sequelize.query(
-    `SELECT * FROM projects p 
-    LEFT JOIN organizations o ON o.organizationId = p.organizationId 
-    WHERE o.category = 1
+    `SELECT 
+    fa.applicationId, fa.fundId, 
+    p.status, p.dateStart, p.dateEnd, p.projectId , p.projectName, p.description,f.amount as fund, 
+    o.companyName, o.address,
+    m.name as milestoneName, m.description as milestoneDescription, m.startDate as milestoneStart,
+    m.endDate as milestoneEnd,
+    pp.filePath
+    FROM fundapplications fa 
+    LEFT JOIN organizations o ON fa.organizationId = o.organizationId 
+    LEFT JOIN projects p ON fa.projectName = p.projectName
+    LEFT JOIN projectproposals pp ON pp.applicationId = fa.applicationId
+    LEFT JOIN milestones m ON m.applicationId = fa.applicationId
+    LEFT JOIN funds f ON f.fundId = fa.fundId
     `, { raw: true })
     .then((result) => {  
       return res.status(200).json({
@@ -130,3 +181,5 @@ exports.findAllSMEProject = (req, res) => {
       });
     });
 };
+
+

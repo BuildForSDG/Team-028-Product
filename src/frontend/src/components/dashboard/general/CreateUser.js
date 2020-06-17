@@ -20,7 +20,7 @@ class Create extends React.Component {
     super(props);
 
     this.state = {
-      category: "investor",
+      category: "",
       userId: "",
       organizationId: "",
       success: "",
@@ -31,10 +31,10 @@ class Create extends React.Component {
   }
    
   componentDidMount(){
-     const smeObj = JSON.parse(localStorage.getItem("userObj"));
-    if (smeObj) {
-      this.setState(() => ({ smeObj }));
-      console.log(smeObj);
+     const userObj = JSON.parse(localStorage.getItem("userObj"));
+    if (userObj) {
+      this.setState(() => ({ userObj }));
+     
     }
   }
 
@@ -46,8 +46,8 @@ class Create extends React.Component {
     e.preventDefault();
     const form = document.querySelector(`form[name="create-user"]`);
     const formFields = serialize(form, { hash: true }); // Make api call with form
-    formFields.category=this.state.smeObj.category;
-    formFields.organizationId=this.state.smeObj.organizationId;
+    formFields.category=this.state.userObj.category;
+    formFields.organizationId=this.state.userObj.organizationId;
 
        axios
       .post("https://eazsme-backend.herokuapp.com/organizationUser", formFields)
@@ -122,42 +122,7 @@ class Create extends React.Component {
                   </div>
                  
                   <div class="form-row">
-              {/** 
-                   *  <div class="form-group col-md-6">
-                      <label for="inputState">Assign Supervisor</label>
-                      <select id="inputState" class="form-control">
-                        <option selected>Choose...</option>
-                        <option>Mr. John Rock</option>
-                        <option>Dr. Iket Ubong</option>
-                        <option>James Brown</option>
-                        <option>Mrs Mary Adewale</option>
-                        <option>Miss Angela Obi</option>
-                      </select>
-                    </div>
-                    
-                    <div class="form-group col-md-4">
-                      <label for="inputState">Assign Role</label>
-                      <select id="inputState" class="form-control">
-                        <option selected>Choose...</option>
-                        <option>Accountant</option>
-                        <option>Adviser</option>
-                        <option>Field Agent</option>
-                        <option>Manager</option>
-                        <option>Supervisor</option>
-                      </select>
-                    </div> 
-                   
-
-                     <div class="form-group col-md-6">
-                      <label for="inputTeam">Assign Project to Supervise</label>
-                      <select id="inputState" class="form-control" name="userTeam">
-                        <option selected>Choose...</option>
-                        <option>Project 1</option>
-                        <option>Project 2</option>
-                        
-                      </select>
-                    </div>
-                    */  }
+              
                    
                   </div>
                   <Form.Group>

@@ -19,13 +19,6 @@ exports.create = (req, res) => {
     });
   }
  
-  FundCategory.findOne({ where: { fundCatId: req.body.fundCatId } }).then((data) => {
-    if (data) {
-      return res.status(400).json({
-        status: "error",
-        message: "Fund category lready exist"
-      });
-    } else {
       // create fund category instance
       const fundCategory = new FundCategory(requests);
       fundCategory
@@ -42,8 +35,7 @@ exports.create = (req, res) => {
             message: err.message || "Something went wrong."
           });
         });
-    }
-  });
+
 };
 
 //Get categories

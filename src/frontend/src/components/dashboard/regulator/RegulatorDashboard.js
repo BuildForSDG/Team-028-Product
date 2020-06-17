@@ -6,8 +6,8 @@
 
 import React from "react";
 import { Switch, Router, Route, Link } from "react-router-dom";
-import { 
-  ProfileOutlined, 
+import {
+  ProfileOutlined,
   UsergroupAddOutlined,
   SettingOutlined,
   LogoutOutlined,
@@ -19,8 +19,8 @@ import {
   OrderedListOutlined,
   UnorderedListOutlined
 } from "@ant-design/icons";
-import { Layout, Menu, Breadcrumb, Row, Col,Badge, Dropdown, Avatar } from "antd";
-import {connect} from "react-redux";
+import { Layout, Menu, Breadcrumb, Row, Col, Badge, Dropdown, Avatar } from "antd";
+import { connect } from "react-redux";
 import Investors from "./Investors";
 import Projects from "./Projects";
 import Users from "./Users";
@@ -35,17 +35,9 @@ import EditProfile from "./user/EditProfile";
 
 const menu = (
   <Menu id="dropdown-menu">
-    <Menu.Item className="menu-icon" icon={<UserOutlined />}>
-      <Link to="/regulator/Profile"> Profile</Link>
-    </Menu.Item>
-    <Menu.Item className="menu-icon" icon={<UsergroupAddOutlined />}>
-      <Link to="/regulator/OrgUsers"> Manage Users</Link>
-    </Menu.Item>
-    <Menu.Item className="menu-icon" icon={<SettingOutlined />}>
-      <Link to="/regulator/Settings"> Settings</Link>
-    </Menu.Item>
     <Menu.Item className="menu-icon" icon={<LogoutOutlined />}>
-    <Link to="/regulator/Settings"> Logout</Link>
+      {" "}
+      <Link to="/logout">Logout</Link>
     </Menu.Item>
   </Menu>
 );
@@ -65,12 +57,27 @@ class RegulatorDashboard extends React.Component {
 
   render() {
     // use localStorage.getItem("user") to get the user object
+    const user = localStorage.getItem("userObj");
+    const history = this.props.history;
+    if (!user || user === null) {
+      history.push("/");
+    }
     return (
       <Layout style={{ minHeight: "100vh" }}>
-        <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse} style={{ paddingTop: "42px" }}>
-          <div className="logo"></div>          
+        <Sider className="reg-sider" collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
+          <div className="logo">
+            <Link className="dashboard-img" to="#">
+              <img
+                src={
+                  "https://res.cloudinary.com/lordefid/image/upload/c_scale,h_50/v1590937828/Group_160_2x_wad30b.png"
+                }
+                alt="logo"
+              />
+            </Link>
+          </div>
           <br />
           <Menu
+            className="reg-menu"
             theme="dark"
             onClick={this.handleClick}
             defaultOpenKeys={["sub1"]}
@@ -88,19 +95,19 @@ class RegulatorDashboard extends React.Component {
                 <Link to="/regulator/Projects">View Projects</Link>
               </Menu.Item>
             </SubMenu>
-              <Menu.Item key="2" icon={<UnorderedListOutlined />}>
-                <Link to="/regulator/Investors">Investors List</Link>
-              </Menu.Item>
+            <Menu.Item key="2" icon={<UnorderedListOutlined />}>
+              <Link to="/regulator/Investors">Investors List</Link>
+            </Menu.Item>
             <Menu.Item key="3" icon={<OrderedListOutlined />}>
               <Link to="/regulator/SMEs"> SMEs List</Link>
-            </Menu.Item>           
-        
-          <SubMenu key="sub2" icon={<WalletOutlined />} title="Funds">
-          <Menu.Item key="7" icon={<EditOutlined />}>
-            <Link to="/regulator/Funds"> Funds Application</Link>
-          </Menu.Item>             
-          </SubMenu>
-          <SubMenu key="sub3" icon={<UserOutlined />} title="User">
+            </Menu.Item>
+
+            <SubMenu key="sub2" icon={<WalletOutlined />} title="Funds">
+              <Menu.Item key="7" icon={<EditOutlined />}>
+                <Link to="/regulator/Funds"> Funds Application</Link>
+              </Menu.Item>
+            </SubMenu>
+            <SubMenu key="sub3" icon={<UserOutlined />} title="User">
               <Menu.Item key="8" icon={<UserOutlined />}>
                 <Link to="/regulator/create-user">Create</Link>
               </Menu.Item>
@@ -111,27 +118,28 @@ class RegulatorDashboard extends React.Component {
                 <Link to="/regulator/deactivate-user">Deactivate</Link>
               </Menu.Item>
             </SubMenu>
-            <Menu.Item key="4" icon={<LogoutOutlined />}>
-              {" "}
-              Log Out
-            </Menu.Item>
-        </Menu>
+          </Menu>
         </Sider>
         <Layout className="site-layout">
-          <nav className="navbar">
-                <Link className="dashboard-img" to="#">
+          <nav className="navbar reg-header">
+            <div className="cat-title bgRe">REGULATOR HOME</div>
+            {/* <Link className="dashboard-img" to="#">
                   <img src={"https://res.cloudinary.com/lordefid/image/upload/c_scale,h_50/v1590937828/Group_160_2x_wad30b.png"} alt="logo" />
-                </Link>
-                <div>
-                  <Badge className="badge-item" count={5}>
-                    <a href="#" className="example" />
-                  </Badge>
-                    <BellFilled className="notificationBell" />
-                  </div>
-                <Dropdown overlay={menu}>
-                  <Avatar src="https://res.cloudinary.com/lordefid/image/upload/v1567112037/220190826_163351912_r9yfcl.jpg" className="ant-dropdown-link" onClick={(e) => e.preventDefault()} />
-                </Dropdown>
-            </nav>
+                </Link> */}
+            <div>
+              <Badge className="badge-item" count={5}>
+                <a href="#" className="example" />
+              </Badge>
+              <BellFilled className="notificationBell" />
+            </div>
+            <Dropdown overlay={menu}>
+              <Avatar
+                src="https://res.cloudinary.com/lordefid/image/upload/v1567112037/220190826_163351912_r9yfcl.jpg"
+                className="ant-dropdown-link"
+                onClick={(e) => e.preventDefault()}
+              />
+            </Dropdown>
+          </nav>
           <Content style={{ margin: "0 16px" }}>
             <Router history={this.props.history}>
               <Switch>

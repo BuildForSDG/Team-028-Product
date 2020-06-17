@@ -26,7 +26,7 @@ class ViewDetails extends React.Component {
   async fetchData() {
     const projectId = this.props.match.projectId;
     await axios
-      .get("https://eazsme-backend.herokuapp.com/projects/" + projectId)
+      .get("https://eazsme-backend.herokuapp.com/projects/projects/" + projectId)
       .then((data) => {
         if (data.status === "success") {
           this.setState({ data: data.push(data) });

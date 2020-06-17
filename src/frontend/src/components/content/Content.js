@@ -13,8 +13,8 @@ class Content extends React.Component {
                 <div className="card mb-4 shadow-sm contents">
                   <div className="card-body">
                     <p className="card-text"><strong>2020 Award Winning Site</strong>  for
-                       Credibility and Transparency, presented by the honourable 
-                     Minister of Information and Technology...</p>
+                      Credibility and Transparency, presented by the honourable 
+                    Minister of Information and Technology...</p>
                     <div className="d-flex justify-content-between align-items-center">
                       <div className="btn-group">
                         {/* <button type="button" class="btn btn-sm btn-outline-secondary">View</button> */}
@@ -75,9 +75,8 @@ class Content extends React.Component {
                         src="https://res.cloudinary.com/lordefid/image/upload/c_scale,h_30/v1589732623/FirstBank_Logo_coyuui.jpg"
                         alt="firstbank-logo"
                       /></a></li>
-              <li className="sp-links"><a href="https://www.paypal.com" target="_blank"><img
-                        src="https://res.cloudinary.com/lordefid/image/upload/c_scale,h_30/v1589732624/paypal-logo-vector-download-400x400_yy1m3o.jpg"
-                        alt="paypal-logo"
+              <li className="sp-links"><a href="https://www.unionbankng.com" target="_blank"><img
+                        src="https://res.cloudinary.com/lordefid/image/upload/c_scale,h_30/v1592007281/Union-Bank-Of-Nigeria_xbrbn7.jpg"
                       /></a></li>
             </ul>
           </div>

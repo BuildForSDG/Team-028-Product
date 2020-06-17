@@ -2,33 +2,35 @@
 /* eslint-disable no-multi-str */
 /* eslint-disable no-console */
 /* eslint no-console: "error" */
+/*eslint quotes: ["error", "backtick"]*/
+/*eslint-env es6*/
+/* eslint no-console: "error" */
+
+
+
 import React from "react";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { DatePicker } from "antd";
-import moment from "moment";
-import Image from "react-bootstrap/Image";
 import { Editor } from "@tinymce/tinymce-react";
 import serialize from "form-serialize";
 import axios from "axios";
 
-//let projectName = "";
-const dateFormat = "YYYY/MM/DD";
 class CreateApplication extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      organizationId: "7241",
-      description: "",
-      projectName: "",
-      dateStart: "",
-      dateEnd: "",
+      organizationId: ``,
+      projectId: ``,
+      description: ``,
+      projectName: ``,
+      dateStart: ``,
+      dateEnd: ``,
       proposals: null,
-      success: "",
-      error: ""
+      success: ``,
+      error: ``
       
     };
     this.handleEditorChange = this.handleEditorChange.bind(this);
@@ -38,10 +40,12 @@ class CreateApplication extends React.Component {
   }
 
   componentDidMount(){
-    const userObj = JSON.parse(localStorage.getItem("userObj"));
+    this.setState({ projectId: this.props.location.query });
+   
+      const userObj = JSON.parse(localStorage.getItem(`userObj`));
    if (userObj) {
      this.setState(() => ({ userObj }));
-     console.log(userObj);
+     
    }
  }
 
@@ -69,28 +73,25 @@ class CreateApplication extends React.Component {
 
   submitForm = (e) => {
     e.preventDefault();
-
-    const fd = new FormData();
-    fd.append("organizationId", this.state.organizationId);
-    fd.append("projectName", this.state.projectName);
-    fd.append("dateStart", this.state.dateStart);
-    fd.append("dateEnd", this.state.dateEnd);
-    fd.append("description", this.state.description);
-    fd.append("proposals", this.state.proposals, this.state.proposals.name);
+const form = document.querySelector(`form[name="create-fundApplication"]`);
+const formFields = serialize(form, { hash: true }); 
+formFields.projectId=this.state.projectId;
+formFields.organizationId=this.state.userObj.organizationId;
+formFields.description=this.state.description;
 
     axios
-      .post("https://eazsme-backend.herokuapp.com/fund/apply", fd)
+      .post(`https://eazsme-backend.herokuapp.com/fund/apply`, formFields)
       .then((res) => {
         let response = res.data;
         console.log(response.status);
         // then print response status
-        if (response.status === "success") {
+        if (response.status === `success`) {
           this.setState({ 
-            success: "Application Created!", 
-            error:"",
+            success: `Application Created!`, 
+            error:``,
            });
         } else {
-          this.setState({ error: "Error creating Application" });
+          this.setState({ error: `Error creating Application` });
         }
       })
       .catch((error) => console.log(error));
@@ -102,16 +103,21 @@ class CreateApplication extends React.Component {
     const error = this.state.error;
     return (
       <Card.Body>
-        {success ? (
-          <Form.Text className="text-bold text-success">{success}</Form.Text>
-        ) : (
-          <Form.Text className="text-bold text-danger">{error}</Form.Text>
-        )}
+       
         <div className="content-text">
           <h5>Apply for Funds</h5>
         </div>
         <Row>
           <Col md="12">
+          {success ? (
+              <div className="text-bold text-success">
+                <h5>{success}</h5>
+              </div>
+            ) : (
+              <div className="text-bold text-success">
+                <h5>{error}</h5>
+              </div>
+            )}
             <form name="create-fundApplication" id="createfundApplication">
               <div class="form-row" controlId="ProjectId">
                 <div class="form-group col-md-12">
@@ -120,13 +126,13 @@ class CreateApplication extends React.Component {
                   </label>
                 </div>
               </div>
-              <div class="form-row" controlId="ProposalName">
+              <div class="form-row" controlId="projectName">
                 <div class="form-group col-md-8">
-                  <label for="ProposalName">Name of Project</label>
+                  <label for="projectName">Name of Project</label>
                   <input
                     type="text"
                     class="form-control"
-                    id="ProposalName"
+                    id="projectName"
                     name="projectName"
                     value={this.state.projectName}
                     onChange={this.handleChange}
@@ -159,7 +165,7 @@ class CreateApplication extends React.Component {
               </div>
               <Form.Label>Brief description of Project</Form.Label>
               <Editor
-                controlId="decription"
+                controlId="description"
                 name="description"
                 apiKey="oym93hgea69gv4o5cjoxfc1baobo49f82d4ah9j66v3n955r"
                 initialValue={this.state.description}
@@ -168,24 +174,24 @@ class CreateApplication extends React.Component {
                   height: 200,
                   menubar: false,
                   plugins: [
-                    "charmap print preview anchor help",
-                    "searchreplace visualblocks code",
-                    "insertdatetime media table paste wordcount"
+                    `charmap print preview anchor help`,
+                    `searchreplace visualblocks code`,
+                    `insertdatetime media table paste wordcount`
                   ],
                   toolbar:
-                    "undo redo | formatselect | bold italic | \
+                    `undo redo | formatselect | bold italic | \
                     alignleft aligncenter alignright | \
-                    bullist numlist outdent indent | help"
+                    bullist numlist outdent indent | help`
                 }}
               />
               <br></br>
-              <div class="form-row" controlId="fileUpload">
+              <div class="form-row" controlId="proposals">
                 <div class="form-group col-md-12">
-                  <label for="fileUpload">Upload Project Proposal</label>
+                  <label for="proposals">Upload Project Proposal</label>
                   <input
                     type="file"
                     class="form-control"
-                    id="fileUpload"
+                    id="proposals"
                     name="proposals"
                     onChange={this.selectedFileHandler}
                   />

@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
       fundCatId: {
         type: DataTypes.STRING
       },
+      projectId: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
       amount: {
         type: DataTypes.STRING
       },

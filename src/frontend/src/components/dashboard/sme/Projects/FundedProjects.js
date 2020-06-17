@@ -35,6 +35,7 @@ class View extends React.Component {
 
   fetchData() {
     axios
+    //.get(`https://eazsme-backend.herokuapp.com/projects/all`)
       .get(`https://eazsme-backend.herokuapp.com/projects/all`)
       .then(({ data }) => {
         const status = data.status;
@@ -42,10 +43,10 @@ class View extends React.Component {
         console.log(data);
         if (status === `success`) {
           let newResults = projects.filter((items) => {
-            return items.fund === `Funded`;
+            return items.fund === `funded`;
           });
           this.setState({ data: newResults });
-          console.log(newResults);
+          //console.log(newResults);
         }
       })
       .catch((error) => console.log(error));
@@ -135,7 +136,8 @@ class View extends React.Component {
                       <Link to="">View Details</Link>
                     </td>
                     <td key={count++}>
-                      <Link to={`/sme/Funds/NewApplication/${item.projectId}`}>Apply</Link>
+                   {/*   <Link to={`/sme/Funds/NewApplication/${item.projectId}`}>Apply</Link>*/}
+                      <Link to={{ pathname: `/sme/Funds/NewApplication/`, query: item.projectId  }}> Apply </Link>
                     </td>
                   </tr>
                 );

@@ -10,8 +10,11 @@ module.exports = (app) => {
   // Retrieve all funds with given status
   app.get("/funds/status", fund.findOne);
 
+  // Retrieve fund details by id
+  app.get("/funds/:id", fund.findFundById);
+
   // Retrieve all funds donated by investor
-  app.get("/funds/:id", fund.findInvestmentsByOrganization);
+  app.get("/funds/organizations/:id", fund.findInvestmentsByOrganization);
 
 app.put("/funds/update",fund.updateStatus);
 

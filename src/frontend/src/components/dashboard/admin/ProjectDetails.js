@@ -29,16 +29,21 @@ class ProjectDetails extends React.Component {
         description: "",
         status: ""
       }
+
+     
     };
+     
   }
   async componentDidMount() {
-    const url = `https://eazsme-backend.herokuapp.com/project/${this.props.match.params.projectId}`;
-    console.log(this.props.match.params.projectId);
-    const data = await axios.get(url);
-
-    const project = data.data.data;
-
-    this.setState({ project });
+    const id=this.props.match.params.projectId;
+    const url = `https://eazsme-backend.herokuapp.com/project/${id}`;
+   
+    const data = await axios.get(url);    
+    const projects = data.data.data;
+   
+    
+        this.setState({ project: projects });   
+        console.log(this.state.project);
   }
  
     render() {

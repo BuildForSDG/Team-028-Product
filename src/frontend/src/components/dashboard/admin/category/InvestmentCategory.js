@@ -19,7 +19,7 @@ class Create extends React.Component {
     super(props);
 
     this.state = {
-      categoryDescription: ``,
+        description: ``,
       success: ``,
       error: ``
     };
@@ -28,27 +28,28 @@ class Create extends React.Component {
   }
 
   handleEditorChange(e) {
-    this.setState({ categoryDescription: e.target.getContent() });
+    this.setState({ description: e.target.getContent() });
   }
  // https://eazsme-backend.herokuapp.com  https://eazsme-backend.herokuapp.com/projects/category
   async handleClick(e) {
     e.preventDefault();
-    const form = document.querySelector(`form[name="create-category"]`);
+    const form = document.querySelector(`form[name="create-fundcategory"]`);
     const formFields = serialize(form, { hash: true }); // Make api call with form
-    formFields.categoryDescription=this.state.categoryDescription;
+    formFields.description=this.state.description;
+    console.log(formFields);
     await axios
-      .post(`https://eazsme-backend.herokuapp.com/projects/category`, formFields)
+      .post(`https://eazsme-backend.herokuapp.com/funds/category`, formFields)
       .then(({ data }) => {
         const { status } = data;
         if (status === `success`) {
-          this.setState({ success: `Category Successfully created!` });
+          this.setState({ success: `Investment Category Successfully created!` });
         } else {
-          this.setState({ error: `Error creating category` });
+          this.setState({ error: `Error creating investment category` });
         }
       })
       .catch((error) => {
         
-        this.setState({ error: `Error creating category` });
+        this.setState({ error: `Error creating investment category` });
       console.log(error);});
   }
 
@@ -68,23 +69,23 @@ class Create extends React.Component {
                 <h5>{error}</h5>
               </div>
             )}
-            <Form name="create-category">
-              <Form.Group controlId="catName">
-                <Form.Label>Category Name:</Form.Label>
+            <Form name="create-fundcategory">
+              <Form.Group controlId="categoryName">
+                <Form.Label>Investment Category Name:</Form.Label>
                 <Form.Control type="text" placeholder="Category Name" name="categoryName" />
               </Form.Group>
 
-              <Form.Group controlId="categoryDescription">
+              <Form.Group controlId="description">
                 <Form.Label>Description</Form.Label>
                 <Editor
                   apiKey="oym93hgea69gv4o5cjoxfc1baobo49f82d4ah9j66v3n955r"
-                  initialValue={this.state.categoryDescription}
+                  initialValue={this.state.description}
                   init={{
                     height: 200,
                     menubar: false,
                     FORCED_ROOT_BLOCK: ``,
                     FORCE_BR_NEWLINES: true,
-                      plugins: [
+                    plugins: [
                       `advlist autolink lists link image`,
                       `charmap print preview anchor help`,
                       `searchreplace visualblocks code`,
@@ -95,7 +96,7 @@ class Create extends React.Component {
                     bullist numlist outdent indent | help`
                   }}
                   onChange={this.handleEditorChange}
-                  name="categoryDescription"
+                  name="description"
                 />
               </Form.Group>
 
@@ -105,7 +106,7 @@ class Create extends React.Component {
               </Form.Group>*/}   
 
               <Button className="user-btn" variant="primary" type="submit" onClick={this.handleClick}>
-                Create Category
+                Create Investment Category
               </Button>
             </Form>
           </Col>

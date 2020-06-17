@@ -194,13 +194,19 @@ div > input:invalid:required {
   user-select: none;
 }
 
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+
 .carousel-bg {
   height: 65vh;
 }
 
 @media (max-width: 960px) {
   .d-block {
-    height:50vh;
+    height: 50vh;
   }
 }
 
@@ -325,20 +331,9 @@ h3 {
 /********** Content styling ends here ******/
 
 /*** Footer starts here ***/
-.footer {
-  background-color: #487aca5d;
-  height: 70px;
-  color: #fff;
-  margin-top: 4rem;
-}
-
-.foot-text {
-  padding-top: 20px;
-}
-
 .footer-img img {
-  height: 2rem;
-  margin-left: 3rem;
+  height: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 @media (max-width: 960px) {
@@ -348,8 +343,9 @@ h3 {
   }
 }
 
-.social {
-  margin-left: 10px;
+.footer {
+  width: 80%;
+  margin: 0 auto;
 }
 
 .sachBody {
@@ -363,4 +359,10 @@ h3 {
 
 .sach li {
   display: inline;
+}
+
+/** Recover Password **/
+.recover-password {
+  margin: 20px auto;
+  width: 50%;
 }

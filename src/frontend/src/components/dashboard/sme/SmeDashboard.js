@@ -36,29 +36,11 @@ import { connect } from "react-redux";
 import UpdateMilestone from "./Funds/UpdateMilestone";
 import { withRouter } from "react-router-dom";
 
-
 const menu = (
   <Menu id="dropdown-menu">
-    <Menu.Item className="menu-icon" icon={<UserOutlined />}>
-      <Link to="/sme/ProfileDetails">Profile</Link>
-    </Menu.Item>
-    <Menu.Item className="menu-icon" icon={<UsergroupAddOutlined />}>
-      <Link to="/sme/create">Manage Users</Link>
-    </Menu.Item>
-    <Menu.Item className="menu-icon" icon={<FileDoneOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Review Reports
-      </a>
-    </Menu.Item>
-    <Menu.Item className="menu-icon" icon={<SettingOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Settings
-      </a>
-    </Menu.Item>
     <Menu.Item className="menu-icon" icon={<LogoutOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Logout
-      </a>
+      {" "}
+      <Link to="/logout">Logout</Link>
     </Menu.Item>
   </Menu>
 );
@@ -73,19 +55,17 @@ class SmeDashboard extends React.Component {
     this.state = {
       collapsed: false
     };
-
-     
   }
- 
+
   handleMilestoneUpdate(event) {
     event.preventDefault();
     const form = document.querySelector("form[name=registration]");
     const formFields = serialize(form, { hash: true });
-  
+
     axios
       .post("https://eazsme-backend.herokuapp.com/milestones/id", formFields)
       .then(({ data }) => {
-              if (data.status === "success") {
+        if (data.status === "success") {
           this.setState({ success: "Milestone successfully updated!" });
         } else {
           this.setState({ error: "Error Updating Milestone" });
@@ -94,36 +74,47 @@ class SmeDashboard extends React.Component {
       .catch((error) => {
         /*console.log(error)*/
         this.setState({ error: "Error Updating Milestone" });
-        
       });
-    }
+  }
 
   onCollapse = (collapsed) => {
     console.log(collapsed);
     this.setState({ collapsed });
   };
 
-  
-  
-
   render() {
     // use localStorage.getItem("user") to get the user object
+    const user = localStorage.getItem("userObj");
+    const history = this.props.history;
+    if (!user || user === null) {
+      history.push("/");
+    }
     return (
       <Layout style={{ minHeight: "100vh" }}>
-        <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse} style={{ paddingTop: "64px" }}>
-          <div className="logo"></div>
-          <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
-            <Menu.Item key="1" icon={<ProfileOutlined />}>
+        <Sider className="sme-sider" collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
+          <div className="logo">
+            {" "}
+            <Link className="dashboard-img" to="#">
+              <img
+                src={
+                  "https://res.cloudinary.com/lordefid/image/upload/c_scale,h_50/v1590937828/Group_160_2x_wad30b.png"
+                }
+                alt="logo"
+              />
+            </Link>
+          </div>
+          <Menu className="sme-menu" theme="dark" defaultSelectedKeys={["1"]} mode="inline">
+            <Menu.Item className="sme-menu" key="1" icon={<ProfileOutlined />}>
               <Link to="/sme/ProfileDetails">Profile Details</Link>
             </Menu.Item>
-            <SubMenu key="sub1" icon={<UserOutlined />} title="User">
+            <SubMenu className="sme-submenu" key="sub1" icon={<UserOutlined />} title="User">
               <Menu.Item key="2" icon={<UserOutlined />}>
                 <Link to="/sme/create-user">Create</Link>
               </Menu.Item>
               <Menu.Item key="3" icon={<UserOutlined />}>
                 <Link to="/sme/update-user">Update</Link>
               </Menu.Item>
-             {/*} <Menu.Item key="4" icon={<UserOutlined />}>
+              {/*} <Menu.Item key="4" icon={<UserOutlined />}>
                 <Link to="/sme/deactivate-user">Deactivate</Link>
     </Menu.Item>*/}
             </SubMenu>
@@ -143,28 +134,25 @@ class SmeDashboard extends React.Component {
                 <Link to="/sme/Projects/Milestones">Create Milestones</Link>
               </Menu.Item>
               <Menu.Item key="9" icon={<FileAddOutlined />}>
-
-              <Link to="/sme/Funds/proposal">Existing Applications</Link>
-            </Menu.Item>            
-             
+                <Link to="/sme/Funds/proposal">Existing Applications</Link>
+              </Menu.Item>
             </SubMenu>
-                    
-            <Menu.Item key="4" icon={<LogoutOutlined />}>
-              {" "}
-              Log Out
+            <Menu.Item key="12" icon={<LogoutOutlined />}>
+            <Link to="/">Log out</Link>
             </Menu.Item>
           </Menu>
         </Sider>
         <Layout className="site-layout">
-          <nav class="navbar">
-            <Link className="dashboard-img" to="#">
+          <nav class="navbar sme-header">
+            <div className="cat-title bgSm">SME HOME</div>
+            {/* <Link className="dashboard-img" to="#">
               <img
                 src={
                   "https://res.cloudinary.com/lordefid/image/upload/c_scale,h_50/v1590937828/Group_160_2x_wad30b.png"
                 }
                 alt="logo"
               />
-            </Link>
+            </Link> */}
             <div>
               <Badge className="badge-item" count={5}>
                 <a href="#" className="example" />
@@ -184,23 +172,23 @@ class SmeDashboard extends React.Component {
               <Switch>
                 {/* <Route path="/sme/projects" component={Project} /> */}
                 <Route path="/sme/Projects/FundedProjects" component={FundedProjects} />
-                <Route path="/sme/Funds/NewApplication" component={NewApplication} />
+                <Route path="/sme/Funds/NewApplication" render={(props) => <NewApplication {...props} projects={this.state.projects } />} />
                 <Route path="/sme/Funds/UpdateMilestone" component={UpdateMilestone} />
                 <Route path="/sme/Funds/ViewMilestones" component={ViewMilestones} />
                 <Route path="/sme/Projects/Milestones" component={CreateMilestones} />
                 <Route path="/sme/Funds/proposal" component={Proposal} />
                 <Route path="/sme/create-user" component={Create} />
                 <Route path="/sme/update-user" component={Update} />
-               {/*<Route path="/sme/deactivate-user" component={Remove} />*/}
+                {/*<Route path="/sme/deactivate-user" component={Remove} />*/}
                 <Route path="/sme/ProfileDetails" component={ProfileDetails} />
                 <Route path="/sme/EditProfile" component={EditProfile} />
                 <Route path="/sme/Projects/InvestmentProject" component={InvestmentProject} />
                 <Route path="/sme/Projects/Milestones" component={Milestones} />
+               
               </Switch>
             </Router>
           </Content>
         </Layout>
-        
       </Layout>
     );
   }
@@ -209,7 +197,8 @@ class SmeDashboard extends React.Component {
 const mapStateToProps = (state) => ({
   companyName: state.sme.companyName,
   category: state.sme.category,
-  userId: state.sme.userId
+  userId: state.sme.userId,
+  organizationId:state.sme.organizationId
 });
 
 export default connect(mapStateToProps)(SmeDashboard);

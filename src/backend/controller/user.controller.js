@@ -45,7 +45,7 @@ let userID = Math.floor(Math.random() * 100000) + 1;
         // Create new instance of  user
         const user = new User({
           userId: userID,
-          organizationId: orgId,
+          organizationId: req.body.organizationId,
           firstName: req.body.firstName,
           lastName: req.body.lastName,
           otherName: req.body.otherName,
@@ -166,6 +166,24 @@ let userID = Math.floor(Math.random() * 100000) + 1;
 
 exports.findAll = (req, res) => {
   User.findAll()
+    .then((users) => {
+      return res.status(200).json({
+        status: "success",
+        data: users
+      });
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        status: "error",
+        message: err.message
+      });
+    });
+};
+
+
+//Get all users in an Organization
+exports.findOnebyOrganization = (req, res) => {
+  User.findAll({ where: { organizationId: req.body.organizationId}} )
     .then((users) => {
       return res.status(200).json({
         status: "success",

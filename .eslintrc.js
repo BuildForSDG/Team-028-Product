@@ -21,6 +21,7 @@ module.exports = {
     'no-param-reassign': ['error', { props: false }],
     'import/no-dynamic-require': "off",
     "linebreak-style": 0,
-    "quotes": ["error", "double", { "allowTemplateLiterals": true }]
+    "quotes": ["error", "double", { "allowTemplateLiterals": true }],
+    "camelcase": ["error", {"allow": ["aa_bb"]}]
   }
 };

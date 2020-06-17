@@ -9,9 +9,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
 import axios from "axios";
-import { Modal } from "antd";
+import Modal from "react-bootstrap/Modal";
 import "../../../../styles/modal.css";
-const dateFormat = "YYYY/MM/DD";
 
 class UpdateMilestone extends React.Component {
   constructor(props) {
@@ -71,9 +70,13 @@ class UpdateMilestone extends React.Component {
           bsPrefix="modal"
         >
           <Modal.Header closeButton bsPrefix="modal-header">
-            <Modal.Title id="UpdateMilestone" className="text-light">
-              Update Milestones
-            </Modal.Title>
+            <Row>
+              <Col className="text-center pr-1">
+                <Modal.Title id="UpdateMilestone" className="text-light">
+                Update Milestones
+                </Modal.Title>
+              </Col>
+            </Row>
           </Modal.Header>
           <Modal.Body>
             {success ? (
@@ -104,7 +107,7 @@ class UpdateMilestone extends React.Component {
                 <Col>
                   <Form.Group controlId="status">
                     <Form.Label className="font-weight-bold">
-                      Last Name<sup className="text-danger">*</sup>
+                      Status<sup className="text-danger">*</sup>
                     </Form.Label>
                     <Form.Control type="text" placeholder="Enter Milestone Status" required name="status" />
                   </Form.Group>

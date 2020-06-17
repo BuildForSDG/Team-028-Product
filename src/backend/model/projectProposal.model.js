@@ -12,6 +12,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      organizationId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {         
+         model: "organizations",
+         key: "organizationId"
+       }
+      },
       userId: {
         type: DataTypes.STRING
       },
@@ -29,5 +37,9 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false
     }
   );
+  Proposal.associate = function(models) {
+    Proposal.belongsTo(models.organization, {foreignKey: "organizationId", as: "company"});
+  };
+
   return Proposal;
 };

@@ -34,5 +34,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE
     }
   });
+
+/*  UserOrganization.associate = function(models) {
+    UserOrganization.hasMany(models.projectProposal, {as: 'proposal'})
+  }*/
   return UserOrganization;
 };

@@ -50,7 +50,7 @@ class Contact extends React.Component {
       <>
         {/*** Contact Modal */}
         <Modal
-          size="md"
+          size="xl"
           show={this.props.showModal}
           onHide={this.closeContact}
           dialogClassName="modal-90w"
