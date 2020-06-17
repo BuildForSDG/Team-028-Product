@@ -23,7 +23,6 @@ exports.create = async (req, res) => {
     status: req.body.status,
     dateInitiated: req.body.dateInitiated
   };
-  console.log(requests);
   
   if (!req.body) {
     return res.status(400).json({
