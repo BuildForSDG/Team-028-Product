@@ -66,6 +66,11 @@ db.sequelize.sync({ force: false }).then(() => {
   }
 });
 
+app.get('/', (req, res)=>{
+  res.send("eaZSME backend is running");
+});
+
+
 app.use((req, res, next) => {
   const err = new Error("Not Found");
   err.status = 404;
