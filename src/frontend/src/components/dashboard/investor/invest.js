@@ -23,7 +23,8 @@ class Invest extends React.Component {
       error: ``,
       description: ``,
       projectName: ``,
-      organizationId:``
+      organizationId:``,
+      user: {}
     };
 
     this.handleEditorChange = this.handleEditorChange.bind(this);
@@ -39,9 +40,9 @@ class Invest extends React.Component {
     this.getActiveProjects();
     const userObj = JSON.parse(localStorage.getItem(`userObj`));
     if (userObj) {
-      this.setState(() => ({ userObj }));
-     
+      return this.setState(() => ({ user : userObj }));
     }
+    this.setState(() => ({ user : this.props.user}));
   }
 
 
@@ -76,7 +77,7 @@ class Invest extends React.Component {
       .get(`http://localhost:4000/funds/category/all`)
       .then((data) => {
         const categories = data.data.data;
-  console.log(categories);
+  
         this.setState({categories}, () => {
           const select = this.categorySelect.current;
 
@@ -107,8 +108,7 @@ class Invest extends React.Component {
     const formFields = serialize(form, { hash: true });
     
     formFields.status = `investment initiated`;
-    formFields.organizationId = this.state.userObj.organizationId;
-    //formFields.projectName=this.state.projectName;
+    formFields.organizationId = this.state.user.organizationId;
 
     axios
       .post(`http://localhost:4000/invest`, formFields)

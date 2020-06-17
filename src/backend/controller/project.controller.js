@@ -154,10 +154,11 @@ exports.findOne = (req, res) => {
 // Get sme based projects details
 exports.findAllSMEProject = (req, res) => {
   db.sequelize.query(
-    `SELECT fa.fundId, p.status, p.dateStart, p.dateEnd, p.projectId , p.projectName, 
-    p.description,p.fund, o.companyName  FROM fundapplications fa 
+    `SELECT fa.fundId, p.fundStatus as status, p.dateStart, p.dateEnd, p.projectId , p.projectName, 
+    p.description,f.amount as fund, o.companyName  FROM fundapplications fa 
     LEFT JOIN organizations o ON o.organizationId = fa.organizationId 
     LEFT JOIN projects p ON fa.projectName = p.projectName	
+    LEFT JOIN funds f ON fa.fundId = f.fundId 
     `, { raw: true })
     .then((result) => {  
       return res.status(200).json({
