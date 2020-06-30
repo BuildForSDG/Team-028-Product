@@ -451,10 +451,11 @@ exports.activate = (req, res) => {
 // find single user by id
 exports.getdetails = (req, res) => {
   db.sequelize.query(
-    `select u.firstName,u.lastName,u.otherName,u.email,u.phoneNumber,
+    `select u.firstName,u.lastName,u.otherName,u.email,u.phoneNumber, u.dateCreated,
     o.companyName, o.RCNumber,o.email as coyEmail,o.dateIncorporated, o.BVN, o.address
-    FROM eazsme_db.users u
-    join eazsme_db.organizations o on o.organizationId = u.organizationId`
+    FROM users u
+    join organizations o on o.organizationId = u.organizationId
+    where u.email like \'${req.query.email}\'`
      , { raw: true })
      .then((result) => {  
       return res.status(200).json({
@@ -465,7 +466,7 @@ exports.getdetails = (req, res) => {
     }).catch((error) => {
       return res.status(400).json({
         status: "error",
-        message: error.message || "An error occured while retrieving user proposals",
+        message: error.message || "An error occured while retrieving user",
       });
     });
 };
