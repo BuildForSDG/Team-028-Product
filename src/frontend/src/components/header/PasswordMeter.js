@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import "../../styles/passwordMeter.css";
-import zxcvbn from 'zxcvbn';
+import zxcvbn from "zxcvbn";
 
 export class PasswordMeter extends Component {
   createPasswordLabel = (result) => {
     switch (result.score) {
       case 0:
-        return 'Weak';
+        return "Weak";
       case 1:
-        return 'Weak';
+        return "Weak";
       case 2:
-        return 'Fair';
+        return "Fair";
       case 3:
-        return 'Good';
+        return "Good";
       case 4:
-        return 'Strong';
+        return "Strong";
       default:
-        return 'Weak';
+        return "Weak";
     }
   }  
 
@@ -38,7 +38,7 @@ export class PasswordMeter extends Component {
         {password && (<strong>Password Strength:</strong> ,this.createPasswordLabel(tested))}      
           </label>
       </div>
-    )
+    );
   }
 }
 

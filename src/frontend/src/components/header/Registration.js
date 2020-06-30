@@ -71,7 +71,7 @@ class Registration extends React.Component {
         break;
     }
 
-    this.setState({password: event.target.value})
+    this.setState({password: event.target.value});
 
     this.setState({ errors, [name]: value });
   };
