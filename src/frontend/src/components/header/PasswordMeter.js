@@ -20,8 +20,8 @@ export class PasswordMeter extends Component {
     }
   }  
  
-  render() {
-    const { password } = this.props;
+  render() { 
+    const  password = this.props.password;
     const tested = zxcvbn(password);
 
     return (
