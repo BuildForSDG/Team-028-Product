@@ -19,7 +19,7 @@ export class PasswordMeter extends Component {
         return "Weak";
     }
   }  
-
+ 
   render() {
     const { password } = this.props;
     const tested = zxcvbn(password);
