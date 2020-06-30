@@ -41,30 +41,35 @@ class ProfileDetails extends React.Component {
   componentDidMount() {
     const userObj = JSON.parse(localStorage.getItem("userObj"));
     if (userObj) {
-      this.setState(() => ({ userObj }));
-      
+      this.setState({ userObj },() => {
+        this.fetchData();   
+      });
     }
-    this.fetchData();
   }
   async fetchData() {
-    const url = "https://eazsme-backend.herokuapp.com/userdetails";
+    const userId = this.state.userObj.userId;
 
-    const data = await axios.get(url);
+    const url = `http://localhost:4000/userdetails`;
 
-    const details = data.data.data;
+    const data = await axios.get(url, {
+      params: {
+        email: userId
+      }
+    });
+    const details = data.data.data[0];
     
     this.setState({ details });
-   
    
   }
   
     render() {
-     
+      const dateIncorporated = new Date(`${this.state.details.dateIncorporated}`).toDateString();
+      const dateCreated = new Date(`${this.state.details.dateCreated}`).toDateString();
     return (
       <>
-      <div class="jumbotron p-4 p-md-5 text-dark rounded shadow-sm">
+      <div class="jumbotron p-4 p-md-4 text-dark rounded shadow-sm">
           <Row>
-            <Col md="3" className="">
+            <Col md="2" className="">
             <div class="text-center">
             <img src="https://res.cloudinary.com/lordefid/image/upload/c_scale,h_100/v1591025399/images_j7kyno.png" class="rounded" alt="..." fluid />
           </div>
@@ -75,27 +80,27 @@ class ProfileDetails extends React.Component {
             <div className="profile-title-text"> <strong >Admin Details</strong></div>
             <div class="form-row" controlId="userFirstName">
                     <div class="form-group col-md-4">
-                      <label for="inputEmail4">First Name: </label>
+                      <label for="firstName">First Name: </label>
                       <div class="col-4">{this.state.details.firstName}</div>
                      </div>
                     <div class="form-group col-md-4">
-                      <label for="inputEmail4">Last Name: </label>
+                      <label for="lastName">Last Name: </label>
                       <div class="col-4">{this.state.details.lastName}</div>
                     </div>
                     <div class="form-group col-md-4 ">
-                      <label for="inputEmail4">Other Name: </label>
+                      <label for="otherName">Other Name: </label>
                       <div class="col-4">{this.state.details.otherName}</div>
                     </div>
                     <div class="form-group col-md-4">
-                      <label for="inputEmail4">Reg. Date: </label>
-                      <div class="col-4">{this.state.details.dateIncorporated}</div>
+                      <label for="regDate">Reg. Date: </label>
+                      <div class="col-7 tex">{dateCreated}</div>
                     </div>
                     <div class="form-group col-md-4">
-                      <label for="inputEmail4">Phone No: </label>
+                      <label for="phoneNo">Phone No: </label>
                       <div class="col-4">{this.state.details.phoneNumber}</div>
                     </div>
                     <div class="form-group col-md-4 ">
-                      <label for="inputEmail4">Email:   </label>
+                      <label for="userEmail">Email:   </label>
                       <div class="col-4">{this.state.details.email}</div>
                     </div>
                   </div>
@@ -113,7 +118,7 @@ class ProfileDetails extends React.Component {
         </div>
 
         <div class="row mb-2">
-          <div class="col-md-6">
+          {/* <div class="col-md-6">
             <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
             <div class="col p-4 d-flex flex-column position-static">
                 <strong class="d-inline-block mb-2 profile-title-text">More Info</strong>
@@ -123,8 +128,6 @@ class ProfileDetails extends React.Component {
                           <label for="inputAddress1">Address: </label>
                           <div class="col-4">{this.state.details.Address}</div>
                         </div>
-                       
-                      
                     </div>
                   </Col>
                   
@@ -144,59 +147,59 @@ class ProfileDetails extends React.Component {
                             <input type="text" class="" data="" id="inputCompanyPhone" class="form-control" value="" disabled />
                         </div>
                       
-                        {/* <div class="form-group col-md-6">
+                         <div class="form-group col-md-6">
                           <Form.Check
                             type="checkbox"
                             label="Confirm Change?"
                             className="font-weight-bold terms-text"
                             name="termsOfCondition"/><br></br>
-                        </div> */}
-                        {/* <div class="form-group col-md-6 text-center">
+                        </div>
+                        <div class="form-group col-md-6 text-center">
                         <Button variant="success" type="submit" className="btn-block" onClick={this.upadtePassword}>
                           Update
                         </Button>
-                        </div> */}
+                        </div>
                     </Row>
                   </div>
 
             </div>
-          </div>
-          <div class="col-md-6">
+          </div> */}
+          <div class="col-md-12">
             <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
               <div class="col p-4 d-flex flex-column position-static">
                 <strong class="d-inline-block mb-2 profile-title-text">Investor Details</strong>
               <Col>
             <div class="form-row" controlId="companyName">
                     <div class="form-group col-md-12">
-                      <label for="inputEmail4">Company Name: </label>
-                      <div class="col-4">{this.state.details.companyName}</div>
+                      <label for="companyName">Company Name: </label>
+                      <div class="col-7">{this.state.details.companyName}</div>
                     </div>
                     
                     <div class="form-group col-md-4">
-                      <label for="inputEmail4">Incorporation Date: </label>
-                      <div class="col-4">{this.state.details.dateIncorporated}</div>
+                      <label for="dateIncorporated">Incorporation Date: </label>
+                      <div class="col-7">{dateIncorporated}</div>
                     </div>
                     
                     <div class="form-group col-md-4">
-                      <label for="inputEmail4">Email Address:   </label>
-                      <div class="col-4">{this.state.details.coyEmail}</div>
+                      <label for="emailAddress">Email Address:   </label>
+                      <div class="col-7">{this.state.details.coyEmail}</div>
                     </div>
                     <div class="form-group col-md-4">
-                      <label for="inputEmail4">Company Phone: </label>
-                      <div class="col-4">{this.state.details.coyEmail}</div>
+                      <label for="companyPhone">Company Phone: </label>
+                      <div class="col-7">{this.state.details.coyEmail}</div>
                     </div>
                     <div class="form-group col-md-4">
-                      <label for="inputEmail4">RCC No: </label>
-                      <div class="col-4">{this.state.details.RCNumber}</div>
+                      <label for="rcNumber">RCC No: </label>
+                      <div class="col-7">{this.state.details.RCNumber}</div>
                     </div>
                    
                     <div class="form-group col-md-4">
-                      <label for="inputEmail4">Company BVN: </label>
-                      <div class="col-4">{this.state.details.BVN}</div>
+                      <label for="companyBvn">Company BVN: </label>
+                      <div class="col-7">{this.state.details.BVN}</div>
                     </div>
                     <div class="form-group col-md-12">
-                      <label for="inputEmail4">Company Address: </label>
-                      <div class="col-4">{this.state.details.address}</div>
+                      <label for="companyAdress">Company Address: </label>
+                      <div class="col-12">{this.state.details.address}</div>
                         <br></br>
                         <br></br>
                     </div>
