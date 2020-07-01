@@ -9,8 +9,10 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
+import PasswordMeter from "./PasswordMeter";
 import Row from "react-bootstrap/Row";
 import "../../styles/modal.css";
+
 
 const validEmailRegex = RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
 
@@ -22,7 +24,7 @@ class Registration extends React.Component {
       redirect: null,
 
       email: null,
-      password: null,
+      password: "",
       companyEmail: null,
       confirmPassword: null,
       errors: {
@@ -41,6 +43,7 @@ class Registration extends React.Component {
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleConfirmPassword = this.handleConfirmPassword.bind(this);
+    
   }
 
   handleChange = (event) => {
@@ -67,6 +70,8 @@ class Registration extends React.Component {
       default:
         break;
     }
+
+    this.setState({password: event.target.value});
 
     this.setState({ errors, [name]: value });
   };
@@ -107,10 +112,15 @@ class Registration extends React.Component {
     this.props.handlePasswordChange(event);
   }
 
+  passwordStrength(e) {
+    
+  }
+
   render() {
     const success = this.props.success;
     const error = this.props.error;
     const { errors } = this.state;
+    const {password} = this.state;
     return (
       <>
         {/** Registration Modal */}
@@ -405,6 +415,7 @@ class Registration extends React.Component {
                       onChange={this.handleChange}
                       noValidate
                     />
+                    <PasswordMeter password= {password} />
                     {errors.password.length > 0 && <span className="text-danger">{errors.password}</span>}
                   </Form.Group>
                 </Col>
