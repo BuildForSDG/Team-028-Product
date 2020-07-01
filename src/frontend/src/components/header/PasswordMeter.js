@@ -22,7 +22,7 @@ export class PasswordMeter extends Component {
  
   render() { 
     const  password = this.props.password;
-    const tested = zxcvbn(password);
+    const  tested = zxcvbn(password);
 
     return (
       <div className="password-strength-meter">
