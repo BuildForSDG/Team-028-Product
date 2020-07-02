@@ -173,7 +173,7 @@ class ProfileDetails extends React.Component {
           <div class="col-md-6">
             <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
               <div class="col p-4 d-flex flex-column position-static">
-                <strong class="d-inline-block mb-2 profile-title-text">Regulator Details</strong>
+                <strong class="d-inline-block mb-2 profile-title-text">Investor Details</strong>
               <Col>
             <div class="form-row" controlId="companyName">
                     <div class="form-group col-md-12">
