@@ -3,12 +3,9 @@
 /*eslint-env es6*/
 
 import React from "react";
-import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
+import { Modal, Form, Button, Col, Row } from "react-bootstrap";
 import { Redirect } from "react-router";
+
 import "../../styles/modal.css";
 
 class Contact extends React.Component {

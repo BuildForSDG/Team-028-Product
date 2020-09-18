@@ -5,50 +5,49 @@ import  { devToolsEnhancer } from "redux-devtools-extension"
 
 
 import {
-  smesReducer,
-  investorsReducer,
-  regulatorsReducer,
   projectsReducer,
-  adminReducer,
-  requestsReducer
+  requestsReducer,
+  userReducer
 } from "../reducers/reducers";
-import { smes, investors, regulators, admins, projects, requests } from "./states";
+
 import {
-  // smeMiddleware,
-  // regulatorMiddleware,
-  // projectMiddleware,
-  // investorMiddleware,
-  // adminMiddleware,
   apiMiddleware
 } from "../middlewares/middlewares";
 
 const logger = createLogger();
 
+const saveToLocalStorage = (state)=>{
+  try{
+    const serializedState = JSON.stringify(state);
+    localStorage.setItem('state', serializedState);
+  } catch (e) {
+  }
+}
+
+const loadFromLocalStorage = () => {
+  try {
+    const serializedState = localStorage.getItem('state');
+
+    if (serializedState === null) return undefined;
+
+    return JSON.parse(serializedState);
+  } catch (e) {
+    return undefined;
+  }
+}
+
+const persistedState = loadFromLocalStorage();
+
 const store = () => {
   const appStore = createStore(
     combineReducers({
-      investor: investorsReducer,
-      regulator: regulatorsReducer,
-      project: projectsReducer,
-      admin: adminReducer,
-      sme: smesReducer,
+      projects: projectsReducer,
       request: requestsReducer,
+      user: userReducer
     }),
-    {
-      sme: smes,
-      investor: investors,
-      regulator: regulators,
-      project: projects,
-      admin: admins,
-      request: requests
-    },
+    persistedState,
     compose(
       applyMiddleware(
-        // adminMiddleware,
-        // investorMiddleware,
-        // projectMiddleware,
-        // regulatorMiddleware,
-        // smeMiddleware,
         logger,
         apiMiddleware),
         devToolsEnhancer({
@@ -56,6 +55,8 @@ const store = () => {
         })
       )
   );
+  appStore.subscribe(()=>saveToLocalStorage(appStore.getState()));
   return appStore;
 };
+
 export default store;

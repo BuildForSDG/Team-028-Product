@@ -3,11 +3,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/heading-has-content */
 import React from "react";
+import { Link } from "react-router-dom";
+
 import Nav from "./Nav";
 import app from "../../App";
-import { bindActionCreators } from "redux";
-import { Link } from "react-router-dom";
-import { adminAction } from "../../redux/actionCreators";
 
 class Header extends React.Component {
   async progName() {
@@ -21,7 +20,6 @@ class Header extends React.Component {
 
   componentDidMount() {
     this.progName();
-    
   }
 
   render() {
@@ -64,7 +62,6 @@ class Header extends React.Component {
           </nav>
         </header>
       </div>
-      
     );
   }
 }

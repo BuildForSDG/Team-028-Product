@@ -14,8 +14,8 @@ class Carousel extends React.Component {
                 </ol>
                 <div className="carousel-inner">
                   <div className="carousel-item active">
-                  {/* <img src="https://res.cloudinary.com/lordefid/image/upload/v1589989860/carousel-3_j2auen.jpg" class="d-block w-100" alt="..."/> */}
-                      <img src="https://res.cloudinary.com/abulkhair/image/upload/v1591031757/carousel1_kguken.webp"className="d-block w-100" alt="..."/>
+                  <img src="https://res.cloudinary.com/lordefid/image/upload/v1589989860/carousel-3_j2auen.jpg" className="d-block w-100" alt="..."/>
+                      {/* <img src="https://res.cloudinary.com/abulkhair/image/upload/v1591031757/carousel1_kguken.webp"className="d-block w-100" alt="..."/> */}
                     <div className="container">
                       <div className="carousel-caption text-left text1">
                         <h1>Financial Leverage.</h1>
@@ -27,8 +27,8 @@ class Carousel extends React.Component {
               </div>
             </div>
             <div className="carousel-item">
-            {/* <img src="https://cdn.pixabay.com/photo/2015/11/01/19/44/money-1017463_1280.jpg" class="d-block w-100" alt="..."/> */}
-                <img src="https://res.cloudinary.com/abulkhair/image/upload/v1591031758/carousel2_slbzfm.webp" className="d-block w-100" alt="..."/>
+            <img src="https://cdn.pixabay.com/photo/2015/11/01/19/44/money-1017463_1280.jpg" className="d-block w-100" alt="..."/>
+                {/* <img src="https://res.cloudinary.com/abulkhair/image/upload/v1591031758/carousel2_slbzfm.webp" className="d-block w-100" alt="..."/> */}
               <div className="container">
                 <div className="carousel-caption">
                   <h1>We Build Bridges</h1>
@@ -38,8 +38,8 @@ class Carousel extends React.Component {
               </div>
             </div>
             <div className="carousel-item">
-            {/* <img src="https://res.cloudinary.com/lordefid/image/upload/v1589989872/carousel-1_e7h7w8.jpg" class="d-block w-100" alt="..."/> */}
-                <img src="https://res.cloudinary.com/abulkhair/image/upload/v1591031758/carousel3_vea5e5.webp" className="d-block w-100" alt="..."/>
+            <img src="https://res.cloudinary.com/lordefid/image/upload/v1589989872/carousel-1_e7h7w8.jpg" className="d-block w-100" alt="..."/>
+                {/* <img src="https://res.cloudinary.com/abulkhair/image/upload/v1591031758/carousel3_vea5e5.webp" className="d-block w-100" alt="..."/> */}
               <div className="container">
                 <div className="carousel-caption text-right">
                   <h1>Community Friendly</h1>

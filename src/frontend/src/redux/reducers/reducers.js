@@ -1,15 +1,17 @@
 import * as states from "../configurations/states";
 import * as Types from "../types";
 
-export const smesReducer = (state = states.smes, action) => {
+
+export const userReducer = (state = states.user, action) => {
   switch (action.type) {
-    case Types.sme: {
+    case Types.setUser: {
       return ({
         ...state,
         companyName: action.payload.companyName,
         category: action.payload.category,
         userId: action.payload.userId,
-        userData: action.payload.userData,
+        organizationId: action.payload.organizationId,
+        email: action.payload.email,
         lastFetch: Date.now()
       });
     }
@@ -19,43 +21,7 @@ export const smesReducer = (state = states.smes, action) => {
   }
 };
 
-export const investorsReducer = (state = states.investors, action) => {
-  switch (action.type) {
-    case Types.investor: {
-      return ({
-        ...state,
-        companyName: action.payload.companyName,
-        category: action.payload.category,
-        userId: action.payload.userId,
-        userData: action.payload.userData,
-        lastFetch: Date.now()
-      });
-    }
-    default: {
-      return state;
-    }
-  }
-};
-
-export const regulatorsReducer = (state = states.regulators, action) => {
-  switch (action.type) {
-    case Types.regulator: {
-      return ({
-        ...state,
-        companyName: action.payload.companyName,
-        category: action.payload.category,
-        userId: action.payload.userId,
-        userData: action.payload.userData,
-        lastFetch: Date.now()
-      });
-    }
-    default: {
-      return state;
-    }
-  }
-};
-
-export const projectsReducer = (state = states.regulators, action) => {
+export const projectsReducer = (state = states.projects, action) => {
   switch (action.type) {
     case Types.admin: {
       return ({
@@ -73,25 +39,9 @@ export const projectsReducer = (state = states.regulators, action) => {
   }
 };
 
-export const adminReducer = (state = states.regulators, action) => {
-  switch (action.type) {
-    case Types.admin: {
-      return ({
-        ...state,
-        companyName: action.payload.companyName,
-        category: action.payload.category,
-        userId: action.payload.userId,
-        userData: action.payload.userData,
-        lastFetch: Date.now()
-      });
-    }
-    default: {
-      return state;
-    }
-  }
-};
 
-export const requestsReducer = (state = states.requests, action) => {
+
+export const requestsReducer = (state = states.request, action) => {
   switch (action.type) {
     case Types.api_pending: {
       return Object.assign({}, state, {isPending: true});

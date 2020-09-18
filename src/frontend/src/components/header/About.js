@@ -2,10 +2,9 @@
 /* eslint no-console: "error" */
 
 import React from "react";
-import Modal from "react-bootstrap/Modal";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
+import {Modal, Col, Row} from "react-bootstrap";
 import { Redirect } from "react-router";
+
 import "../../styles/modal.css";
 
 class About extends React.Component {

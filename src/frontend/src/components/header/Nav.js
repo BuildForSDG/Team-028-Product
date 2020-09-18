@@ -5,18 +5,25 @@
 /* eslint no-console: "error" */
 import React from "react";
 import { Link, BrowserRouter as Router, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 import Container from "react-bootstrap/Container";
 import serialize from "form-serialize";
-import "../../styles/modal.css";
+import axios from "axios";
+
+
 import About from "./About";
 import Contact from "./Contact";
 import Login from "./Login";
 import Registration from "./Registration";
 import "../../styles/modal.css";
 import mapStateToLocals from "./stateToLocals";
-import axios from "axios";
-import { connect } from "react-redux";
-import { smeAction, adminAction, regulatorAction, investorAction } from "../../redux/actionCreators";
+
+import "../../styles/modal.css";
+
+import {fetch } from "../../redux/actionCreators";
+
+import * as Types from "../../redux/types";
+
 import { bindActionCreators } from "redux";
 
 class Nav extends React.Component {
@@ -203,63 +210,77 @@ class Nav extends React.Component {
     } else {
       const form = document.querySelector(`form[name="login"]`);
       const formFields = serialize(form, { hash: true }); // Make api call with form
-      await axios
-        .post("https://eazsme-backend.herokuapp.com/login", formFields)
-        .then(({ data }) => {
-          const { status, result } = data;
-          const sme = this.props.sme;
-          const investor = this.props.investor;
-          const regulator = this.props.regulator;
 
-          if (status === "success") {
-            localStorage.clear();
-            switch (result.category) {
-              case "sme":
-                user.companyName = result.companyName;
-                user.userId = result.email;
-                user.category = result.category;
-                user.organizationId = result.organizationId;
+      const { fetch } = this.props;
 
-                sme(user);
-                localStorage.setItem("userObj", JSON.stringify(user));
-                localStorage.setItem("smeObj", JSON.stringify(user));
-                this.props.history.push("/sme");
-                break;
-              case "investor":
-                user.companyName = result.companyName;
-                user.userId = result.email;
-                user.category = result.category;
-                user.organizationId = result.organizationId;
+      fetch({
+        url: "/login",
+        method: "post",
+        data: formFields,
+        onSuccess: Types.setUser
+      }).then( ()=>{
+        const { user } =  this.props;
 
-                investor(user);
-                localStorage.setItem("userObj", JSON.stringify(user));
-                localStorage.setItem("investorObj", JSON.stringify(user));
-                this.props.history.push("/investor");
-                break;
-              case "regulator":
-                user.companyName = result.companyName;
-                user.userId = result.email;
-                user.category = result.category;
-                user.organizationId = result.organizationId;
+        if (user.category === undefined || user.category === "") return;
+        this.props.history.push("/"+ user.category);
+      });
+      // await axios
+      //   .post("https://eazsme-backend.herokuapp.com/login", formFields)
+      //   .then(({ data }) => {
+      //     const { status, result } = data;
+      //     const sme = this.props.sme;
+      //     const investor = this.props.investor;
+      //     const regulator = this.props.regulator;
 
-                regulator(user);
-                localStorage.setItem("userObj", JSON.stringify(user));
-                localStorage.setItem("regObj", JSON.stringify(user));
-                this.props.history.push("/regulator");
-                break;
-              default:
-                window.alert("You must be a ghost");
-                break;
-            }
-          } else {
-            /*display invalid credentials*/
-            this.setState({ loginError: "Invalid Credentials" });
-          }
-        })
-        .catch((error) => {
-          this.setState({ loginError: "Invalid Credentials" });
-          console.error(error);
-        });
+      //     if (status === "success") {
+      //       localStorage.clear();
+      //       switch (result.category) {
+      //         case "sme":
+      //           user.companyName = result.companyName;
+      //           user.userId = result.email;
+      //           user.category = result.category;
+      //           user.organizationId = result.organizationId;
+
+      //           sme(user);
+      //           localStorage.setItem("userObj", JSON.stringify(user));
+      //           localStorage.setItem("smeObj", JSON.stringify(user));
+      //           this.props.history.push("/sme");
+      //           break;
+      //         case "investor":
+      //           user.companyName = result.companyName;
+      //           user.userId = result.email;
+      //           user.category = result.category;
+      //           user.organizationId = result.organizationId;
+
+      //           investor(user);
+      //           localStorage.setItem("userObj", JSON.stringify(user));
+      //           localStorage.setItem("investorObj", JSON.stringify(user));
+      //           this.props.history.push("/investor");
+      //           break;
+      //         case "regulator":
+      //           user.companyName = result.companyName;
+      //           user.userId = result.email;
+      //           user.category = result.category;
+      //           user.organizationId = result.organizationId;
+
+      //           regulator(user);
+      //           localStorage.setItem("userObj", JSON.stringify(user));
+      //           localStorage.setItem("regObj", JSON.stringify(user));
+      //           this.props.history.push("/regulator");
+      //           break;
+      //         default:
+      //           window.alert("You must be a ghost");
+      //           break;
+      //       }
+      //     } else {
+      //       /*display invalid credentials*/
+      //       this.setState({ loginError: "Invalid Credentials" });
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     this.setState({ loginError: "Invalid Credentials" });
+      //     console.error(error);
+      //   });
     }
   }
 
@@ -282,6 +303,7 @@ class Nav extends React.Component {
   }
 
   render() {
+
     return (
       <Container className="navbar">
         <ul className="nav">
@@ -336,16 +358,25 @@ class Nav extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-    ...bindActionCreators(
-    {
-      sme: (data) => smeAction(data),
-      investor: (data) => investorAction(data),
-      regulator: (data) => regulatorAction(data),
-      admin: (data) => adminAction(data)
-    },
-    dispatch
-  )
-});
-
-export default withRouter(connect(null, mapDispatchToProps)(Nav));
+// const mapDispatchToProps = (dispatch) => ({
+//     ...bindActionCreators(
+//     {
+//       sme: (data) => smeAction(data),
+//       investor: (data) => investorAction(data),
+//       regulator: (data) => regulatorAction(data),
+//       admin: (data) => adminAction(data)
+//     },
+//     dispatch
+//   )
+// });
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetch: (data) => dispatch(fetch(data)),
+  }
+}
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Nav));

@@ -87,12 +87,6 @@ class InvestorDashboard extends React.Component {
   };
 
   render() {
-    // use localStorage.getItem("user") to get the user object
-    const user = localStorage.getItem("userObj");
-    const history = this.props.history;
-    if (!user || user === null) {
-      history.push("/");
-    }
     return (
       <Layout style={{ minHeight: "100vh" }}>
         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
@@ -225,10 +219,6 @@ class InvestorDashboard extends React.Component {
   }
 }
 const mapStateToProps = (state) => ({
-  companyName: state.investor.companyName,
-  category: state.investor.category,
-  userId: state.investor.userId,
-  organizationId:state.investor.organizationId,
+  user: state.user,
 });
-console.log(mapStateToProps);
 export default connect(mapStateToProps)(InvestorDashboard);

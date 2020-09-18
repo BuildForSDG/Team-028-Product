@@ -1,32 +1,10 @@
-export const smes = {
-  companyName: "",
-  category: "",
-  userId: "",
-  userData: {},
-  lastFetch: null
-};
 
-export const investors = {
+export const user = {
   companyName: "",
   category: "",
+  email:"",
+  organizationId: "",
   userId: "",
-  userData: {},
-  lastFetch: null
-};
-
-export const regulators = {
-  companyName: "",
-  category: "",
-  userId: "",
-  userData: {},
-  lastFetch: null
-};
-
-export const admins = {
-  companyName: "",
-  category: "",
-  userId: "",
-  userData: {},
   lastFetch: null
 };
 
@@ -34,6 +12,6 @@ export const projects = {
   lastFetch: null
 };
 
-export const requests = {
+export const request = {
   isPending: false,
 }

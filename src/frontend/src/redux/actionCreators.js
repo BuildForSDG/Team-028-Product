@@ -30,8 +30,13 @@ export const regulatorAction = (payload) => ({
   meta: "regulator"
 });
 
+export const setUser = (payload) => ({
+  type: Types.setUser,
+  payload,
+});
+
 export const fetch = ({url, method,  data, onSuccess, onError})=>({
-  type: Types.api,
+  type: Types.api_pending,
   payload:{
     url,
     method,
