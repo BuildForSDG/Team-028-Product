@@ -3,6 +3,7 @@
 /* eslint no-console: "error" */
 
 import React from "react";
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Switch, Router, Route } from "react-router-dom";
@@ -58,23 +59,29 @@ class InvestorDashboard extends React.Component {
   constructor(props) {
     super(props);
 
+    const { dispatch } = props;
+
+    this.bindActionCreators = bindActionCreators(fetch, dispatch);
+
     this.state = {
       collapsed: false
     };
   }
   componentDidMount() {
+
    this.fetchData();
   }
   fetchData = async() => {
 
-    const { fetch } = this.props;
+    const { dispatch } = this.props;
 
-    await fetch({
-      url: "/project/investorAll",
+    const fetchActor = fetch({
+      url:  "/project/investorAll",
       method: "get",
       data: null,
       onSuccess: Types.setProjectProposals
     });
+    await dispatch(fetchActor);
 
   }
   onCollapse = (collapsed) => {
@@ -179,16 +186,16 @@ class InvestorDashboard extends React.Component {
                 <Switch>
                   <Route
                     path="/investor/SmeProposals"
-                    render={(props) => <SmeProposals {...props} projectproposals={this.props.projectproposals} />}
+                    render={(props) => <SmeProposals {...props} projectproposals={this.props.projectproposals} dispatch={this.props.dispatch} />}
                   />
 
                   <Route
                     path="/investor/InvestmentHistory"
-                    render={(props) => <InvestmentHistory {...props} user={this.props.user} />}
+                    render={(props) => <InvestmentHistory {...props} user={this.props.user} dispatch={this.props.dispatch} />}
                   />
                   <Route
                     path="/investor/TotalInvestments"
-                    render={(props) => <TotalInvestments {...props} user={this.props.user} />}
+                    render={(props) => <TotalInvestments {...props} user={this.props.user} dispatch={this.props.dispatch} />}
                   />
                   <Route path="/investor/AllUsers" component={AllUsers} />
                   <Route path="/investor/create-user" component={Create} />
@@ -197,12 +204,11 @@ class InvestorDashboard extends React.Component {
                   <Route path="/investor/ProfileDetails" component={ProfileDetails} />
                   <Route path="/investor/EditProfile" component={EditProfile} />
                   <Route path="/investor/create-project" component={CreateProject} />
-                  <Route path="/investor/view-projects" render={(props) => <ViewProject {...props} userCat="investor" />} />
-                  <Route path="/investor/view-project/:projectId" render={(props) => <ProjectDetails {...props} projects={this.state.projects } />} />
-                  <Route path="/investor/proposal-details/:id" render={(props) => <ProposalDetails {...props} projectproposals={this.props.projectproposals } />} />
-                  <Route path="/investor/FundDetails/:id" render={(props) => <FundDetails {...props} user={this.props.user } />} />
-                 {/* <Route path="/investor/invest" render={(props) => <Invest {...props} user={this.state.user} />} />*/}
-                  <Route path="/investor/invest" component={Invest} />
+                  <Route path="/investor/view-projects" render={(props) => <ViewProject {...props} userCat="investor" />} dispatch={this.props.dispatch} />
+                  <Route path="/investor/view-project/:projectId" render={(props) => <ProjectDetails {...props} projects={this.state.projects } dispatch={this.props.dispatch} />} />
+                  <Route path="/investor/proposal-details/:id" render={(props) => <ProposalDetails {...props} projectproposals={this.props.projectproposals} dispatch={this.props.dispatch}  />} />
+                  <Route path="/investor/FundDetails/:id" render={(props) => <FundDetails {...props} user={this.props.user} dispatch={this.props.dispatch} />} />
+                 <Route path="/investor/invest" render={(props) => <Invest {...props} user={this.props.user} dispatch={this.props.dispatch} />} />
                 </Switch>
               </Router>
             </div>
@@ -218,9 +224,5 @@ const mapStateToProps = (state) => ({
   projectproposals: state.projectproposals.list
 
 });
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetch: (data) => dispatch(fetch(data)),
-  }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(InvestorDashboard);
+
+export default connect(mapStateToProps)(InvestorDashboard);

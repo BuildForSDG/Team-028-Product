@@ -209,7 +209,7 @@ class Nav extends React.Component {
       this.props.history.push("/admin");
     } else {
       const form = document.querySelector(`form[name="login"]`);
-      const formFields = serialize(form, { hash: true }); // Make api call with form
+      const formFields = serialize(form, { hash: true });
 
       const { fetch } = this.props;
 
@@ -224,63 +224,6 @@ class Nav extends React.Component {
         if (user.category === undefined || user.category === "") return;
         this.props.history.push("/"+ user.category);
       });
-      // await axios
-      //   .post("https://eazsme-backend.herokuapp.com/login", formFields)
-      //   .then(({ data }) => {
-      //     const { status, result } = data;
-      //     const sme = this.props.sme;
-      //     const investor = this.props.investor;
-      //     const regulator = this.props.regulator;
-
-      //     if (status === "success") {
-      //       localStorage.clear();
-      //       switch (result.category) {
-      //         case "sme":
-      //           user.companyName = result.companyName;
-      //           user.userId = result.email;
-      //           user.category = result.category;
-      //           user.organizationId = result.organizationId;
-
-      //           sme(user);
-      //           localStorage.setItem("userObj", JSON.stringify(user));
-      //           localStorage.setItem("smeObj", JSON.stringify(user));
-      //           this.props.history.push("/sme");
-      //           break;
-      //         case "investor":
-      //           user.companyName = result.companyName;
-      //           user.userId = result.email;
-      //           user.category = result.category;
-      //           user.organizationId = result.organizationId;
-
-      //           investor(user);
-      //           localStorage.setItem("userObj", JSON.stringify(user));
-      //           localStorage.setItem("investorObj", JSON.stringify(user));
-      //           this.props.history.push("/investor");
-      //           break;
-      //         case "regulator":
-      //           user.companyName = result.companyName;
-      //           user.userId = result.email;
-      //           user.category = result.category;
-      //           user.organizationId = result.organizationId;
-
-      //           regulator(user);
-      //           localStorage.setItem("userObj", JSON.stringify(user));
-      //           localStorage.setItem("regObj", JSON.stringify(user));
-      //           this.props.history.push("/regulator");
-      //           break;
-      //         default:
-      //           window.alert("You must be a ghost");
-      //           break;
-      //       }
-      //     } else {
-      //       /*display invalid credentials*/
-      //       this.setState({ loginError: "Invalid Credentials" });
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     this.setState({ loginError: "Invalid Credentials" });
-      //     console.error(error);
-      //   });
     }
   }
 

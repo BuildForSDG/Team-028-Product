@@ -9,6 +9,8 @@ import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
 
+import * as Types from "../../../redux/types";
+
 class InvesmentHistory extends React.Component {
   constructor(props) {
     super(props);
@@ -28,8 +30,18 @@ class InvesmentHistory extends React.Component {
     const disbursements = data.data.data;
 
     this.setState({disbursements});
+    // const { dispatch } = this.props;
+
+    // const fetchActor = fetch({
+    //   url:  "/project/investorAll",
+    //   method: "get",
+    //   data: null,
+    //   onSuccess: Types.setProjectProposals
+    // });
+    // await dispatch(fetchActor);
   }
   render() {
+    console.log(this.props);
     const data = this.state.disbursements;
     return (
       <>

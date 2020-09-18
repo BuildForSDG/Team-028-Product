@@ -154,7 +154,7 @@ class Invest extends React.Component {
               <Form.Group controlId="projectId">
                 <Form.Label>Select Project:</Form.Label>
                 <Form.Control as="select" ref={this.projectSelect} name="projectId" 
-                 onChange={(e) => this.setState({projectName: e.target.value})}>>
+                 onChange={(e) => this.setState({projectName: e.target.value})}>
                     </Form.Control>
 
               </Form.Group>
