@@ -14,4 +14,9 @@ export const projects = {
 
 export const request = {
   isPending: false,
+};
+
+export const projectProposals = {
+  list: [],
+  lastFetch: null
 }

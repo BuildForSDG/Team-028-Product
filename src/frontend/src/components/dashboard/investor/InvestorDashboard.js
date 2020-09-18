@@ -3,39 +3,45 @@
 /* eslint no-console: "error" */
 
 import React from "react";
-import SmeProposals from "./SmeProposals";
-import TotalInvestments from "./TotalInvestments";
-import InvestmentHistory from "./InvestmentHistory";
-import { Badge, Dropdown, Layout, Menu } from "antd";
-import { FileDoneOutlined } from "@ant-design/icons";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { Switch, Router, Route } from "react-router-dom";
+
+
+import { Badge, Dropdown, Layout, Menu, Avatar } from "antd";
 import {
   WalletOutlined,
-  UsergroupAddOutlined,
   AuditOutlined,
   LogoutOutlined,
   ProfileOutlined,
   PoundOutlined,
-  SettingOutlined
+  BellFilled,
+  PieChartOutlined,
+  UserOutlined
 } from "@ant-design/icons";
-import { Link } from "react-router-dom";
-import { Avatar } from "antd";
-import { Switch, Router, Route } from "react-router-dom";
-import { BellFilled, UserAddOutlined, UserSwitchOutlined, RiseOutlined } from "@ant-design/icons";
-import { BarChartOutlined, PieChartOutlined, FileOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
+
+
+import SmeProposals from "./SmeProposals";
+import TotalInvestments from "./TotalInvestments";
+import InvestmentHistory from "./InvestmentHistory";
+
 import AllUsers from "./user/AllUsers";
 import Create from "../general/CreateUser";
-import Remove from "../general/Remove";
 import Update from "../general/Update";
+
 import ProfileDetails from "./user/ProfileDetails";
 import ProposalDetails from "./ProposalDetails";
 import ProjectDetails from "./ProjectDetails";
 import FundDetails from "./FundDetails";
 import EditProfile from "./user/EditProfile";
-import { connect } from "react-redux";
 import Invest from "./invest";
+
 import ViewProject from "../general/View";
 import CreateProject from "../general/Create";
-import axios from "axios";
+
+import * as Types from "../../../redux/types";
+import { fetch } from "../../../redux/actionCreators";
+
 
 const menu = (
   <Menu id="dropdown-menu">
@@ -53,36 +59,25 @@ class InvestorDashboard extends React.Component {
     super(props);
 
     this.state = {
-      collapsed: false,
-      user: {
-        organizationId: 48589,
-        firstName: "kachi1",
-        lastName: "kachi2",
-        otherName: "kachi3",
-        email: "kachi@kachi.com",
-        phoneNumber: 8474849,
-        role: 1,
-        privilege: 1,
-        dateCreated: "2014-090-03"
-      },
-      projectproposals: []
+      collapsed: false
     };
-    this.fetchData = this.fetchData.bind(this);
   }
   componentDidMount() {
-    this.fetchData();
+   this.fetchData();
   }
-  async fetchData() {
-    const url = "https://eazsme-backend.herokuapp.com/project/investorAll";
+  fetchData = async() => {
 
-    const data = await axios.get(url);
+    const { fetch } = this.props;
 
-    const projectproposals = data.data.data;
+    await fetch({
+      url: "/project/investorAll",
+      method: "get",
+      data: null,
+      onSuccess: Types.setProjectProposals
+    });
 
-    this.setState({ projectproposals });
   }
   onCollapse = (collapsed) => {
-    console.log(collapsed);
     this.setState({ collapsed });
   };
 
@@ -184,16 +179,16 @@ class InvestorDashboard extends React.Component {
                 <Switch>
                   <Route
                     path="/investor/SmeProposals"
-                    render={(props) => <SmeProposals {...props} projectproposals={this.state.projectproposals} />}
+                    render={(props) => <SmeProposals {...props} projectproposals={this.props.projectproposals} />}
                   />
 
                   <Route
                     path="/investor/InvestmentHistory"
-                    render={(props) => <InvestmentHistory {...props} user={this.state.user} />}
+                    render={(props) => <InvestmentHistory {...props} user={this.props.user} />}
                   />
                   <Route
                     path="/investor/TotalInvestments"
-                    render={(props) => <TotalInvestments {...props} user={this.state.user} />}
+                    render={(props) => <TotalInvestments {...props} user={this.props.user} />}
                   />
                   <Route path="/investor/AllUsers" component={AllUsers} />
                   <Route path="/investor/create-user" component={Create} />
@@ -204,8 +199,8 @@ class InvestorDashboard extends React.Component {
                   <Route path="/investor/create-project" component={CreateProject} />
                   <Route path="/investor/view-projects" render={(props) => <ViewProject {...props} userCat="investor" />} />
                   <Route path="/investor/view-project/:projectId" render={(props) => <ProjectDetails {...props} projects={this.state.projects } />} />
-                  <Route path="/investor/proposal-details/:id" render={(props) => <ProposalDetails {...props} projectproposals={this.state.projectproposals } />} />
-                  <Route path="/investor/FundDetails/:id" render={(props) => <FundDetails {...props} user={this.state.user } />} />
+                  <Route path="/investor/proposal-details/:id" render={(props) => <ProposalDetails {...props} projectproposals={this.props.projectproposals } />} />
+                  <Route path="/investor/FundDetails/:id" render={(props) => <FundDetails {...props} user={this.props.user } />} />
                  {/* <Route path="/investor/invest" render={(props) => <Invest {...props} user={this.state.user} />} />*/}
                   <Route path="/investor/invest" component={Invest} />
                 </Switch>
@@ -220,5 +215,12 @@ class InvestorDashboard extends React.Component {
 }
 const mapStateToProps = (state) => ({
   user: state.user,
+  projectproposals: state.projectproposals.list
+
 });
-export default connect(mapStateToProps)(InvestorDashboard);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetch: (data) => dispatch(fetch(data)),
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(InvestorDashboard);

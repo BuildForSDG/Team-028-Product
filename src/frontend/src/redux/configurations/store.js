@@ -7,7 +7,8 @@ import  { devToolsEnhancer } from "redux-devtools-extension"
 import {
   projectsReducer,
   requestsReducer,
-  userReducer
+  userReducer,
+  projectProposalsReducer
 } from "../reducers/reducers";
 
 import {
@@ -43,7 +44,8 @@ const store = () => {
     combineReducers({
       projects: projectsReducer,
       request: requestsReducer,
-      user: userReducer
+      user: userReducer,
+      projectproposals: projectProposalsReducer
     }),
     persistedState,
     compose(

@@ -45,3 +45,8 @@ export const fetch = ({url, method,  data, onSuccess, onError})=>({
     onError
   }
 });
+
+export const setProjectProposals = (payload)=>({
+  type: Types.setProjectProposals,
+  payload
+});

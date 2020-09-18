@@ -16,3 +16,4 @@ export const api_pending = "API_REQUEST_PENDING";
 export const api_success = "API_REQUEST_SUCCESS";
 export const api_failure = "API_REQUEST_FAILURE";
 
+export const setProjectProposals = "SET_PROJECT_PROPOSALS_LIST";

@@ -38,7 +38,20 @@ export const projectsReducer = (state = states.projects, action) => {
     }
   }
 };
-
+export const projectProposalsReducer = (state = states.projectProposals, action) => {
+  switch (action.type) {
+    case Types.setProjectProposals: {
+      return ({
+        ...state,
+        list: action.payload,
+        lastFetch: Date.now()
+      });
+    }
+    default: {
+      return state;
+    }
+  }
+};
 
 
 export const requestsReducer = (state = states.request, action) => {
