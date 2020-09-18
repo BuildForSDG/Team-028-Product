@@ -1,14 +1,29 @@
 import { createStore, combineReducers } from "redux";
 import { compose, applyMiddleware } from "redux";
-import { smesReducer, investorsReducer, regulatorsReducer, projectsReducer, adminReducer } from "../reducers/reducers";
-import { smes, investors, regulators, admins, projects } from "./states";
+import { createLogger } from "redux-logger";
+import  { devToolsEnhancer } from "redux-devtools-extension"
+
+
 import {
-  smeMiddleware,
-  regulatorMiddleware,
-  projectMiddleware,
-  investorMiddleware,
-  adminMiddleware
+  smesReducer,
+  investorsReducer,
+  regulatorsReducer,
+  projectsReducer,
+  adminReducer,
+  requestsReducer
+} from "../reducers/reducers";
+import { smes, investors, regulators, admins, projects, requests } from "./states";
+import {
+  // smeMiddleware,
+  // regulatorMiddleware,
+  // projectMiddleware,
+  // investorMiddleware,
+  // adminMiddleware,
+  apiMiddleware
 } from "../middlewares/middlewares";
+
+const logger = createLogger();
+
 const store = () => {
   const appStore = createStore(
     combineReducers({
@@ -16,16 +31,30 @@ const store = () => {
       regulator: regulatorsReducer,
       project: projectsReducer,
       admin: adminReducer,
-      sme: smesReducer
+      sme: smesReducer,
+      request: requestsReducer,
     }),
     {
       sme: smes,
       investor: investors,
       regulator: regulators,
       project: projects,
-      admin: admins
+      admin: admins,
+      request: requests
     },
-    compose(applyMiddleware(adminMiddleware, investorMiddleware, projectMiddleware, regulatorMiddleware, smeMiddleware))
+    compose(
+      applyMiddleware(
+        // adminMiddleware,
+        // investorMiddleware,
+        // projectMiddleware,
+        // regulatorMiddleware,
+        // smeMiddleware,
+        logger,
+        apiMiddleware),
+        devToolsEnhancer({
+          trace: true
+        })
+      )
   );
   return appStore;
 };

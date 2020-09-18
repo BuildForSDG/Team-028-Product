@@ -29,3 +29,14 @@ export const regulatorAction = (payload) => ({
   payload,
   meta: "regulator"
 });
+
+export const fetch = ({url, method,  data, onSuccess, onError})=>({
+  type: Types.api,
+  payload:{
+    url,
+    method,
+    data,
+    onSuccess,
+    onError
+  }
+});
