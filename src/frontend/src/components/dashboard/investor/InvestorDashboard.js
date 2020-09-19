@@ -18,7 +18,8 @@ import {
   PoundOutlined,
   BellFilled,
   PieChartOutlined,
-  UserOutlined
+  UserOutlined,
+  RiseOutlined
 } from "@ant-design/icons";
 
 
@@ -75,15 +76,25 @@ class InvestorDashboard extends React.Component {
 
     const { dispatch } = this.props;
 
-    const fetchActor = fetch({
+    const fetchProposals = fetch({
       url:  "/project/investorAll",
       method: "get",
       data: null,
       onSuccess: Types.setProjectProposals
     });
-    await dispatch(fetchActor);
+    await dispatch(fetchProposals);
+
+    const fetchDisbursements = fetch({
+      url:  `/disbursements/${this.props.user.organizationId}`,
+      method: "get",
+      data: null,
+      onSuccess: Types.setDisbursements
+    });
+
+    await dispatch(fetchDisbursements);
 
   }
+
   onCollapse = (collapsed) => {
     this.setState({ collapsed });
   };
@@ -125,12 +136,12 @@ class InvestorDashboard extends React.Component {
               <Menu.Item key="7" icon={<WalletOutlined />}>
                 <Link to="/investor/invest">Invest</Link>
               </Menu.Item>
-             {/* <Menu.Item key="8">
+              <Menu.Item key="8">
                 <Link to="/investor/InvestmentHistory">
                   <RiseOutlined />
                   History
                 </Link>
-              </Menu.Item>*/}
+              </Menu.Item>
 
               <Menu.Item key="9" icon={<PoundOutlined />}>
                 <Link to="/investor/TotalInvestments">Amount</Link>
@@ -191,7 +202,7 @@ class InvestorDashboard extends React.Component {
 
                   <Route
                     path="/investor/InvestmentHistory"
-                    render={(props) => <InvestmentHistory {...props} user={this.props.user} dispatch={this.props.dispatch} />}
+                    render={(props) => <InvestmentHistory {...props} user={this.props.user} dispatch={this.props.dispatch} disbursements={this.props.disbursements} />}
                   />
                   <Route
                     path="/investor/TotalInvestments"
@@ -221,8 +232,8 @@ class InvestorDashboard extends React.Component {
 }
 const mapStateToProps = (state) => ({
   user: state.user,
-  projectproposals: state.projectproposals.list
-
+  projectproposals: state.projectproposals.list,
+  disbursements: state.disbursements.list,
 });
 
 export default connect(mapStateToProps)(InvestorDashboard);

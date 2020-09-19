@@ -8,7 +8,8 @@ import {
   projectsReducer,
   requestsReducer,
   userReducer,
-  projectProposalsReducer
+  projectProposalsReducer,
+  disbursementsReducer
 } from "../reducers/reducers";
 
 import {
@@ -45,7 +46,8 @@ const store = () => {
       projects: projectsReducer,
       request: requestsReducer,
       user: userReducer,
-      projectproposals: projectProposalsReducer
+      projectproposals: projectProposalsReducer,
+      disbursements: disbursementsReducer
     }),
     persistedState,
     compose(

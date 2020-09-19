@@ -52,6 +52,20 @@ export const projectProposalsReducer = (state = states.projectProposals, action)
     }
   }
 };
+export const disbursementsReducer = (state = states.disbursements, action) => {
+  switch (action.type) {
+    case Types.setDisbursements: {
+      return ({
+        ...state,
+        list: action.payload,
+        lastFetch: Date.now()
+      });
+    }
+    default: {
+      return state;
+    }
+  }
+};
 
 
 export const requestsReducer = (state = states.request, action) => {

@@ -19,4 +19,9 @@ export const request = {
 export const projectProposals = {
   list: [],
   lastFetch: null
-}
+};
+
+export const disbursements = {
+  list: [],
+  lastFetch: null
+};

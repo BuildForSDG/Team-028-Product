@@ -50,3 +50,8 @@ export const setProjectProposals = (payload)=>({
   type: Types.setProjectProposals,
   payload
 });
+
+export const setDisbursements = (payload)=>({
+  type: Types.setDisbursements,
+  payload
+});

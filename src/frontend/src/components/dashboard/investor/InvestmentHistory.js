@@ -3,46 +3,15 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Card from "react-bootstrap/Card";
-import Table from "react-bootstrap/Table";
-import axios from "axios";
 
-import * as Types from "../../../redux/types";
+import { Form, Button} from "react-bootstrap"
+
 
 class InvesmentHistory extends React.Component {
-  constructor(props) {
-    super(props);
-    
-    this.state = {
-      disbursements: []
-    };
-    this.fetchData = this.fetchData.bind(this);
-  }
   componentDidMount() {
-    this.fetchData();
-  }
-  async fetchData() {
-    const url = `http://localhost:4000/disbursements/${this.props.user.organizationId}`;
-    
-    const data = await axios.get(url);
-    const disbursements = data.data.data;
-
-    this.setState({disbursements});
-    // const { dispatch } = this.props;
-
-    // const fetchActor = fetch({
-    //   url:  "/project/investorAll",
-    //   method: "get",
-    //   data: null,
-    //   onSuccess: Types.setProjectProposals
-    // });
-    // await dispatch(fetchActor);
   }
   render() {
-    console.log(this.props);
-    const data = this.state.disbursements;
+    const data = this.props.disbursements;
     return (
       <>
       <div className="sachBody">
@@ -52,12 +21,12 @@ class InvesmentHistory extends React.Component {
             <Form.Control className="searchBar" style={{ width:"250px", float:"right",marginRight:"10px" }} type="text" placeholder="Enter project name to search" name="search" />
           </Form.Group></li>
           </ul>
-        </div> 
+        </div>
 
       <div>
           <div className="invest-Title">List of Funded Projects</div>
         </div>
-      
+
       <table class="table table-sm table-dark">
         <thead>
           <tr>
