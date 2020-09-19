@@ -9,6 +9,7 @@ export const user = {
 };
 
 export const projects = {
+  list: [],
   lastFetch: null
 };
 
@@ -22,6 +23,11 @@ export const projectProposals = {
 };
 
 export const disbursements = {
+  list: [],
+  lastFetch: null
+};
+
+export const fundCategories = {
   list: [],
   lastFetch: null
 };

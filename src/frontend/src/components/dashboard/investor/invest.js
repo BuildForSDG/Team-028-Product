@@ -17,7 +17,6 @@ class Invest extends React.Component {
     super(props);
     
     this.state = {
-      projects: [],
       categories: [],
       success: ``,
       error: ``,
@@ -31,7 +30,6 @@ class Invest extends React.Component {
     this.categorySelect = React.createRef();
     this.projectSelect=React.createRef();
     this.getCategory = this.getCategory.bind(this);
-    this.getActiveProjects = this.getActiveProjects.bind(this);
   }
 
   componentDidMount() {
@@ -40,60 +38,35 @@ class Invest extends React.Component {
     const userObj = JSON.parse(localStorage.getItem(`userObj`));
     if (userObj) {
       this.setState(() => ({ userObj }));
-     
     }
   }
 
 
-  getActiveProjects() {
-    axios
-      .get(`https://eazsme-backend.herokuapp.com/projects/all`)
-      .then((data) => {
-      
-        const projects = data.data.data;    
-        this.setState({projects}, () => {
-          const select = this.projectSelect.current;
+  getActiveProjects = () => {
+      const select = this.projectSelect.current;
 
-          const { projects } = this.state;
-          const data = projects;
+      const data = this.props.projects;
 
-          // based on type of data is array
-          for (let i = 0; i < data.length; i++) {
-            const option = document.createElement(`option`);
-            option.innerText = data[parseInt(i,10)].projectName;
-            option.name = data[parseInt(i,10)].projectName;
-            option.value = data[parseInt(i,10)].projectId;
-            select.appendChild(option);
-          }
-        });
-      })
-      .catch((error) => console.log(error));
+      for (let i = 0; i < data.length; i++) {
+        const option = document.createElement(`option`);
+        option.innerText = data[parseInt(i,10)].projectName;
+        option.name = data[parseInt(i,10)].projectName;
+        option.value = data[parseInt(i,10)].projectId;
+        select.appendChild(option);
+      }
   }
-
-  
   getCategory() {
-    axios
-      .get(`https://eazsme-backend.herokuapp.com/funds/category/all`)
-      .then((data) => {
-        const categories = data.data.data;
-  console.log(categories);
-        this.setState({categories}, () => {
-          const select = this.categorySelect.current;
+      const select = this.categorySelect.current;
 
-          const { categories } = this.state;
-          const data = categories;
+      const data = this.props.fundcategories;
 
-          // based on type of data is array
-          for (let i = 0; i < data.length; i++) {
-            const option = document.createElement(`option`);
-            option.innerText = data[parseInt(i,10)].categoryName;
-            option.name = data[parseInt(i,10)].categoryName;
-            option.value = data[parseInt(i,10)].fundCatId;
-            select.appendChild(option);
-          }
-        });
-      })
-      .catch((error) => console.log(error));
+      for (let i = 0; i < data.length; i++) {
+        const option = document.createElement(`option`);
+        option.innerText = data[parseInt(i,10)].categoryName;
+        option.name = data[parseInt(i,10)].categoryName;
+        option.value = data[parseInt(i,10)].fundCatId;
+        select.appendChild(option);
+      }
   }
 
   handleEditorChange(content, editor) {

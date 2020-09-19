@@ -93,6 +93,24 @@ class InvestorDashboard extends React.Component {
 
     await dispatch(fetchDisbursements);
 
+    const fetchProjects = fetch({
+      url:  "/projects/all",
+      method: "get",
+      data: null,
+      onSuccess: Types.setProjects
+    });
+
+    await dispatch(fetchProjects);
+
+    const fetchFundCategories = fetch({
+      url:  "/funds/category/all",
+      method: "get",
+      data: null,
+      onSuccess: Types.setFundCategories
+    });
+
+    await dispatch(fetchFundCategories);
+
   }
 
   onCollapse = (collapsed) => {
@@ -219,7 +237,7 @@ class InvestorDashboard extends React.Component {
                   <Route path="/investor/view-project/:projectId" render={(props) => <ProjectDetails {...props} projects={this.state.projects } dispatch={this.props.dispatch} />} />
                   <Route path="/investor/proposal-details/:id" render={(props) => <ProposalDetails {...props} projectproposals={this.props.projectproposals} dispatch={this.props.dispatch}  />} />
                   <Route path="/investor/FundDetails/:id" render={(props) => <FundDetails {...props} user={this.props.user} dispatch={this.props.dispatch} />} />
-                 <Route path="/investor/invest" render={(props) => <Invest {...props} user={this.props.user} dispatch={this.props.dispatch} />} />
+                 <Route path="/investor/invest" render={(props) => <Invest {...props} user={this.props.user} dispatch={this.props.dispatch} projects={this.props.projects} fundcategories={this.props.fundcategories}/>} />
                 </Switch>
               </Router>
             </div>
@@ -234,6 +252,8 @@ const mapStateToProps = (state) => ({
   user: state.user,
   projectproposals: state.projectproposals.list,
   disbursements: state.disbursements.list,
+  projects: state.projects.list,
+  fundcategories: state.fundcategories.list
 });
 
 export default connect(mapStateToProps)(InvestorDashboard);

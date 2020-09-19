@@ -23,13 +23,10 @@ export const userReducer = (state = states.user, action) => {
 
 export const projectsReducer = (state = states.projects, action) => {
   switch (action.type) {
-    case Types.admin: {
+    case Types.setProjects: {
       return ({
         ...state,
-        companyName: action.payload.companyName,
-        category: action.payload.category,
-        userId: action.payload.userId,
-        userData: action.payload.userData,
+        list: action.payload,
         lastFetch: Date.now()
       });
     }
@@ -41,6 +38,20 @@ export const projectsReducer = (state = states.projects, action) => {
 export const projectProposalsReducer = (state = states.projectProposals, action) => {
   switch (action.type) {
     case Types.setProjectProposals: {
+      return ({
+        ...state,
+        list: action.payload,
+        lastFetch: Date.now()
+      });
+    }
+    default: {
+      return state;
+    }
+  }
+};
+export const fundCategoriesReducer = (state = states.fundCategories, action) => {
+  switch (action.type) {
+    case Types.setFundCategories: {
       return ({
         ...state,
         list: action.payload,

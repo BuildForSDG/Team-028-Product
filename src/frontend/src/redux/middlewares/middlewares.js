@@ -2,7 +2,6 @@ import axios from 'axios';
 import * as Types from '../types';
 
 export const apiMiddleware =  ({dispatch, getState }) => next => async action =>{
-  console.log(action)
   if (action.type !== Types.api_pending){
     return next(action);
   }
@@ -26,7 +25,12 @@ export const apiMiddleware =  ({dispatch, getState }) => next => async action =>
       if (response.data.data) dispatch({ type: onSuccess, payload: response.data.data });
 
     }else{
-      dispatch({type: Types.api_failure});
+      const fetchedData = response.data.data;
+
+      if (fetchedData.length > 0){
+        dispatch({ type: onSuccess, payload: fetchedData })
+      }
+      else dispatch({type: Types.api_failure});
     }
   } catch (error) {
 

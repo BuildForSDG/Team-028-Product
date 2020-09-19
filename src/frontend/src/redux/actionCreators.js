@@ -35,15 +35,9 @@ export const setUser = (payload) => ({
   payload,
 });
 
-export const fetch = ({url, method,  data, onSuccess, onError})=>({
+export const fetch = (payload)=>({
   type: Types.api_pending,
-  payload:{
-    url,
-    method,
-    data,
-    onSuccess,
-    onError
-  }
+  payload
 });
 
 export const setProjectProposals = (payload)=>({
@@ -55,3 +49,14 @@ export const setDisbursements = (payload)=>({
   type: Types.setDisbursements,
   payload
 });
+
+export const setProjects = (payload)=>({
+  type: Types.setProjects,
+  payload
+});
+
+export const setFundCategories = (payload)=>({
+  type: Types.setFundCategories,
+  payload
+});
+

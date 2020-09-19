@@ -1,7 +1,7 @@
 import { createStore, combineReducers } from "redux";
 import { compose, applyMiddleware } from "redux";
 import { createLogger } from "redux-logger";
-import  { devToolsEnhancer } from "redux-devtools-extension"
+import  { devToolsEnhancer } from "redux-devtools-extension";
 
 
 import {
@@ -9,7 +9,8 @@ import {
   requestsReducer,
   userReducer,
   projectProposalsReducer,
-  disbursementsReducer
+  disbursementsReducer,
+  fundCategoriesReducer
 } from "../reducers/reducers";
 
 import {
@@ -47,7 +48,8 @@ const store = () => {
       request: requestsReducer,
       user: userReducer,
       projectproposals: projectProposalsReducer,
-      disbursements: disbursementsReducer
+      disbursements: disbursementsReducer,
+      fundcategories: fundCategoriesReducer
     }),
     persistedState,
     compose(
