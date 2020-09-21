@@ -2,14 +2,6 @@
 /* eslint-disable no-console */
 /* eslint no-console: "error" */
 import React from "react";
-import { Upload, message, Button } from "antd";
-import { DownloadOutlined } from "@ant-design/icons";
-import reqwest from "reqwest";
-// import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import { Link } from "react-router-dom";
 import axios from "axios";
 
 class ProjectDetails extends React.Component {
@@ -70,10 +62,10 @@ class ProjectDetails extends React.Component {
               <div class="col-3">Project Description:</div>
               <div class="col-9">{this.state.project.description}</div>
             </div>
-            {/*<div class="row justify-content-between stripped">
+            <div class="row justify-content-between stripped">
               <div class="col-3">Project Category:</div>
               <div class="col-9">{this.state.project.categoryName}</div>
-    </div>*/}
+            </div>
             <div class="row justify-content-between stripped">
               <div class="col-4">Eligibility Criteria:</div>
               <div class="col-8">{this.state.project.eligibility}</div>

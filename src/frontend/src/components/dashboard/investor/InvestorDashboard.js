@@ -4,7 +4,7 @@
 
 import React from "react";
 import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import { connect, batch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Switch, Router, Route } from "react-router-dom";
 
@@ -82,7 +82,6 @@ class InvestorDashboard extends React.Component {
       data: null,
       onSuccess: Types.setProjectProposals
     });
-    dispatch(fetchProposals);
 
     const fetchDisbursements = fetch({
       url:  `/disbursements/${this.props.user.organizationId}`,
@@ -91,7 +90,6 @@ class InvestorDashboard extends React.Component {
       onSuccess: Types.setDisbursements
     });
 
-    dispatch(fetchDisbursements);
 
     const fetchProjects = fetch({
       url:  "/projects/all",
@@ -100,7 +98,6 @@ class InvestorDashboard extends React.Component {
       onSuccess: Types.setProjects
     });
 
-    dispatch(fetchProjects);
 
     const fetchFundCategories = fetch({
       url:  "/funds/category/all",
@@ -109,7 +106,6 @@ class InvestorDashboard extends React.Component {
       onSuccess: Types.setFundCategories
     });
 
-    dispatch(fetchFundCategories);
 
     const fetchInvestments = fetch({
       url:  `/funds/organizations/${this.props.user.organizationId}`,
@@ -118,7 +114,13 @@ class InvestorDashboard extends React.Component {
       onSuccess: Types.updateUserInvestments
     });
 
-    dispatch(fetchInvestments);
+    batch(()=>{
+      dispatch(fetchProposals);
+      dispatch(fetchDisbursements);
+      dispatch(fetchProjects);
+      dispatch(fetchFundCategories);
+      dispatch(fetchInvestments);
+    });
 
   }
 
@@ -224,7 +226,7 @@ class InvestorDashboard extends React.Component {
                 <Switch>
                   <Route
                     path="/investor/SmeProposals"
-                    render={(props) => <SmeProposals {...props} projectproposals={this.props.projectproposals} dispatch={this.props.dispatch} />}
+                    render={(props) => <SmeProposals {...props} projectproposals={this.props.projectproposals} />}
                   />
 
                   <Route
@@ -242,8 +244,8 @@ class InvestorDashboard extends React.Component {
                   <Route path="/investor/ProfileDetails" component={ProfileDetails} />
                   <Route path="/investor/EditProfile" component={EditProfile} />
                   <Route path="/investor/create-project" component={CreateProject} />
-                  <Route path="/investor/view-projects" render={(props) => <ViewProject {...props} userCat="investor" />} dispatch={this.props.dispatch} />
-                  <Route path="/investor/view-project/:projectId" render={(props) => <ProjectDetails {...props} projects={this.state.projects } dispatch={this.props.dispatch} />} />
+                  <Route path="/investor/view-projects" render={(props) => <ViewProject {...props} userCat="investor" projects={this.props.projects} dispatch={this.props.dispatch} />} />
+                  <Route path="/investor/view-project/:projectId" render={(props) => <ProjectDetails {...props} dispatch={this.props.dispatch} />} />
                   <Route path="/investor/proposal-details/:id" render={(props) => <ProposalDetails {...props} projectproposals={this.props.projectproposals} dispatch={this.props.dispatch}  />} />
                   <Route path="/investor/FundDetails/:id" render={(props) => <FundDetails {...props} user={this.props.user} dispatch={this.props.dispatch} />} />
                  <Route path="/investor/invest" render={(props) => <Invest {...props} user={this.props.user} dispatch={this.props.dispatch} projects={this.props.projects} fundcategories={this.props.fundcategories}/>} />

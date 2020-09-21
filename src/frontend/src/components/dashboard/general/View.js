@@ -27,7 +27,9 @@ class View extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchData();
+    const projects = this.props.projects;
+    this.setState({projects, filteredProjects: projects});
+    // this.fetchData();
   }
   searchProjects(e){
     e.preventDefault();
@@ -53,7 +55,7 @@ class View extends React.Component {
   onChange(e){
     const value =  e.target.value;
     if (value.trim() === ""){
-      this.setState({filteredProjects: this.state.projects, searchTerm: value});
+      this.setState({filteredProjects: this.props.projects, searchTerm: value});
     }else{
       this.setState({searchTerm: value});
     }
@@ -61,12 +63,16 @@ class View extends React.Component {
   }
   async fetchData() {
     const data = await axios.get("http://localhost:4000/projects/all");
-    const projects = data.data.data;  
+    const projects = data.da;  
     this.setState({projects, filteredProjects: projects});
   }
 
   render() {
-    const data = this.state.filteredProjects;
+    let data = [];
+
+    if (this.props.projects){
+      data = this.state.filteredProjects;
+    }
     return (
       <Card.Body>
         {/* 8w>
