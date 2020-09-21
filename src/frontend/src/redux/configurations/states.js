@@ -15,6 +15,8 @@ export const projects = {
 
 export const request = {
   isPending: false,
+  status: "",
+  message: ""
 };
 
 export const projectProposals = {

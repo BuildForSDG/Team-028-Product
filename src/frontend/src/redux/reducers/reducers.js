@@ -82,13 +82,13 @@ export const disbursementsReducer = (state = states.disbursements, action) => {
 export const requestsReducer = (state = states.request, action) => {
   switch (action.type) {
     case Types.api_pending: {
-      return Object.assign({}, state, {isPending: true});
+      return Object.assign({}, state, { isPending: true });
     }
     case Types.api_success: {
-      return Object.assign({},state, {isPending: false});
+      return Object.assign({},state, { isPending: false, ...action.payload });
     }
     case Types.api_failure: {
-      return Object.assign({}, state,{isPending: false});
+      return Object.assign({}, state,{ isPending: false, ...action.payload });
     }
     default: {
       return state;

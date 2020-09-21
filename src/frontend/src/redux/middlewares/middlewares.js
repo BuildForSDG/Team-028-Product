@@ -16,9 +16,11 @@ export const apiMiddleware =  ({dispatch, getState }) => next => async action =>
       method,
       data
     });
+    const { status, message } =  response.data;
 
-    if (response.data.status === "success"){
-      dispatch({ type: Types.api_success });
+    if (status === "success"){
+
+      dispatch({ type: Types.api_success, payload :{ status, message } });
 
       if (response.data.result) dispatch({ type: onSuccess, payload: response.data.result });
 
@@ -30,7 +32,7 @@ export const apiMiddleware =  ({dispatch, getState }) => next => async action =>
       if (fetchedData.length > 0){
         dispatch({ type: onSuccess, payload: fetchedData })
       }
-      else dispatch({type: Types.api_failure});
+      else dispatch({ type: Types.api_failure, payload: { status, message } });
     }
   } catch (error) {
 

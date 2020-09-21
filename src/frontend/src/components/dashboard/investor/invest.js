@@ -1,67 +1,61 @@
 /* eslint-disable no-console */
 /* eslint-disable no-multi-str */
-/*eslint quotes: ["error", "backtick"]*/
 /*eslint-env es6*/
 /* eslint no-console: "error" */
 import React from "react";
-import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+
 import serialize from "form-serialize";
-import axios from "axios";
+
+import { Card, Form, Button, Row, Col } from "react-bootstrap";
+
+import { fetch } from "../../../redux/actionCreators";
+
+import { connect } from "react-redux";
 
 class Invest extends React.Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
-      categories: [],
-      success: ``,
-      error: ``,
-      description: ``,
-      projectName: ``,
-      organizationId:``
+      success: "",
+      error: "",
+      description: "",
+      projectName: "",
+      organizationId:""
     };
 
     this.handleEditorChange = this.handleEditorChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.categorySelect = React.createRef();
     this.projectSelect=React.createRef();
-    this.getCategory = this.getCategory.bind(this);
   }
 
   componentDidMount() {
     this.getCategory();
     this.getActiveProjects();
-    const userObj = JSON.parse(localStorage.getItem(`userObj`));
-    if (userObj) {
-      this.setState(() => ({ userObj }));
-    }
   }
 
 
   getActiveProjects = () => {
-      const select = this.projectSelect.current;
+    const select = this.projectSelect.current;
 
-      const data = this.props.projects;
+    const data = this.props.projects;
 
-      for (let i = 0; i < data.length; i++) {
-        const option = document.createElement(`option`);
-        option.innerText = data[parseInt(i,10)].projectName;
-        option.name = data[parseInt(i,10)].projectName;
-        option.value = data[parseInt(i,10)].projectId;
-        select.appendChild(option);
-      }
+    for (let i = 0; i < data.length; i++) {
+      const option = document.createElement("option");
+      option.innerText = data[parseInt(i,10)].projectName;
+      option.name = data[parseInt(i,10)].projectName;
+      option.value = data[parseInt(i,10)].projectId;
+      select.appendChild(option);
+    }
   }
-  getCategory() {
+  getCategory = () => {
       const select = this.categorySelect.current;
 
       const data = this.props.fundcategories;
 
       for (let i = 0; i < data.length; i++) {
-        const option = document.createElement(`option`);
+        const option = document.createElement("option");
         option.innerText = data[parseInt(i,10)].categoryName;
         option.name = data[parseInt(i,10)].categoryName;
         option.value = data[parseInt(i,10)].fundCatId;
@@ -78,55 +72,48 @@ class Invest extends React.Component {
 
     const form = document.querySelector(`form[name="create-investment"]`);
     const formFields = serialize(form, { hash: true });
-    
-    formFields.status = `investment initiated`;
-    formFields.organizationId = this.state.userObj.organizationId;
-    //formFields.projectName=this.state.projectName;
 
-    axios
-      .post(`https://eazsme-backend.herokuapp.com/invest`, formFields)
-      .then((data) => {
-        if (data.data.status === `success`) {
-          this.setState({ 
-            success: `Investment Initiated!`, 
-            error:``,
-           });
-           setTimeout(() => {
-            window.location.reload();
-           }, 1000);
-        } else {
-          this.setState({ error: `Error creating Initiating Investment`, success: `` });
-        }
-      })
-      .catch((error) => {
-        this.setState({ error: error.message, success: `` });
-      });
+    formFields.status = "investment initiated";
+
+    const { user, dispatch } = this.props;
+    formFields.organizationId = user.organizationId;
+
+    const saveInvestment = fetch({
+      url:  "/invest",
+      method: "post",
+      data: formFields,
+      onSuccess: ""
+    });
+    dispatch(saveInvestment).then(()=>{
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    });
   }
 
   render() {
-    const success = this.state.success;
-    const error = this.state.error;
+    const { status, message } = this.props.request;
     return (
       <Card.Body>
         <Row>
           <Col>
-          {success ? (
+          {status ==="success" ? (
               <div className="text-bold text-success">
-                <h5>{success}</h5>
+                <h5>{message}</h5>
               </div>
             ) : (
               <div className="text-bold text-success">
-                <h5>{error}</h5>
+                <h5>{message}</h5>
               </div>
             )}
-            <Form name="create-investment"> 
+            <Form name="create-investment">
              <Form.Group controlId="fundCatId">
                 <Form.Label>Category Type:</Form.Label>
                 <Form.Control as="select" ref={this.categorySelect} name="fundCatId"></Form.Control>
               </Form.Group>
               <Form.Group controlId="projectId">
                 <Form.Label>Select Project:</Form.Label>
-                <Form.Control as="select" ref={this.projectSelect} name="projectId" 
+                <Form.Control as="select" ref={this.projectSelect} name="projectId"
                  onChange={(e) => this.setState({projectName: e.target.value})}>
                     </Form.Control>
 
@@ -148,11 +135,12 @@ class Invest extends React.Component {
             </Form>
           </Col>
         </Row>
-        <Row>
-    
-        </Row>
       </Card.Body>
     );
   }
 }
-export default Invest;
+const mapStateToProps = (state) => ({
+  request: state.request
+});
+
+export default connect(mapStateToProps)(Invest);
