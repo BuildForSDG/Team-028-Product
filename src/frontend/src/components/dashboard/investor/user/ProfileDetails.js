@@ -52,7 +52,7 @@ class ProfileDetails extends React.Component {
       url:  `/users/${userId}`,
       method: "get",
       data: null,
-      onSuccess: Types.setProjectProposals
+      onSuccess: Types.updateUserProfile
     });
     dispatch(fetchProfileDetails).then(()=>{
       this.setState({ details: this.props.details });
