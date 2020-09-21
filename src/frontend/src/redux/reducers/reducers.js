@@ -15,6 +15,8 @@ export const userReducer = (state = states.user, action) => {
         lastFetch: Date.now()
       });
     }
+    case Types.updateUserInvestments:
+      return { ...state, investments: action.payload }
     default: {
       return state;
     }
@@ -89,6 +91,17 @@ export const requestsReducer = (state = states.request, action) => {
     }
     case Types.api_failure: {
       return Object.assign({}, state,{ isPending: false, ...action.payload });
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+export const fundDetailsReducer = (state = states.fundDetails, action) => {
+  switch (action.type) {
+    case Types.setFundDetails: {
+      return Object.assign({}, state, { ...action.payload });
     }
     default: {
       return state;

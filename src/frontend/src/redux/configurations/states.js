@@ -5,6 +5,7 @@ export const user = {
   email:"",
   organizationId: "",
   userId: "",
+  investments: [],
   lastFetch: null
 };
 
@@ -18,6 +19,8 @@ export const request = {
   status: "",
   message: ""
 };
+
+export const fundDetails = {};
 
 export const projectProposals = {
   list: [],

@@ -82,7 +82,7 @@ class InvestorDashboard extends React.Component {
       data: null,
       onSuccess: Types.setProjectProposals
     });
-    await dispatch(fetchProposals);
+    dispatch(fetchProposals);
 
     const fetchDisbursements = fetch({
       url:  `/disbursements/${this.props.user.organizationId}`,
@@ -91,7 +91,7 @@ class InvestorDashboard extends React.Component {
       onSuccess: Types.setDisbursements
     });
 
-    await dispatch(fetchDisbursements);
+    dispatch(fetchDisbursements);
 
     const fetchProjects = fetch({
       url:  "/projects/all",
@@ -100,7 +100,7 @@ class InvestorDashboard extends React.Component {
       onSuccess: Types.setProjects
     });
 
-    await dispatch(fetchProjects);
+    dispatch(fetchProjects);
 
     const fetchFundCategories = fetch({
       url:  "/funds/category/all",
@@ -109,7 +109,16 @@ class InvestorDashboard extends React.Component {
       onSuccess: Types.setFundCategories
     });
 
-    await dispatch(fetchFundCategories);
+    dispatch(fetchFundCategories);
+
+    const fetchInvestments = fetch({
+      url:  `/funds/organizations/${this.props.user.organizationId}`,
+      method: "get",
+      data: null,
+      onSuccess: Types.updateUserInvestments
+    });
+
+    dispatch(fetchInvestments);
 
   }
 
@@ -174,7 +183,7 @@ class InvestorDashboard extends React.Component {
           </Menu>
         </Sider>
         <Layout className="site-layout">
-          <nav class="navbar inv-header">
+          <nav className="navbar inv-header">
             <div className="cat-title bgIn">INVESTOR HOME</div>
             {/* <Link className="dashboard-img" to="#">
               <img
@@ -186,7 +195,7 @@ class InvestorDashboard extends React.Component {
             </Link> */}
             <div>
               <Badge className="badge-item" count={5}>
-                <a href="#" className="example" />
+                <a href="/" className="example" ></a>
               </Badge>
               <BellFilled className="notificationBell" />
             </div>
@@ -253,7 +262,7 @@ const mapStateToProps = (state) => ({
   projectproposals: state.projectproposals.list,
   disbursements: state.disbursements.list,
   projects: state.projects.list,
-  fundcategories: state.fundcategories.list
+  fundcategories: state.fundcategories.list,
 });
 
 export default connect(mapStateToProps)(InvestorDashboard);

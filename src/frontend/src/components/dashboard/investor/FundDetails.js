@@ -2,59 +2,55 @@
 /* eslint-disable no-console */
 /* eslint no-console: "error" */
 import React from "react";
-import { Upload, message} from "antd";
-import { DownloadOutlined } from "@ant-design/icons";
-import reqwest from "reqwest";
-import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+
 import axios from "axios";
 import serialize from "form-serialize";
-import Button from "react-bootstrap/Button";
 
+import { Card, Form, Row, Col, Button } from "react-bootstrap";
 
+import { fetch } from "../../../redux/actionCreators";
+import * as Types from "../../../redux/types";
 class FundDetails extends React.Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
-      fund: {},
+      funddetails: {},
       success: "",
       error: ""
     };
-    this.fetchData = this.fetchData.bind(this);
     this.handleSubmit =  this.handleSubmit.bind(this);
   }
   componentDidMount() {
-    this.fetchData();
-  }
-  async fetchData() {
-    const url = `https://eazsme-backend.herokuapp.com/funds/${this.props.match.params.id}`;
-    
-    const data = await axios.get(url);
+    const { fetch } = this.props;
 
-    const fund = data.data.data;
+    fetch({
+        url:  `/funds/${this.props.match.params.id}`,
+        method: "get",
+        data: null,
+        onSuccess: Types.setFundDetails
+      }).then(()=>{
+        this.setState({funddetails: this.props.funddetails});
+      })
 
-    this.setState({fund});
   }
 
   handleSubmit(e){
     e.preventDefault();
     const form = document.querySelector("form[name='update-payment']");
     const formFields = serialize(form, { hash: true });
-    
+
     formFields.status = "payment_details_submitted";
     formFields.organizationId = this.props.user.organizationId;
-    formFields.fundId = this.state.fund.fundId;
+    formFields.fundId = this.props.funddetails.fundId;
 
     axios
       .post("http://localhost:4000/payments", formFields)
       .then((data) => {
         if (data.data.status === "success") {
           this.setState({ 
-            success: "Investment Initiated!", 
+            success: "Investment Initiated!",
             error:"",
            });
            setTimeout(() => {
@@ -70,7 +66,13 @@ class FundDetails extends React.Component {
 
   }
     render() {
-      const date = new Date(`${this.state.fund.dateInitiated}`).toLocaleDateString();
+      const { funddetails } = this.state;
+
+      let date = "";
+      if (funddetails){
+        date = new Date(`${funddetails.dateInitiated}`).toLocaleDateString();
+      }
+
       const success = this.state.success;
       const error = this.state.error; 
     return (
@@ -83,7 +85,7 @@ class FundDetails extends React.Component {
             Fund Amount: 
           </div>
           <div class="col-4">
-            {this.state.fund.amount}
+            {funddetails ? funddetails.amount : 0.00}
           </div>
         </div>
         <div class="row justify-content-start stripped">
@@ -91,7 +93,7 @@ class FundDetails extends React.Component {
             Fund Status:
           </div>
           <div class="col-4">
-            {this.state.fund.status}
+            {funddetails.status}
           </div>
         </div>
         <div class="row justify-content-start stripped">
@@ -158,4 +160,15 @@ class FundDetails extends React.Component {
     );
   }
 }
-export default FundDetails;
+
+const mapStateToProps = (state) => ({
+  funddetails: state.funddetails
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetch: (data) => dispatch(fetch(data)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FundDetails);

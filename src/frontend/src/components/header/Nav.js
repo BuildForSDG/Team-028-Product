@@ -300,18 +300,6 @@ class Nav extends React.Component {
     );
   }
 }
-
-// const mapDispatchToProps = (dispatch) => ({
-//     ...bindActionCreators(
-//     {
-//       sme: (data) => smeAction(data),
-//       investor: (data) => investorAction(data),
-//       regulator: (data) => regulatorAction(data),
-//       admin: (data) => adminAction(data)
-//     },
-//     dispatch
-//   )
-// });
 const mapStateToProps = state => {
   return {
     user: state.user

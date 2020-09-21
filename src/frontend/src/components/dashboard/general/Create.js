@@ -143,7 +143,7 @@ class Create extends React.Component {
                   }}
                   name="description"
                   onChange={this.handleEditorChange}
-                
+                  outputFormat="text"
                 />
               </Form.Group>
 

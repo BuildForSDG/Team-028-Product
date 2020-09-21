@@ -29,3 +29,7 @@ export const setFundCategories = (payload)=>({
   payload
 });
 
+export const setFundDetails = (payload)=>({
+  type: Types.setFundDetails,
+  payload
+});

@@ -78,12 +78,13 @@ class Invest extends React.Component {
     const { user, dispatch } = this.props;
     formFields.organizationId = user.organizationId;
 
-    const saveInvestment = fetch({
-      url:  "/invest",
-      method: "post",
-      data: formFields,
-      onSuccess: ""
-    });
+      const saveInvestment = fetch({
+        url:  "/invest",
+        method: "post",
+        data: formFields,
+        onSuccess: ""
+      });
+
     dispatch(saveInvestment).then(()=>{
       setTimeout(() => {
         window.location.reload();
