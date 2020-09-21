@@ -45,13 +45,14 @@ class ProfileDetails extends React.Component {
     this.fetchData();
   }
   async fetchData() {
-    const { userId } = this.props.user;
+    console.log(this.props)
+    const { email } = this.props.user;
     const { dispatch } = this.props;
 
     const fetchProfileDetails = fetch({
-      url:  `/users/${userId}`,
+      url:  `/users/1`,
       method: "get",
-      data: null,
+      data: {email},
       onSuccess: Types.updateUserProfile
     });
     dispatch(fetchProfileDetails).then(()=>{
