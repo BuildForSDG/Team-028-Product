@@ -32,7 +32,7 @@ exports.create = (req, res) => {
       // return organization's details found
       return res.status(401).json({
         status: "error",
-        message: "Organisation already registerred"
+        message: "Organisation already registered"
       });
     } else {
       //save organization

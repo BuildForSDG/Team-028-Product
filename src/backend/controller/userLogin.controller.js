@@ -26,7 +26,7 @@ exports.findOne = (req, res) => {
         };
         return res.status(401).json({
           status: "error",
-          result
+          data: result
         });
       }
       // verify if user is activated.
@@ -55,7 +55,7 @@ exports.findOne = (req, res) => {
               };
               return res.status(404).json({
                 status: "error",
-                result
+                data: result
               });
             } else {
               if (data.dataValues.email === req.body.email) {
@@ -65,12 +65,12 @@ exports.findOne = (req, res) => {
                   organization: data.Organization,
                   companyName: data.companyName,
                   organizationId: data.organizationId,
-                  privilege:  data.privilege
-  
+                  privilege:  data.privilege,
+                  userId: data.userId
                 };
                 return res.status(200).json({
                   status: "success",
-                  result
+                  data: result
                 });
               }
             }

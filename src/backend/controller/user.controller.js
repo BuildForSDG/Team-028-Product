@@ -156,7 +156,7 @@ Organization.findOne({ where: { email: req.body.companyEmail } })
   if (status) {
     return res.status(500).json({
       status: "error",
-      message: error
+      message: error.message
     });
   } else {
 
@@ -235,23 +235,23 @@ exports.findOnebyOrganization = (req, res) => {
 
 // find single user by id
 exports.findOne = (req, res) => {
-  User.findOne({ where: { userId: req.body.userId } })
-    .then((user) => {
-      res.status(200).json({
+  db.sequelize.query(
+    `select u.id as userId,  u.firstName,u.lastName,u.otherName,u.email,u.phoneNumber,
+    o.companyName, o.RCNumber,o.email as coyEmail,o.dateIncorporated, o.BVN, o.address
+    FROM users u
+    join organizations o on o.organizationId = u.organizationId
+    where u.id = ${req.params.id}`
+     , { raw: true })
+     .then((result) => {  
+      return res.status(200).json({
         status: "success",
-        data: user
+        message: "User details retrieved successfull",
+        data: result[0]
       });
-    })
-    .catch((err) => {
-      if (err.kind === "ObjectId") {
-        return res.status(404).json({
-          status: "error",
-          message: "User Profile not found "
-        });
-      }
-      return res.status(500).json({
+    }).catch((error) => {
+      return res.status(400).json({
         status: "error",
-        message: err.message
+        message: error.message || "An error occured while retrieving user proposals",
       });
     });
 };
@@ -447,25 +447,3 @@ exports.activate = (req, res) => {
   });
 };
 
-
-// find single user by id
-exports.getdetails = (req, res) => {
-  db.sequelize.query(
-    `select u.firstName,u.lastName,u.otherName,u.email,u.phoneNumber,
-    o.companyName, o.RCNumber,o.email as coyEmail,o.dateIncorporated, o.BVN, o.address
-    FROM eazsme_db.users u
-    join eazsme_db.organizations o on o.organizationId = u.organizationId`
-     , { raw: true })
-     .then((result) => {  
-      return res.status(200).json({
-        status: "success",
-        message: "User details retrieved successfull",
-        data: result[0]
-      });
-    }).catch((error) => {
-      return res.status(400).json({
-        status: "error",
-        message: error.message || "An error occured while retrieving user proposals",
-      });
-    });
-};
