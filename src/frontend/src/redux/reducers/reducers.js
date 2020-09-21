@@ -17,6 +17,8 @@ export const userReducer = (state = states.user, action) => {
     }
     case Types.updateUserInvestments:
       return { ...state, investments: action.payload }
+    case Types.updateUserProfile:
+      return { ...state, profile: action.payload }
     default: {
       return state;
     }

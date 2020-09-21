@@ -29,7 +29,6 @@ class View extends React.Component {
   componentDidMount() {
     const projects = this.props.projects;
     this.setState({projects, filteredProjects: projects});
-    // this.fetchData();
   }
   searchProjects(e){
     e.preventDefault();
@@ -61,12 +60,6 @@ class View extends React.Component {
     }
     
   }
-  async fetchData() {
-    const data = await axios.get("http://localhost:4000/projects/all");
-    const projects = data.da;  
-    this.setState({projects, filteredProjects: projects});
-  }
-
   render() {
     let data = [];
 

@@ -6,6 +6,7 @@ export const user = {
   organizationId: "",
   userId: "",
   investments: [],
+  profile: {},
   lastFetch: null
 };
 

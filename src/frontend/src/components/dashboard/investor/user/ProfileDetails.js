@@ -4,12 +4,14 @@
 /* eslint no-console: "error" */
 import React from "react";
 import axios from "axios";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+
+import { Row, Col} from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
+import { fetch } from "../../../../redux/actionCreators";
+import * as Types from "../../../../redux/types";
 
-let Url="";
 class ProfileDetails extends React.Component {
 
   constructor(props) {
@@ -39,27 +41,24 @@ class ProfileDetails extends React.Component {
 
 
   componentDidMount() {
-    const userObj = JSON.parse(localStorage.getItem("userObj"));
-    if (userObj) {
-      this.setState(() => ({ userObj }));
-      
-    }
+
     this.fetchData();
   }
   async fetchData() {
-    const url = "https://eazsme-backend.herokuapp.com/userdetails";
+    const { userId } = this.props.user;
+    const { dispatch } = this.props;
 
-    const data = await axios.get(url);
-
-    const details = data.data.data;
-    
-    this.setState({ details });
-   
-   
+    const fetchProfileDetails = fetch({
+      url:  `/users/${userId}`,
+      method: "get",
+      data: null,
+      onSuccess: Types.setProjectProposals
+    });
+    dispatch(fetchProfileDetails).then(()=>{
+      this.setState({ details: this.props.details });
+    });
   }
-  
     render() {
-     
     return (
       <>
       <div class="jumbotron p-4 p-md-5 text-dark rounded shadow-sm">
@@ -210,4 +209,9 @@ class ProfileDetails extends React.Component {
     );
   }
 }
-export default ProfileDetails;
+const mapStateToProps = (state)=>{
+  return {
+    details: state.user.profile
+  }
+}
+export default connect(mapStateToProps)(ProfileDetails);

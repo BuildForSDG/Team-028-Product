@@ -3,8 +3,6 @@
 /* eslint no-console: "error" */
 import React from "react";
 import { connect } from "react-redux";
-
-import axios from "axios";
 import serialize from "form-serialize";
 
 import { Card, Form, Row, Col, Button } from "react-bootstrap";
