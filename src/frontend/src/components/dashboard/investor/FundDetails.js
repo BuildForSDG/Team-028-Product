@@ -17,8 +17,8 @@ class FundDetails extends React.Component {
 
     this.state = {
       funddetails: {},
-      success: "",
-      error: ""
+      status: "",
+      message: ""
     };
     this.handleSubmit =  this.handleSubmit.bind(this);
   }
@@ -45,25 +45,26 @@ class FundDetails extends React.Component {
     formFields.organizationId = this.props.user.organizationId;
     formFields.fundId = this.props.funddetails.fundId;
 
-    axios
-      .post("http://localhost:4000/payments", formFields)
-      .then((data) => {
-        if (data.data.status === "success") {
-          this.setState({ 
-            success: "Investment Initiated!",
-            error:"",
-           });
-           setTimeout(() => {
-            window.location.reload();
-           }, 1000);
-        } else {
-          this.setState({ error: "Error updating payment details", success: "" });
-        }
-      })
-      .catch((error) => {
-        this.setState({ error: error.message, success: "" });
-      });
+    const { fetch } = this.props;
 
+    fetch({
+      url:  "/payments",
+      method: "post",
+      data: formFields,
+      onSuccess: ""
+    }).then(()=>{
+      const { status, message } = this.props.request;
+
+      this.setState({
+        status: status,
+        message:message
+       });
+       if (status === "success"){
+        setTimeout(() => {
+          window.location.reload();
+         }, 2000);
+       }
+    });
   }
     render() {
       const { funddetails } = this.state;
@@ -73,8 +74,7 @@ class FundDetails extends React.Component {
         date = new Date(`${funddetails.dateInitiated}`).toLocaleDateString();
       }
 
-      const success = this.state.success;
-      const error = this.state.error; 
+      const { status, message } = this.state;
     return (
       <>
       <div class="jumbotron p-4 p-md-5 text-dark rounded shadow-sm">
@@ -141,13 +141,13 @@ class FundDetails extends React.Component {
               <Button variant="primary" type="submit" onClick={this.handleSubmit}>
                 Submit
               </Button>
-              {success ? (
+              {status === "success" ? (
               <div className="text-bold text-success">
-                <h5>{success}</h5>
+                <h5>{message}</h5>
               </div>
             ) : (
-              <div className="text-bold text-success">
-                <h5>{error}</h5>
+              <div className="text-bold text-error">
+                <h5>{message}</h5>
               </div>
             )}
             </Form>
@@ -162,7 +162,8 @@ class FundDetails extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  funddetails: state.funddetails
+  funddetails: state.funddetails,
+  request: state.request
 });
 
 const mapDispatchToProps = (dispatch) => {
