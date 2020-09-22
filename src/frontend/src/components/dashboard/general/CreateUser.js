@@ -12,7 +12,6 @@ import { DatePicker } from "antd";
 import moment from "moment";
 import serialize from "form-serialize";
 import axios from "axios";
-import { connect } from "react-redux";
 
 const dateFormat = "YYYY/MM/DD";
 class Create extends React.Component {
@@ -90,38 +89,38 @@ class Create extends React.Component {
               </div>
             )}
           <form name="create-user" id="createUser">
-                  <div class="form-row" controlId="firstName">
-                    <div class="form-group col-md-6">
-                      <label for="firstName">First Name</label>
-                      <input type="text" class="form-control" id="firstName" name="firstName" />
+                  <div className="form-row">
+                    <div className="form-group col-md-6">
+                      <label htmlFor="firstName">First Name</label>
+                      <input type="text" className="form-control" id="firstName" name="firstName" />
                     </div>
-                    <div class="form-group col-md-6" controlId="lastName">
-                      <label for="lastName">Last Name</label>
-                      <input type="text" class="form-control" id="lastName" name="lastName" />
+                    <div className="form-group col-md-6">
+                      <label htmlFor="lastName">Last Name</label>
+                      <input type="text" className="form-control" id="lastName" name="lastName" />
                     </div>
                   </div>
-                  <div class="form-row">
-                  <div class="form-group col-md-6">
-                    <label for="email">Email Address</label>
-                    <input type="email" class="form-control" id="email" name="email" />
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="inputAddress">Address</label>
-                    <input type="text" class="form-control" id="inputAddress" name="userAddress" />
-                  </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group col-md-6">
-                      <label for="phoneNumber">Phone</label>
-                      <input type="phone" class="form-control" id="phoneNumber" name="phoneNumber" />
+                  <div className="form-row">
+                    <div className="form-group col-md-6">
+                      <label htmlFor="email">Email Address</label>
+                      <input type="email" className="form-control" id="email" name="email" />
                     </div>
-                     <div class="form-group col-md-2">
-                      <label for="inputDate">Date</label><br></br>
+                    <div className="form-group col-md-6">
+                      <label htmlFor="inputAddress">Address</label>
+                      <input type="text" className="form-control" id="inputAddress" name="userAddress" />
+                    </div>
+                  </div>
+                  <div className="form-row">
+                    <div className="form-group col-md-6">
+                      <label htmlFor="phoneNumber">Phone</label>
+                      <input type="phone" className="form-control" id="phoneNumber" name="phoneNumber" />
+                    </div>
+                     <div className="form-group col-md-2">
+                      <label htmlFor="inputDate">Date</label><br></br>
                       <DatePicker defaultValue={moment("2015/01/01", dateFormat)} format={dateFormat} />
                     </div>
                   </div>
                  
-                  <div class="form-row">
+                  <div className="form-row">
               
                    
                   </div>
@@ -129,51 +128,51 @@ class Create extends React.Component {
                
                 <hr></hr>
 
-<h6 className="content-text">Create Login Details</h6>
-<hr></hr>
+              <h6 className="content-text">Create Login Details</h6>
+              <hr></hr>
 
-<Row>
-  <Col>
-    <Form.Group controlId="password">
-      <Form.Text className="text-warning font-weight-bold">
-        Password including numbers, special characters is advised
-      </Form.Text>
-      <Form.Label className="font-weight-bold">
-        Password<sup className="text-danger">*</sup>
-      </Form.Label>
-      <Form.Control
-        type="password"
-        placeholder="Password"
-        name="password"
-        onChange={this.handlePasswordChange}
-        required
-      />
-    </Form.Group>
-  </Col>
-  <Col>
-    <Form.Group controlId="password2">
-      <Form.Text className="text-warning font-weight-bold">
-        Password including numbers, special characters is advised
-      </Form.Text>
-      <Form.Label className="font-weight-bold">
-        Confirm Password<sup className="text-danger">*</sup>
-      </Form.Label>
-      <Form.Control
-        type="password"
-        placeholder="Confirm Password"
-        name="confirmPassword"
-        onChange={this.handlePasswordChange}
-        required
-      />
-    </Form.Group>
-  </Col>
-</Row>
-<br></br>
+              <Row>
+                <Col>
+                  <Form.Group controlId="password">
+                    <Form.Text className="text-warning font-weight-bold">
+                      Password including numbers, special characters is advised
+                    </Form.Text>
+                    <Form.Label className="font-weight-bold">
+                      Password<sup className="text-danger">*</sup>
+                    </Form.Label>
+                    <Form.Control
+                      type="password"
+                      placeholder="Password"
+                      name="password"
+                      onChange={this.handlePasswordChange}
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+                <Col>
+                  <Form.Group controlId="password2">
+                    <Form.Text className="text-warning font-weight-bold">
+                      Password including numbers, special characters is advised
+                    </Form.Text>
+                    <Form.Label className="font-weight-bold">
+                      Confirm Password<sup className="text-danger">*</sup>
+                    </Form.Label>
+                    <Form.Control
+                      type="password"
+                      placeholder="Confirm Password"
+                      name="confirmPassword"
+                      onChange={this.handlePasswordChange}
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <br></br>
               </Form.Group>
-                  <div class="form-group">
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="gridCheck" />
-                      <label class="form-check-label" for="gridCheck">
+                  <div className="form-group">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" id="gridCheck" />
+                      <label className="form-check-label" htmlFor="gridCheck">
                         Confirm adding this User
                       </label>
                     </div>

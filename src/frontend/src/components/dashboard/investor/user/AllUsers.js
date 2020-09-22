@@ -3,13 +3,10 @@
 /* eslint no-console: "error" */
 
 import React from "react";
-import Card from "react-bootstrap/Card";
-import Table from "react-bootstrap/Table";
-import axios from "axios";
+import { Card, Table } from "react-bootstrap";
+
 import { Link } from "react-router-dom";
-import Pagination from "react-bootstrap/Pagination";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+
 
 import * as Types from "../../../../redux/types";
 import {fetch } from "../../../../redux/actionCreators";
@@ -24,8 +21,6 @@ class allUsers extends React.Component {
     };
 
     this.fetchData = this.fetchData.bind(this);
-   
-    /*this.handlePagination = this.handlePagination.bind(this);*/
   }
 
   componentDidMount() {
@@ -41,8 +36,8 @@ class allUsers extends React.Component {
       data: {organizationId: this.props.user.organizationId},
       onSuccess: Types.setOrganizationUsers
     });
+
     dispatch(fetchOrganizationUsers).then(()=>{
-      console.log(this.props);
       this.setState({ data: this.props.organizationusers });
     });
   }

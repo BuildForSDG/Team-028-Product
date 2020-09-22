@@ -4,8 +4,7 @@
 import React from "react";
 import { Upload, message, Button } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import reqwest from "reqwest";
-// import Card from "react-bootstrap/Card";
+
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -30,7 +29,7 @@ function beforeUpload(file) {
   return isJpgOrPng && isLt2M;
 }
 
-class ProfileDetails extends React.Component {
+class EditProfile extends React.Component {
     state = {
       loading: false,
     };
@@ -224,4 +223,4 @@ class ProfileDetails extends React.Component {
     );
   }
 }
-export default ProfileDetails;
+export default EditProfile;

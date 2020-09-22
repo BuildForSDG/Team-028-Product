@@ -74,36 +74,34 @@ class ProfileDetails extends React.Component {
             <div className="profile-title-text"> <strong >Admin Details</strong></div>
             <div class="form-row" controlId="userFirstName">
                     <div class="form-group col-md-4">
-                      <label for="inputEmail4">First Name: </label>
+                      <label>First Name: </label>
                       <div class="col-4">{this.state.details.firstName}</div>
                      </div>
                     <div class="form-group col-md-4">
-                      <label for="inputEmail4">Last Name: </label>
+                      <label>Last Name: </label>
                       <div class="col-4">{this.state.details.lastName}</div>
                     </div>
                     <div class="form-group col-md-4 ">
-                      <label for="inputEmail4">Other Name: </label>
+                      <label>Other Name: </label>
                       <div class="col-4">{this.state.details.otherName}</div>
                     </div>
                     <div class="form-group col-md-4">
-                      <label for="inputEmail4">Reg. Date: </label>
+                      <label>Reg. Date: </label>
                       <div class="col-4">{this.state.details.dateIncorporated}</div>
                     </div>
                     <div class="form-group col-md-4">
-                      <label for="inputEmail4">Phone No: </label>
+                      <label>Phone No: </label>
                       <div class="col-4">{this.state.details.phoneNumber}</div>
                     </div>
                     <div class="form-group col-md-4 ">
-                      <label for="inputEmail4">Email:   </label>
+                      <label>Email:   </label>
                       <div class="col-4">{this.state.details.email}</div>
                     </div>
                   </div>
                   <Row>
                     <Col md="12">
                       <div class="text-right">
-                     
                             <Link to="/investor/EditProfile"> Edit Profile</Link>
-                       
                       </div>
                     </Col>
                   </Row>
