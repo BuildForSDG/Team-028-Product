@@ -20,7 +20,6 @@ class View extends React.Component {
       searchTerm: ""
     };
 
-    this.fetchData = this.fetchData.bind(this);
     this.searchProjects = this.searchProjects.bind(this);
     this.onChange = this.onChange.bind(this);
 

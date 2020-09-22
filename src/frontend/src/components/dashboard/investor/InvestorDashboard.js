@@ -114,12 +114,20 @@ class InvestorDashboard extends React.Component {
       onSuccess: Types.updateUserInvestments
     });
 
+    const fetchOrganizationUsers = fetch({
+      url:  `/users/${this.props.user.organizationId}`,
+      method: "get",
+      data: {organizationId: this.props.user.organizationId},
+      onSuccess: ""
+    });
+
     batch(()=>{
       dispatch(fetchProposals);
       dispatch(fetchDisbursements);
       dispatch(fetchProjects);
       dispatch(fetchFundCategories);
       dispatch(fetchInvestments);
+      dispatch(fetchOrganizationUsers);
     });
 
   }

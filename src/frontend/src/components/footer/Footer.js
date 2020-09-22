@@ -11,7 +11,7 @@ class Footer extends React.Component {
       <footer className="pt-4 my-md-5 pt-md-5 border-top">
           <div className="row footer">
             <div className="col-12 col-md">
-            <a href="#" classNameName="dashboard-img" to="#">
+            <a href="#" className="dashboard-img" to="#">
               <img
                 src={
                   "https://res.cloudinary.com/lordefid/image/upload/c_scale,h_50/v1590937828/Group_160_2x_wad30b.png"
@@ -53,11 +53,11 @@ class Footer extends React.Component {
             <div className="col-6 col-md">
               <h5>Follow Us</h5>
               <ul className="list-unstyled text-small">
-                <li><a href="https://www.facebook.com/signup" target="_blank" classNameName="footer-img"><img src="https://res.cloudinary.com/lordefid/image/upload/v1590108539/facebook_dvbkhd.png"/></a></li>
+                <li><a href="https://www.facebook.com/signup" target="_blank" className="footer-img"><img src="https://res.cloudinary.com/lordefid/image/upload/v1590108539/facebook_dvbkhd.png"/></a></li>
 
-                <li><a href="https://twitter.com/i/flow/signup" target="_blank" classNameName="footer-img"><img src="https://res.cloudinary.com/lordefid/image/upload/v1590108539/twitter_e6e59l.png"/></a></li>
+                <li><a href="https://twitter.com/i/flow/signup" target="_blank" className="footer-img"><img src="https://res.cloudinary.com/lordefid/image/upload/v1590108539/twitter_e6e59l.png"/></a></li>
 
-                <li><a href="https://www.linkedin.com/signup" target="_blank" classNameName="footer-img"><img src="https://res.cloudinary.com/lordefid/image/upload/v1590108539/linkedin_b2x3ts.png"/></a></li>
+                <li><a href="https://www.linkedin.com/signup" target="_blank" className="footer-img"><img src="https://res.cloudinary.com/lordefid/image/upload/v1590108539/linkedin_b2x3ts.png"/></a></li>
               </ul>
             </div>
           </div>

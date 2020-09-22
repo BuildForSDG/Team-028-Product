@@ -3,7 +3,6 @@
 /* eslint-disable no-console */
 /* eslint no-console: "error" */
 import React from "react";
-import axios from "axios";
 
 import { Row, Col} from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -44,19 +43,19 @@ class ProfileDetails extends React.Component {
 
     this.fetchData();
   }
-  async fetchData() {
-    console.log(this.props)
+  fetchData() {
+    
     const { email } = this.props.user;
     const { dispatch } = this.props;
 
     const fetchProfileDetails = fetch({
-      url:  `/users/1`,
+      url:  `/userdetails?email=${email}`,
       method: "get",
       data: {email},
       onSuccess: Types.updateUserProfile
     });
     dispatch(fetchProfileDetails).then(()=>{
-      this.setState({ details: this.props.details });
+      this.setState({ details: this.props.details[0] });
     });
   }
     render() {
