@@ -218,7 +218,7 @@ exports.findAll = (req, res) => {
 
 //Get all users in an Organization
 exports.findOnebyOrganization = (req, res) => {
-  User.findAll({ where: { organizationId: req.body.organizationId}} )
+  User.findAll({ where: { organizationId: req.params.orgId || req.body.organizationId }} )
     .then((users) => {
       return res.status(200).json({
         status: "success",
@@ -447,3 +447,25 @@ exports.activate = (req, res) => {
   });
 };
 
+// find single user by id
+exports.getdetails = (req, res) => {
+  db.sequelize.query(
+    `select u.firstName,u.lastName,u.otherName,u.email,u.phoneNumber, u.dateCreated,
+    o.companyName, o.RCNumber,o.email as coyEmail,o.dateIncorporated, o.BVN, o.address
+    FROM users u
+    join organizations o on o.organizationId = u.organizationId
+    where u.email like \'${req.query.email}\'`
+     , { raw: true })
+     .then((result) => {  
+      return res.status(200).json({
+        status: "success",
+        message: "User details retrieved successfull",
+        data: result[0]
+      });
+    }).catch((error) => {
+      return res.status(400).json({
+        status: "error",
+        message: error.message || "An error occured while retrieving user",
+      });
+    });
+};
