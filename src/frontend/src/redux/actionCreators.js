@@ -33,3 +33,8 @@ export const setFundDetails = (payload)=>({
   type: Types.setFundDetails,
   payload
 });
+
+export  const setOrganizationUsers = (payload) => ({
+  type: Types.setOrganizationUsers,
+  payload
+});

@@ -15,6 +15,11 @@ export const projects = {
   lastFetch: null
 };
 
+export const organizationUsers = {
+  list: [],
+  lastFetch: null
+}
+
 export const request = {
   isPending: false,
   status: "",

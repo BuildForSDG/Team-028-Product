@@ -11,7 +11,8 @@ import {
   projectProposalsReducer,
   disbursementsReducer,
   fundCategoriesReducer,
-  fundDetailsReducer
+  fundDetailsReducer,
+  organizationUsersReducer
 } from "../reducers/reducers";
 
 import {
@@ -51,7 +52,8 @@ const store = () => {
       projectproposals: projectProposalsReducer,
       disbursements: disbursementsReducer,
       fundcategories: fundCategoriesReducer,
-      funddetails: fundDetailsReducer
+      funddetails: fundDetailsReducer,
+      organizationusers: organizationUsersReducer
     }),
     persistedState,
     compose(

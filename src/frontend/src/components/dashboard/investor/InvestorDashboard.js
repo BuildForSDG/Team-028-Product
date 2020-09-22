@@ -19,7 +19,9 @@ import {
   BellFilled,
   PieChartOutlined,
   UserOutlined,
-  RiseOutlined
+  RiseOutlined,
+  UsergroupAddOutlined,
+  UserAddOutlined
 } from "@ant-design/icons";
 
 
@@ -114,20 +116,12 @@ class InvestorDashboard extends React.Component {
       onSuccess: Types.updateUserInvestments
     });
 
-    const fetchOrganizationUsers = fetch({
-      url:  `/users/${this.props.user.organizationId}`,
-      method: "get",
-      data: {organizationId: this.props.user.organizationId},
-      onSuccess: ""
-    });
-
     batch(()=>{
       dispatch(fetchProposals);
       dispatch(fetchDisbursements);
       dispatch(fetchProjects);
       dispatch(fetchFundCategories);
       dispatch(fetchInvestments);
-      dispatch(fetchOrganizationUsers);
     });
 
   }
@@ -150,26 +144,35 @@ class InvestorDashboard extends React.Component {
               />
             </Link>
           </div>
-          <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
+          <Menu theme="dark" defaultSelectedKeys={["1"]} defaultOpenKeys={['sub1']} mode="inline">
             <Menu.Item key="1" icon={<ProfileOutlined />}>
               <Link to="/investor/ProfileDetails">Profile Details</Link>
             </Menu.Item>
-            <SubMenu key="sub2" icon={<UserOutlined />} title="Users">
-              <Menu.Item key="2" icon={<UserOutlined />}>
-                <Link to="/investor/AllUser">All Users</Link>
+            <SubMenu key="sub1" icon={<UserOutlined />} title="Users">
+              <Menu.Item key="2">
+                <Link to="/investor/AllUsers">
+                  <UsergroupAddOutlined />
+                  All Users
+                </Link>
               </Menu.Item>
-              <Menu.Item key="3" icon={<UserOutlined />}>
-                <Link to="/investor/create-user">Create</Link>
+              <Menu.Item key="3">
+                <Link to="/investor/create-user">
+                  <UserAddOutlined />
+                    Create
+                </Link>
               </Menu.Item>
-              <Menu.Item key="4" icon={<UserOutlined />}>
-                <Link to="/investor/update-user">Update</Link>
+              <Menu.Item key="4">
+                <Link to="/investor/update-user">
+                  <UserOutlined />
+                  Update
+                </Link>
               </Menu.Item>
             </SubMenu>
             <Menu.Item key="6" icon={<PieChartOutlined />}>
               <Link to="/investor/view-projects">View Projects</Link>
             </Menu.Item>
 
-            <SubMenu key="sub3" icon={<WalletOutlined />} title="Investments">
+            <SubMenu key="sub2" icon={<WalletOutlined />} title="Investments">
               <Menu.Item key="7" icon={<WalletOutlined />}>
                 <Link to="/investor/invest">Invest</Link>
               </Menu.Item>
@@ -245,7 +248,7 @@ class InvestorDashboard extends React.Component {
                     path="/investor/TotalInvestments"
                     render={(props) => <TotalInvestments {...props} user={this.props.user} dispatch={this.props.dispatch} />}
                   />
-                  <Route path="/investor/AllUsers" component={AllUsers} />
+                  <Route path="/investor/AllUsers" render={(props) => <AllUsers {...props} user={this.props.user} dispatch={this.props.dispatch} organizationusers={this.props.organizationusers} />} />
                   <Route path="/investor/create-user" component={Create} />
                   <Route path="/investor/update-user" component={Update} />
                   {/**<Route path="/investor/deactivate-user" component={Remove} />*/}
@@ -274,6 +277,7 @@ const mapStateToProps = (state) => ({
   disbursements: state.disbursements.list,
   projects: state.projects.list,
   fundcategories: state.fundcategories.list,
+  organizationusers: state.organizationusers.list
 });
 
 export default connect(mapStateToProps)(InvestorDashboard);

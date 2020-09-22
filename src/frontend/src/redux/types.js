@@ -17,6 +17,7 @@ export const setProjectProposals = "SET_PROJECT_PROPOSALS_LIST";
 export const setDisbursements = "SET_DISBURSEMENTS_LIST";
 
 export const setProjects =  "SET_PROJECTS_LIST";
+export const setOrganizationUsers = "SET_ORGANIZATION_USERS_LIST";
 
 
 export const setFundCategories =  "SET_FUND_CATEGORIES_LIST";
