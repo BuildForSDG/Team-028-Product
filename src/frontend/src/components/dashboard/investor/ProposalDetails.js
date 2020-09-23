@@ -25,15 +25,10 @@ class ProposalDetails extends React.Component {
   componentDidMount() {
     let projectproposals =  this.props.projectproposals;
 
-    if (projectproposals.length < 1){
-     projectproposals = JSON.parse(localStorage.getItem("proposals"));
-    }
     
     const proposals = projectproposals.filter(
       (proposal) => proposal.applicationId === this.props.match.params.id
     );
-
-    localStorage.setItem("proposals", JSON.stringify(projectproposals));
     this.setState({proposal: proposals[0]});
   }
  
