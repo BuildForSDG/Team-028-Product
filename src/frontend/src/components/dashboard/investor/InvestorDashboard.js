@@ -72,7 +72,10 @@ class InvestorDashboard extends React.Component {
   }
   componentDidMount() {
 
-   this.fetchData();
+    this.fetchData();
+
+    const { history, user }= this.props;
+    (!user)?history.push("/"): history.push("/investor/ProfileDetails");
   }
   fetchData = async() => {
 
@@ -130,7 +133,7 @@ class InvestorDashboard extends React.Component {
     this.setState({ collapsed });
   };
 
-  render() {
+  render() {  
     return (
       <Layout style={{ minHeight: "100vh" }}>
         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
