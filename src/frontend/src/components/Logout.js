@@ -3,13 +3,17 @@ import { Link } from "react-router-dom";
 
 class Logout extends React.Component {
   componentDidMount() {
-    localStorage.removeItem("userObj");
+    localStorage.removeItem("state");
+
+    this.props.history.push("/");
+
+    setTimeout(()=>window.location.reload(), 300);
   }
   render() {
     return (
       <div className="text-center">
         <h4>
-          You have logout &nbsp;&nbsp;<Link to="/">Click To Login Back</Link>
+          You have logged out &nbsp;&nbsp;<Link to="/">Go back to homepage</Link>
         </h4>
       </div>
     );

@@ -188,7 +188,6 @@ Organization.findOne({ where: { email: req.body.companyEmail } })
     options.email = req.body.email;
     options.subject = "Confirm your Registration now";
     options.html = template({ verifyUrl, firstName });
-
     mailer(options);
 
     return res.status(200).json({

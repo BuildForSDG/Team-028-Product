@@ -11,7 +11,8 @@ export const apiMiddleware =  ({dispatch, getState }) => next => async action =>
   next(action);
   try {
     const response =  await  axios.request({
-      baseURL: "https://eazsme-backend.herokuapp.com",
+      // baseURL: "https://eazsme-backend.herokuapp.com",
+      baseURL: "http://localhost:4000",
       url,
       method,
       data

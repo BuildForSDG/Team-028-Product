@@ -85,8 +85,7 @@ class Nav extends React.Component {
       this.confPassword.current.classList.remove("d-none");
     }
   }
- //http://localhost:4000/register
-  //https://eazsme-backend.herokuapp.com/register
+  
   submitRegistration(event) {
     event.preventDefault();
     const form = document.querySelector(`form[name="registration"]`);
@@ -99,48 +98,24 @@ class Nav extends React.Component {
       userData[item.name] = item.value;
     }
 
-    // dispatch the data to redux store
+    const { fetch } = this.props;
 
-    const { sme, investor, regulator, admin } = this.props;
-    const data = {};
-    data.userData = userData;
-    switch (userData.userType) {
-      case "sme":
-        localStorage.setItem("userData", data);
-        sme(data);
-        break;
-      case "investor":
-        localStorage.setItem("userData", data);
-        investor(data);
-        break;
-      case "regulator":
-        localStorage.setItem("userData", data);
-        regulator(data);
-        break;
-      case "admin":
-        localStorage.setItem("userData", data);
-        admin(data);
-        break;
-      default:
-        window.alert("Unknown user");
-        break;
-    }
+    fetch({
+      url: "/register",
+      method: "post",
+      data: formFields,
+      onSuccess: ""
+    }).then( ()=>{
+      const { status, message } =  this.props.request;
 
-    axios
-      .post("https://eazsme-backend.herokuapp.com/register", formFields)
-      .then(({ data }) => {
-        const { status } = data;
-        if (status === "success") {
-          this.setState({ signupSuccess: "User successfully signed up! Check your mail to activate your account" });
-          form.reset();
-          window.alert("User successfully signed up!");
-        } else {
-          this.setState({ signupError: "Error signing up user" });
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      if (status === "success") {
+        this.setState({ signupSuccess:message });
+        form.reset();
+        window.alert("User successfully signed up!");
+      } else {
+        this.setState({ signupError: message });
+      }
+    });
   }
 
   mapStateToLGA(event) {
@@ -198,14 +173,11 @@ class Nav extends React.Component {
         return;
       }
     });
-    const user = {};
+    const { user } = this.props;
     const userName = document.querySelector(`input[type="email"]`).value;
     const password = document.querySelector(`input[type="password"]`).value;
 
     if (userName === "admin" && password === "admin") {
-      user.userName = userName;
-      localStorage.setItem("adminObj", JSON.stringify(user));
-      localStorage.setItem("userObj", JSON.stringify(user));
       this.props.history.push("/admin");
     } else {
       const form = document.querySelector(`form[name="login"]`);
@@ -219,10 +191,16 @@ class Nav extends React.Component {
         data: formFields,
         onSuccess: Types.setUser
       }).then( ()=>{
-        const { user } =  this.props;
+        const { status, message } = this.props.request;
 
-        if (user.category === undefined || user.category === "") return;
-        this.props.history.push("/"+ user.category);
+        if (status === "success"){
+          const { user } =  this.props;
+
+          if (user.category === undefined || user.category === "") return;
+          this.props.history.push("/"+ user.category);
+        }else{
+          this.setState({ loginError: "Invalid Credentials" });
+        }
       });
     }
   }
@@ -302,7 +280,8 @@ class Nav extends React.Component {
 }
 const mapStateToProps = state => {
   return {
-    user: state.user
+    user: state.user,
+    request: state.request
   }
 }
 const mapDispatchToProps = (dispatch) => {

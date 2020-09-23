@@ -71,9 +71,7 @@ class InvestorDashboard extends React.Component {
     };
   }
   componentDidMount() {
-
     this.fetchData();
-
     const { history, user }= this.props;
     (!user)?history.push("/"): history.push("/investor/ProfileDetails");
   }
@@ -194,7 +192,7 @@ class InvestorDashboard extends React.Component {
               </Menu.Item>
             </SubMenu>
             <Menu.Item key="12" icon={<LogoutOutlined />}>
-            <Link to="/">Log out</Link>
+            <Link to="/logout">Log out</Link>
             </Menu.Item>
           </Menu>
         </Sider>

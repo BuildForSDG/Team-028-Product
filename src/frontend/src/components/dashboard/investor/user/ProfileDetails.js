@@ -64,43 +64,43 @@ class ProfileDetails extends React.Component {
       <div class="jumbotron p-4 p-md-5 text-dark rounded shadow-sm">
           <Row>
             <Col md="3" className="">
-            <div class="text-center">
-            <img src="https://res.cloudinary.com/lordefid/image/upload/c_scale,h_100/v1591025399/images_j7kyno.png" class="rounded" alt="..." fluid />
+            <div className="text-center">
+            <img src="https://res.cloudinary.com/lordefid/image/upload/c_scale,h_100/v1591025399/images_j7kyno.png" className="rounded" alt="..." fluid="true" />
           </div>
             </Col>
             <Col>
             <div>
             </div>
             <div className="profile-title-text"> <strong >Admin Details</strong></div>
-            <div class="form-row" controlId="userFirstName">
-                    <div class="form-group col-md-4">
+            <div className="form-row" controlId="userFirstName">
+                    <div className="form-group col-md-4">
                       <label>First Name: </label>
-                      <div class="col-4">{this.state.details.firstName}</div>
+                      <div className="col-4">{this.state.details.firstName}</div>
                      </div>
-                    <div class="form-group col-md-4">
+                    <div className="form-group col-md-4">
                       <label>Last Name: </label>
-                      <div class="col-4">{this.state.details.lastName}</div>
+                      <div className="col-4">{this.state.details.lastName}</div>
                     </div>
-                    <div class="form-group col-md-4 ">
+                    <div className="form-group col-md-4 ">
                       <label>Other Name: </label>
-                      <div class="col-4">{this.state.details.otherName}</div>
+                      <div className="col-4">{this.state.details.otherName}</div>
                     </div>
-                    <div class="form-group col-md-4">
+                    <div className="form-group col-md-4">
                       <label>Reg. Date: </label>
-                      <div class="col-4">{this.state.details.dateIncorporated}</div>
+                      <div className="col-4">{this.state.details.dateIncorporated}</div>
                     </div>
-                    <div class="form-group col-md-4">
+                    <div className="form-group col-md-4">
                       <label>Phone No: </label>
-                      <div class="col-4">{this.state.details.phoneNumber}</div>
+                      <div className="col-4">{this.state.details.phoneNumber}</div>
                     </div>
-                    <div class="form-group col-md-4 ">
+                    <div className="form-group col-md-4 ">
                       <label>Email:   </label>
-                      <div class="col-4">{this.state.details.email}</div>
+                      <div className="col-4">{this.state.details.email}</div>
                     </div>
                   </div>
                   <Row>
                     <Col md="12">
-                      <div class="text-right">
+                      <div className="text-right">
                             <Link to="/investor/EditProfile"> Edit Profile</Link>
                       </div>
                     </Col>
@@ -109,36 +109,32 @@ class ProfileDetails extends React.Component {
           </Row>
         </div>
 
-        <div class="row mb-2">
-          <div class="col-md-6">
-            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-            <div class="col p-4 d-flex flex-column position-static">
-                <strong class="d-inline-block mb-2 profile-title-text">More Info</strong>
+        <div className="row mb-2">
+          <div className="col-md-6">
+            <div className="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div className="col p-4 d-flex flex-column position-static">
+                <strong className="d-inline-block mb-2 profile-title-text">More Info</strong>
                 <Col>
-                <div class="form-row" controlId="companyName">
-                        <div class="form-group col-md-12">
-                          <label for="inputAddress1">Address: </label>
-                          <div class="col-4">{this.state.details.Address}</div>
-                        </div>
-                       
-                      
-                    </div>
-                  </Col>
-                  
-
-                  <strong class="profile-title-text full">Manage Password</strong>
+                  <div className="form-row" controlId="companyName">
+                      <div className="form-group col-md-12">
+                        <label>Address: </label>
+                        <div className="col-4">{this.state.details.Address}</div>
+                      </div>
+                  </div>
+                </Col>
+                  <strong className="profile-title-text full">Manage Password</strong>
                   <Row>
-                        <div class="form-group col-md-4">
-                          <label for="inputEmail4">Old Password: </label>
-                            <input type="text" class="" data="" id="inputCompanyPhone" class="form-control" value="" disabled />
+                        <div className="form-group col-md-4">
+                          <label htmlFor="oldPassword">Old Password: </label>
+                            <input type="text"  data="" id="oldPassword" className="form-control" value="" disabled />
                         </div>
-                        <div class="form-group col-md-4">
-                          <label for="inputEmail4">New Password: </label>
-                            <input type="text" class="" data="" id="inputCompanyPhone" class="form-control" value="" disabled />
+                        <div className="form-group col-md-4">
+                          <label htmlFor="newPassword">New Password: </label>
+                            <input type="text" data="" id="newPassword" class="form-control" value="" disabled />
                         </div>
-                        <div class="form-group col-md-4">
-                          <label for="inputEmail4">Confirm Password: </label>
-                            <input type="text" class="" data="" id="inputCompanyPhone" class="form-control" value="" disabled />
+                        <div className="form-group col-md-4">
+                          <label htmlFor="confirmPassword">Confirm Password: </label>
+                            <input type="text" data="" id="confirmPassword" class="form-control" value="" disabled />
                         </div>
                       
                         {/* <div class="form-group col-md-6">
@@ -158,42 +154,42 @@ class ProfileDetails extends React.Component {
 
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-              <div class="col p-4 d-flex flex-column position-static">
-                <strong class="d-inline-block mb-2 profile-title-text">Investor Details</strong>
+          <div className="col-md-6">
+            <div className="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+              <div className="col p-4 d-flex flex-column position-static">
+                <strong className="d-inline-block mb-2 profile-title-text">Investor Details</strong>
               <Col>
-            <div class="form-row" controlId="companyName">
-                    <div class="form-group col-md-12">
-                      <label for="inputEmail4">Company Name: </label>
-                      <div class="col-4">{this.state.details.companyName}</div>
+            <div className="form-row" controlid="companyName">
+                    <div className="form-group col-md-12">
+                      <label>Company Name: </label>
+                      <div className="col-4">{this.state.details.companyName}</div>
                     </div>
                     
-                    <div class="form-group col-md-4">
-                      <label for="inputEmail4">Incorporation Date: </label>
-                      <div class="col-4">{this.state.details.dateIncorporated}</div>
+                    <div className="form-group col-md-4">
+                      <label>Incorporation Date: </label>
+                      <div className="col-4">{this.state.details.dateIncorporated}</div>
                     </div>
                     
-                    <div class="form-group col-md-4">
-                      <label for="inputEmail4">Email Address:   </label>
-                      <div class="col-4">{this.state.details.coyEmail}</div>
+                    <div className="form-group col-md-4">
+                      <label>Email Address:   </label>
+                      <div className="col-4">{this.state.details.coyEmail}</div>
                     </div>
-                    <div class="form-group col-md-4">
-                      <label for="inputEmail4">Company Phone: </label>
-                      <div class="col-4">{this.state.details.coyEmail}</div>
+                    <div className="form-group col-md-4">
+                      <label>Company Phone:  </label>
+                      <div className="col-4">{this.state.details.coyEmail}</div>
                     </div>
-                    <div class="form-group col-md-4">
-                      <label for="inputEmail4">RCC No: </label>
-                      <div class="col-4">{this.state.details.RCNumber}</div>
+                    <div className="form-group col-md-4">
+                      <label>RCC No: </label>
+                      <div className="col-4">{this.state.details.RCNumber}</div>
                     </div>
                    
-                    <div class="form-group col-md-4">
-                      <label for="inputEmail4">Company BVN: </label>
-                      <div class="col-4">{this.state.details.BVN}</div>
+                    <div className="form-group col-md-4">
+                      <label>Company BVN: </label>
+                      <div className="col-4">{this.state.details.BVN}</div>
                     </div>
-                    <div class="form-group col-md-12">
-                      <label for="inputEmail4">Company Address: </label>
-                      <div class="col-4">{this.state.details.address}</div>
+                    <div className="form-group col-md-12">
+                      <label>Company Address: </label>
+                      <div className="col-4">{this.state.details.address}</div>
                         <br></br>
                         <br></br>
                     </div>
