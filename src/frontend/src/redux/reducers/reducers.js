@@ -40,6 +40,36 @@ export const projectsReducer = (state = states.projects, action) => {
   }
 };
 
+export const projectsAppliedForReducer = (state = states.projects, action) => {
+  switch (action.type) {
+    case Types.setProjectsAppliedFor: {
+      return ({
+        ...state,
+        list: action.payload,
+        lastFetch: Date.now()
+      });
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+export const milestoneReducer = (state = states.projects, action) => {
+  switch (action.type) {
+    case Types.setMilestones: {
+      return ({
+        ...state,
+        list: action.payload,
+        lastFetch: Date.now()
+      });
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
 export const organizationUsersReducer = (state = states.organizationUsers, action) => {
   switch (action.type) {
     case Types.setOrganizationUsers: {

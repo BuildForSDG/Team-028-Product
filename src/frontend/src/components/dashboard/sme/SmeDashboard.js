@@ -76,7 +76,7 @@ class SmeDashboard extends React.Component {
   componentDidMount() {
     this.fetchData();
     const { history, user }= this.props;
-    // (!user)?history.push("/"): history.push("/sme/ProfileDetails");
+    (!user)?history.push("/"): history.push("/sme/ProfileDetails");
   }
   fetchData = async() => {
 
@@ -112,20 +112,27 @@ class SmeDashboard extends React.Component {
       onSuccess: Types.setFundCategories
     });
 
-
-    const fetchInvestments = fetch({
-      url:  `/funds/organizations/${this.props.user.organizationId}`,
+    const fetchMilestones = fetch({
+      url: "/milestones/all",
       method: "get",
       data: null,
-      onSuccess: Types.updateUserInvestments
-    });
+      onSuccess: Types.setMilestones
+    })
+
+    const fetchProjectsByApplication = fetch({
+      url: `/fund/application/${this.props.user.organizationId}`,
+      method: "get",
+      data: null,
+      onSuccess: Types.setProjectsAppliedFor
+    })
 
     batch(()=>{
       dispatch(fetchProposals);
       dispatch(fetchDisbursements);
       dispatch(fetchProjects);
       dispatch(fetchFundCategories);
-      dispatch(fetchInvestments);
+      dispatch(fetchMilestones);
+      dispatch(fetchProjectsByApplication);
     });
 
   }
@@ -212,10 +219,10 @@ class SmeDashboard extends React.Component {
             </SubMenu>
             <SubMenu key="sub2" icon={<PieChartOutlined />} title="Projects">
               <Menu.Item key="5" icon={<ZoomOutOutlined />}>
-                <Link to="/sme/Projects/InvestmentProject">View Projects</Link>
+                <Link to="/sme/view-projects">View Projects</Link>
               </Menu.Item>
               <Menu.Item key="6" icon={<ZoomOutOutlined />}>
-                <Link to="/sme/Funds/ViewMilestones"> View Milestones</Link>
+                <Link to="/sme/fund-milestones"> View Milestones</Link>
               </Menu.Item>
             </SubMenu>
             <SubMenu key="sub3" icon={<WalletOutlined />} title="Funds">
@@ -272,7 +279,8 @@ class SmeDashboard extends React.Component {
                
                 <Route path="/sme/Funds/NewApplication" render={(props) => <NewApplication {...props} projects={this.state.projects } />} />
                 <Route path="/sme/Funds/UpdateMilestone" component={UpdateMilestone} />
-                <Route path="/sme/Funds/ViewMilestones" component={ViewMilestones} />
+                <Route path="/sme/fund-milestones" 
+                  render={(props) => <ViewMilestones {...props} user={this.props.user} dispatch={this.props.dispatch} projectapplications={this.props.projectapplications} projects={this.props.projects} milestones={this.props.milestones} />} />
                 <Route path="/sme/Projects/Milestones" component={CreateMilestones} />
                 <Route path="/sme/Funds/proposal" component={Proposal} />
                 <Route path="/sme/create-user" component={Create} />
@@ -280,7 +288,7 @@ class SmeDashboard extends React.Component {
                 {/*<Route path="/sme/deactivate-user" component={Remove} />*/}
                 <Route path="/sme/ProfileDetails" render={(props) => <ProfileDetails {...props} user={this.props.user} dispatch={this.props.dispatch} />} />
                 <Route path="/sme/EditProfile" component={EditProfile} />
-                <Route path="/sme/Projects/InvestmentProject" component={InvestmentProject} />
+                <Route path="/sme/view-projects" render={(props) => <ViewProject {...props} userCat="sme" projects={this.props.projects} dispatch={this.props.dispatch} />} />
                 <Route path="/sme/Projects/Milestones" component={Milestones} />
           <Route path="/sme/Projects/FundedProjects" render={(props) => <FundedProjects {...props} userCat="sme" />} />
                 <Route path="/sme/Projects/ProjectDetails/:projectId" render={(props) => <ProjectDetails {...props} projects={this.state.projects }/>}/>
@@ -298,8 +306,10 @@ const mapStateToProps = (state) => ({
   projectproposals: state.projectproposals.list,
   disbursements: state.disbursements.list,
   projects: state.projects.list,
+  projectapplications: state.projectapplications.list,
   fundcategories: state.fundcategories.list,
   organizationusers: state.organizationusers.list,
+  milestones: state.milestones.list,
   request: state.request
 });
 

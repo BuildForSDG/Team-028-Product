@@ -38,3 +38,13 @@ export  const setOrganizationUsers = (payload) => ({
   type: Types.setOrganizationUsers,
   payload
 });
+
+export  const setMilestones = (payload) => ({
+  type: Types.setMilestones,
+  payload
+});
+
+export  const setProjectsAppliedFor = (payload) => ({
+  type: Types.setProjectsAppliedFor,
+  payload
+});

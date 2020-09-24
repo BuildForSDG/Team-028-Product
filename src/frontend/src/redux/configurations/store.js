@@ -12,7 +12,9 @@ import {
   disbursementsReducer,
   fundCategoriesReducer,
   fundDetailsReducer,
-  organizationUsersReducer
+  organizationUsersReducer,
+  milestoneReducer,
+  projectsAppliedForReducer
 } from "../reducers/reducers";
 
 import {
@@ -47,13 +49,15 @@ const store = () => {
   const appStore = createStore(
     combineReducers({
       projects: projectsReducer,
+      projectapplications: projectsAppliedForReducer,
       request: requestsReducer,
       user: userReducer,
       projectproposals: projectProposalsReducer,
       disbursements: disbursementsReducer,
       fundcategories: fundCategoriesReducer,
       funddetails: fundDetailsReducer,
-      organizationusers: organizationUsersReducer
+      organizationusers: organizationUsersReducer,
+      milestones: milestoneReducer
     }),
     persistedState,
     compose(

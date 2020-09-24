@@ -2,18 +2,18 @@
 /* eslint-disable no-multi-str */
 /* eslint-disable no-console */
 /* eslint no-console: "error" */
-/*eslint quotes: ["error", "backtick"]*/
+
 
 import React from "react";
 import { Link, BrowserRouter as Router, withRouter } from "react-router-dom";
+
+
+
+import { Card, Table, Form, Col, Row} from "react-bootstrap";
+import UpdateMilestone from "./UpdateMilestone";
+
 import serialize from "form-serialize";
 import axios from "axios";
-import Card from "react-bootstrap/Card";
-import Table from "react-bootstrap/Table";
-import Form from "react-bootstrap/Form";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import UpdateMilestone from "./UpdateMilestone";
 
 
 let url=``;
@@ -34,25 +34,16 @@ class ViewMilestones extends React.Component {
     this.showMilestoneModal = this.showMilestoneModal.bind(this);
     this.closeMilestoneModal = this.closeMilestoneModal.bind(this);
     this.handleMilestoneUpdate = this.handleMilestoneUpdate.bind(this);
+    this.getMilestones = this.handleMilestoneUpdate.bind(this);
     this.getActiveProjects = this.getActiveProjects.bind(this);
     this.projectSelect=React.createRef();
    
   }
 
   componentDidMount() {
-    const userObj = JSON.parse(localStorage.getItem(`userObj`));
-    
-    if (userObj) {
-      this.setState(() => ({ userObj }));
-      const id=userObj.organizationId;
-      
-
-url = `https://eazsme-backend.herokuapp.com/fund/application/${id}`;
-    }
-
-    this.fetchData();
     this.getActiveProjects();
   }
+
   showMilestoneModal(event) {
     event.preventDefault();
     this.setState({ showUpdate: true });
@@ -61,60 +52,41 @@ url = `https://eazsme-backend.herokuapp.com/fund/application/${id}`;
   closeMilestoneModal() {
     this.setState({ showUpdate: false });
   }
-GetMilestones= (e) => {
-    //load milestones based on the selected project name
- 
-  
-const name=e.target.value;
-  axios
-      .get(`https://eazsme-backend.herokuapp.com/milestones/${name}`)
-      .then((data) => {
-         const result  = data.data.data;
-        console.log(`result`+result);
-        if (data.data.status === `success`) {
-          this.setState({ milestones: result });
-        }
-      })
-      .catch((error) => console.log(error));
-     
-}
+  getMilestones(e){
+      //load milestones based on the selected project name
 
-  getActiveProjects() {
+  const name=e.target.value;
+  console.log("got here");
+  console.log(name)
     axios
-      .get(url)
-      .then((data) => {
-      
-        const projects = data.data;    
-        this.setState({projects}, () => {
-          const select = this.projectSelect.current;
-
-          const { projects } = this.state;
-          const data = projects;
-
-          // based on type of data is array
-          for (let i = 0; i < data.length; i++) {
-            const option = document.createElement(`option`);
-            option.innerText = data[parseInt(i,10)].projectName;
-            option.name = data[parseInt(i,10)].projectName;
-            option.value = data[parseInt(i,10)].projectId;
-            select.appendChild(option);
+        .get(`https://eazsme-backend.herokuapp.com/milestones/${name}`)
+        .then((data) => {
+          console.log(data)
+          const result  = data.data.data;
+          console.log(`result`+result);
+          if (data.data.status === `success`) {
+            this.setState({ milestones: result });
           }
-        });
-      })
-      .catch((error) => console.log(error));
+        })
+        .catch((error) => console.log(error));
+      
   }
 
-  async fetchData() {
-    await axios
-      .get(`https://eazsme-backend.herokuapp.com/milestones/all`)
-      .then(({ data }) => {
-        const status = data.status;
-        const result = data.data;
-        if (status === `success`) {
-          this.setState({ milestones: result });
-        }
-      })
-      .catch((error) => console.log(error));
+  getActiveProjects() {
+
+    const select = this.projectSelect.current;
+
+    const { projects } = this.props;
+    const data = projects;
+
+    // based on type of data is array
+    for (let i = 0; i < data.length; i++) {
+      const option = document.createElement(`option`);
+      option.innerText = data[parseInt(i,10)].projectName;
+      option.name = data[parseInt(i,10)].projectName;
+      option.value = data[parseInt(i,10)].projectId;
+      select.appendChild(option);
+    }
   }
 
   handleMilestoneUpdate(event) {
@@ -140,8 +112,7 @@ const name=e.target.value;
   render() {
     const  success = this.state.success;
     const  error = this.state.success;
-    const data = this.state.milestones;
-    console.log(this.state.milestones);
+    const data = this.props.milestones;
     return (
       <Card.Body>
        
@@ -162,7 +133,7 @@ const name=e.target.value;
             <form name="viewMilestone" id="viewMilestone">
             <Form.Group controlId="projectId">
                 <Form.Label>Select Project:</Form.Label>
-                <Form.Control as="select" ref={this.projectSelect} name="projectId" onChange={this.GetMilestones}
+                <Form.Control as="select" ref={this.projectSelect} name="projectId" onChange={this.getMilestones}
                 >
                                     </Form.Control>
 

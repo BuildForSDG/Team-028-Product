@@ -22,3 +22,7 @@ export const setOrganizationUsers = "SET_ORGANIZATION_USERS_LIST";
 
 export const setFundCategories =  "SET_FUND_CATEGORIES_LIST";
 export const setFundDetails = "SET_FUND_DETAILS";
+
+export const setMilestones = "SET_MILESTONES_lIST";
+
+export const setProjectsAppliedFor = "SET_PROJECTS_APPLIED_FOR";
