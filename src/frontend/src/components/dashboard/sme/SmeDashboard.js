@@ -2,11 +2,14 @@
 /* eslint-disable no-console */
 /* eslint no-console: "error" */
 import React from "react";
-import { Badge, Dropdown, Layout, Menu, Avatar } from "antd";
+import { bindActionCreators } from "redux";
+import { connect, batch } from "react-redux";
 import { Switch, Link, Router, Route } from "react-router-dom";
+
+
+import { Badge, Dropdown, Layout, Menu, Avatar } from "antd";
 import serialize from "form-serialize";
-import axios from "axios";
-import Proposal from "./Funds/Proposal";
+
 import {
   ProfileOutlined,
   UserOutlined,
@@ -18,20 +21,32 @@ import {
   WalletOutlined,
   PlusCircleOutlined
 } from "@ant-design/icons";
+
+
 import Create from "../general/CreateUser";
 import Update from "../general/Update";
-import ProfileDetails from "../sme/user/ProfileDetails";
-import EditProfile from "./user/EditProfile";
+
+import ProfileDetails from "../general/user/ProfileDetails";
+import EditProfile from "../general/user/EditProfile";
+
 import FundedProjects from "../sme/Projects/FundedProjects";
 import InvestmentProject from "../sme/Projects/InvestmentProject";
-import Milestones from "../sme/Projects/Milestones";
-import NewApplication from "../sme/Funds/NewApplication";
-import ViewMilestones from "../sme/Funds/ViewMilestones";
-import CreateMilestones from "./Projects/Milestones";
-import { connect } from "react-redux";
-import UpdateMilestone from "./Funds/UpdateMilestone";
 import ProjectDetails from "../sme/Projects/ProjectDetails";
 import ViewProject from "../general/View";
+
+import Milestones from "../sme/Projects/Milestones";
+import CreateMilestones from "./Projects/Milestones";
+import UpdateMilestone from "./Funds/UpdateMilestone";
+import ViewMilestones from "../sme/Funds/ViewMilestones";
+
+
+import NewApplication from "../sme/Funds/NewApplication";
+
+import Proposal from "./Funds/Proposal";
+
+import * as Types from "../../../redux/types";
+import { fetch } from "../../../redux/actionCreators";
+
 
 const menu = (
   <Menu id="dropdown-menu">
@@ -49,9 +64,70 @@ class SmeDashboard extends React.Component {
   constructor(props) {
     super(props);
 
+    const { dispatch } = props;
+
+    this.bindActionCreators = bindActionCreators(fetch, dispatch);
+
     this.state = {
       collapsed: false
     };
+  }
+
+  componentDidMount() {
+    this.fetchData();
+    const { history, user }= this.props;
+    // (!user)?history.push("/"): history.push("/sme/ProfileDetails");
+  }
+  fetchData = async() => {
+
+    const { dispatch } = this.props;
+
+    const fetchProposals = fetch({
+      url:  "/project/investorAll",
+      method: "get",
+      data: null,
+      onSuccess: Types.setProjectProposals
+    });
+
+    const fetchDisbursements = fetch({
+      url:  `/disbursements/${this.props.user.organizationId}`,
+      method: "get",
+      data: null,
+      onSuccess: Types.setDisbursements
+    });
+
+
+    const fetchProjects = fetch({
+      url:  "/projects/all",
+      method: "get",
+      data: null,
+      onSuccess: Types.setProjects
+    });
+
+
+    const fetchFundCategories = fetch({
+      url:  "/funds/category/all",
+      method: "get",
+      data: null,
+      onSuccess: Types.setFundCategories
+    });
+
+
+    const fetchInvestments = fetch({
+      url:  `/funds/organizations/${this.props.user.organizationId}`,
+      method: "get",
+      data: null,
+      onSuccess: Types.updateUserInvestments
+    });
+
+    batch(()=>{
+      dispatch(fetchProposals);
+      dispatch(fetchDisbursements);
+      dispatch(fetchProjects);
+      dispatch(fetchFundCategories);
+      dispatch(fetchInvestments);
+    });
+
   }
 
   handleMilestoneUpdate(event) {
@@ -59,18 +135,36 @@ class SmeDashboard extends React.Component {
     const form = document.querySelector("form[name=registration]");
     const formFields = serialize(form, { hash: true });
 
-    axios
-      .post("https://eazsme-backend.herokuapp.com/milestones/id", formFields)
-      .then(({ data }) => {
-        if (data.status === "success") {
-          this.setState({ success: "Milestone successfully updated!" });
+    // axios
+    //   .post("https://eazsme-backend.herokuapp.com/milestones/id", formFields)
+    //   .then(({ data }) => {
+    //     if (data.status === "success") {
+    //       this.setState({ success: "Milestone successfully updated!" });
+    //     } else {
+    //       this.setState({ error: "Error Updating Milestone" });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     /*console.log(error)*/
+    //     this.setState({ error: "Error Updating Milestone" });
+    //   });
+      const { dispatch } = this.props;
+
+      const updateMilestone = fetch({
+        url:  "/milestones/id",
+        method: "post",
+        data: formFields,
+        onSuccess: ""
+      });
+
+      dispatch(updateMilestone).then(()=>{
+        const {status, message} = this.props.request
+
+        if (status === "success") {
+          this.setState({ success: message });
         } else {
-          this.setState({ error: "Error Updating Milestone" });
+          this.setState({ error: message });
         }
-      })
-      .catch((error) => {
-        /*console.log(error)*/
-        this.setState({ error: "Error Updating Milestone" });
       });
   }
 
@@ -79,10 +173,8 @@ class SmeDashboard extends React.Component {
   };
 
   render() {
-    // use localStorage.getItem("user") to get the user object
-    const user = localStorage.getItem("userObj");
-    const userData = localStorage.getItem("userData");
-    const history = this.props.history;
+    const { history, user } = this.props;
+
     if (!user || user === null) {
       history.push("/");
     }
@@ -100,9 +192,12 @@ class SmeDashboard extends React.Component {
               />
             </Link>
           </div>
-          <Menu className="sme-menu" theme="dark" defaultSelectedKeys={["1"]} mode="inline">
-            <Menu.Item className="sme-menu" key="1" icon={<ProfileOutlined />}>
-              <Link to="/sme/ProfileDetails">Profile Details</Link>
+          <Menu className="sme-menu" theme="dark" defaultSelectedKeys={["1"]} defaultOpenKeys={['sub1']} mode="inline">
+            <Menu.Item className="sme-menu" key="1">
+              <Link to="/sme/ProfileDetails">
+                <ProfileOutlined />
+                Profile Details
+              </Link>
             </Menu.Item>
             <SubMenu className="sme-submenu" key="sub1" icon={<UserOutlined />} title="User">
               <Menu.Item key="2" icon={<UserOutlined />}>
@@ -123,19 +218,19 @@ class SmeDashboard extends React.Component {
                 <Link to="/sme/Funds/ViewMilestones"> View Milestones</Link>
               </Menu.Item>
             </SubMenu>
-            <SubMenu key="3" icon={<WalletOutlined />} title="Funds">
-              <Menu.Item key="8" icon={<PlusCircleOutlined />}>
+            <SubMenu key="sub3" icon={<WalletOutlined />} title="Funds">
+              <Menu.Item key="7" icon={<PlusCircleOutlined />}>
                 <Link to="/sme/Projects/FundedProjects">Create Application</Link>
               </Menu.Item>
-              <Menu.Item key="6" icon={<PlusCircleOutlined />}>
+              <Menu.Item key="8" icon={<PlusCircleOutlined />}>
                 <Link to="/sme/Projects/Milestones">Create Milestones</Link>
               </Menu.Item>
               <Menu.Item key="9" icon={<FileAddOutlined />}>
                 <Link to="/sme/Funds/proposal">Existing Applications</Link>
               </Menu.Item>
             </SubMenu>
-            <Menu.Item key="12" icon={<LogoutOutlined />}>
-              <Link to="/">Log out</Link>
+            <Menu.Item key="10" icon={<LogoutOutlined />}>
+              <Link to="/logout">Log out</Link>
             </Menu.Item>
           </Menu>
         </Sider>
@@ -183,7 +278,7 @@ class SmeDashboard extends React.Component {
                 <Route path="/sme/create-user" component={Create} />
                 <Route path="/sme/update-user" component={Update} />
                 {/*<Route path="/sme/deactivate-user" component={Remove} />*/}
-                <Route path="/sme/ProfileDetails" component={ProfileDetails} />
+                <Route path="/sme/ProfileDetails" render={(props) => <ProfileDetails {...props} user={this.props.user} dispatch={this.props.dispatch} />} />
                 <Route path="/sme/EditProfile" component={EditProfile} />
                 <Route path="/sme/Projects/InvestmentProject" component={InvestmentProject} />
                 <Route path="/sme/Projects/Milestones" component={Milestones} />
@@ -198,12 +293,14 @@ class SmeDashboard extends React.Component {
   }
 }
 
-const mapStateToProps = ({ sme }) => ({
-  companyName: sme.companyName,
-  category: sme.category,
-  userId: sme.userId,
-  organizationId: sme.organizationId,
-  userData: sme.userData
+const mapStateToProps = (state) => ({
+  user: state.user,
+  projectproposals: state.projectproposals.list,
+  disbursements: state.disbursements.list,
+  projects: state.projects.list,
+  fundcategories: state.fundcategories.list,
+  organizationusers: state.organizationusers.list,
+  request: state.request
 });
 
 export default connect(mapStateToProps)(SmeDashboard);

@@ -5,8 +5,7 @@
 import React from "react";
 import { bindActionCreators } from "redux";
 import { connect, batch } from "react-redux";
-import { Link } from "react-router-dom";
-import { Switch, Router, Route } from "react-router-dom";
+import { Switch, Router, Route, Link } from "react-router-dom";
 
 
 import { Badge, Dropdown, Layout, Menu, Avatar } from "antd";
