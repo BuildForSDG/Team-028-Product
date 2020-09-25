@@ -1,15 +1,8 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-multi-str */
-/* eslint-disable no-console */
-/* eslint no-console: "error" */
+
 import React from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Image from "react-bootstrap/Image";
-import axios from "axios";
-import Modal from "react-bootstrap/Modal";
+
+import { Form, Button, Row, Col, Modal } from "react-bootstrap";
+
 import "../../../../styles/modal.css";
 
 class UpdateMilestone extends React.Component {
@@ -33,26 +26,14 @@ class UpdateMilestone extends React.Component {
   }
 
   handleMilestoneUpdate(event) {
-    this.props.updateMilestone(event);
+    this.props.handleMilestoneUpdate(event);
   }
 
   handleEditorChange(e) {
     this.setState({ description: e.target.getContent() });
   }
   handleClick(e) {
-    e.preventDefault();
-    // Make api call with form
-    axios
-      .post("https://eazsme-backend.herokuapp.com/milestones/id")
-      .then((data) => {
-        if (data.status === "success") {
-          this.setState({ success: "Milestoned Successfully Updated!" });
-          /*  this.setState({ data: data});*/
-        } else {
-          this.setState({ error: "Error Updating Milestone" });
-        }
-      })
-      .catch((error) => console.log(error));
+    this.handleMilestoneUpdate(e);
   }
   render() {
     const success = this.props.success;
@@ -101,7 +82,7 @@ class UpdateMilestone extends React.Component {
                     <Form.Label className="font-weight-bold">
                       Enter Progress<sup className="text-danger">*</sup>
                     </Form.Label>
-                    <Form.Control type="text" placeholder="Enter Milestone Project" required name="Progress" />
+                    <Form.Control type="text" placeholder="Enter Milestone Project" required name="progress" />
                   </Form.Group>
                 </Col>
                 <Col>

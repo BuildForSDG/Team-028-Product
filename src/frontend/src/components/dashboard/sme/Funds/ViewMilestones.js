@@ -1,11 +1,7 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-multi-str */
-/* eslint-disable no-console */
-/* eslint no-console: "error" */
 
 
 import React from "react";
-import { Link, BrowserRouter as Router, withRouter } from "react-router-dom";
+import { Link} from "react-router-dom";
 
 
 
@@ -13,10 +9,10 @@ import { Card, Table, Form, Col, Row} from "react-bootstrap";
 import UpdateMilestone from "./UpdateMilestone";
 
 import serialize from "form-serialize";
-import axios from "axios";
 
+import { fetch } from "../../../../redux/actionCreators";
+import * as Types from "../../../../redux/types";
 
-let url=``;
 class ViewMilestones extends React.Component {
   constructor(props) {
     super(props);
@@ -28,13 +24,14 @@ class ViewMilestones extends React.Component {
       data: [],
       success: ``,
       error: ``,
-      showUpdate: false
+      showUpdate: false,
+      milestoneId: null
     };
 
     this.showMilestoneModal = this.showMilestoneModal.bind(this);
     this.closeMilestoneModal = this.closeMilestoneModal.bind(this);
     this.handleMilestoneUpdate = this.handleMilestoneUpdate.bind(this);
-    this.getMilestones = this.handleMilestoneUpdate.bind(this);
+    this.getMilestones = this.getMilestones.bind(this);
     this.getActiveProjects = this.getActiveProjects.bind(this);
     this.projectSelect=React.createRef();
    
@@ -44,32 +41,28 @@ class ViewMilestones extends React.Component {
     this.getActiveProjects();
   }
 
-  showMilestoneModal(event) {
+  showMilestoneModal(event, milestoneId) {
+
     event.preventDefault();
-    this.setState({ showUpdate: true });
+    this.setState({ showUpdate: true, milestoneId });
   }
 
   closeMilestoneModal() {
     this.setState({ showUpdate: false });
   }
   getMilestones(e){
-      //load milestones based on the selected project name
+  
+    const name=e.target.value;
 
-  const name=e.target.value;
-  console.log("got here");
-  console.log(name)
-    axios
-        .get(`https://eazsme-backend.herokuapp.com/milestones/${name}`)
-        .then((data) => {
-          console.log(data)
-          const result  = data.data.data;
-          console.log(`result`+result);
-          if (data.data.status === `success`) {
-            this.setState({ milestones: result });
-          }
-        })
-        .catch((error) => console.log(error));
-      
+    const { dispatch } = this.props;
+    const filterMilestonsesByProjectName = fetch({
+      url: `milestones/${name}`,
+      method: "get",
+      data: null,
+      onSuccess: ""
+    });
+
+    dispatch(filterMilestonsesByProjectName);
   }
 
   getActiveProjects() {
@@ -78,6 +71,12 @@ class ViewMilestones extends React.Component {
 
     const { projects } = this.props;
     const data = projects;
+
+    const defaultOption = document.createElement(`option`);
+    defaultOption.innerText = "select";
+    defaultOption.name = "select";
+    defaultOption.value = -1;
+    select.appendChild(defaultOption);
 
     // based on type of data is array
     for (let i = 0; i < data.length; i++) {
@@ -91,22 +90,20 @@ class ViewMilestones extends React.Component {
 
   handleMilestoneUpdate(event) {
     event.preventDefault();
+
     const form = document.querySelector(`form[name=updateMilestone]`);
     const formFields = serialize(form, { hash: true });
+    formFields.id = this.state.milestoneId;
 
-    axios
-      .post(`https://eazsme-backend.herokuapp.com/milestones/id`, formFields)
-      .then(({ data }) => {
-        if (data.status === `success`) {
-          this.setState({ success: `Milestone successfully updated!` });
-        } else {
-          this.setState({ error: `Error Updating Milestone` });
-        }
-      })
-      .catch((error) => {
-        /*console.log(error)*/
-        this.setState({ error: `Error Updating Milestone` });
-      });
+    const { dispatch } = this.props;
+    const updateMilestone = fetch({
+      url: `/milestones/id`,
+      method: "put",
+      data: formFields,
+      onSuccess: ""
+    });
+
+    dispatch(updateMilestone);
   }
 
   render() {
@@ -163,7 +160,7 @@ class ViewMilestones extends React.Component {
                         <td>{item.Progress}</td>
                         <td>{item.Status}</td>
                         <td>
-                          <Link onClick={this.showMilestoneModal} to="">
+                          <Link onClick={(e)=> this.showMilestoneModal(e,item.id)} to="" value={item.milestoneId}>
                             {` `}
                             Update{` `}
                           </Link>
@@ -176,7 +173,7 @@ class ViewMilestones extends React.Component {
             </form>
           </Col>
         </Row>
-        <UpdateMilestone showModal={this.state.showUpdate} closeModal={this.closeMilestoneModal} />
+        <UpdateMilestone showModal={this.state.showUpdate} closeModal={this.closeMilestoneModal} handleMilestoneUpdate={this.handleMilestoneUpdate} />
       </Card.Body>
     );
   }

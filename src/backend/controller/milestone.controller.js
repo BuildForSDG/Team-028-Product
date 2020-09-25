@@ -93,7 +93,10 @@ exports.findOne = (req, res) => {
 
 // Get milestone by milestone name
 exports.updateMilestone = (req, res) => {
-  Milestone.findOne({ where: { id: req.body.id} })
+  
+  const { id, progress, status } = req.body;
+
+  Milestone.findOne({ where: { id: id} })
     .then((data) => {
       if (!data) {
         return res.status(400).json({
@@ -102,14 +105,14 @@ exports.updateMilestone = (req, res) => {
         });
       } else {
         // update milestone
-        Milestone.update({ progress: req.body.progress,status: req.body.status},
-          { where: { id:data.id } }
+        Milestone.update({ progress, status },
+          { where: { id } }
           ).then(() => {
           res.status(200).json({
-          status: "success",
-          message: data
-          });  
-         });        
+            status: "success",
+            message: "milesone has been updated successfully"
+          });
+         });
       }
     })
     .catch((err) => {
