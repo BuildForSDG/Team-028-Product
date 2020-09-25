@@ -12,9 +12,8 @@ const env = {
   },
   mail: {
     user: "eazsme@gmail.com",
-    // pass: "eazsmebdgs",
-    // user: "app173754893@heroku.com"
-    // user: "onyedikachinwosu@rocketmail.com"
+    pass: "eazsmebdgs",
+    apiKey: "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"
   }
 };
 

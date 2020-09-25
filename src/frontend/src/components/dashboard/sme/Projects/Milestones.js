@@ -1,25 +1,18 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-multi-str */
-/* eslint-disable no-console */
-/* eslint no-console: "error" */
-/*eslint quotes: ["error", "backtick"]*/
-/*eslint-env es6*/
-/* eslint no-console: "error" */
 
 import React from "react";
-import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import { DatePicker } from "antd";
-import moment from "moment";
-import Image from "react-bootstrap/Image";
+import { connect } from "react-redux";
+
+import { Card, Form, Button, Row, Col } from "react-bootstrap";
+
 import { Editor } from "@tinymce/tinymce-react";
+import { moment } from "moment"
 import serialize from "form-serialize";
 import axios from "axios";
-const dateFormat = `YYYY/MM/DD`;
-let url=``;
+
+import { fetch } from "../../../../redux/actionCreators";
+import * as Types from "../../../../redux/types";
+
+const dateFormat = "YYYY/MM/DD";
 
 class CreateMilestone extends React.Component {
   constructor(props) {
@@ -31,8 +24,8 @@ class CreateMilestone extends React.Component {
       name: ``,
       startDate: null,
       endDate: ``,
-      success: ``,
-      error: ``,
+      status: ``,
+      message: ``,
       projectId: ``
     };
     this.handleChange = this.handleChange.bind(this);
@@ -44,53 +37,37 @@ class CreateMilestone extends React.Component {
 
 
   componentDidMount() {
-
-    const userObj = JSON.parse(localStorage.getItem(`userObj`));
-    
-    if (userObj) {
-      this.setState(() => ({ userObj }));
-      const id=userObj.organizationId;
-      
-
-url = `https://eazsme-backend.herokuapp.com/fund/application/${id}`;
-    }
-   
     this.getActiveProjects();
   }
 
-  async getActiveProjects() {
-    
-    await axios
-      .get(url)
-      .then((data) => {
-        
-        const projects = data.data;
-       
-        this.setState({projects}, () => {
-          const select = this.projectSelect.current;
+  getActiveProjects() {
+    const { projects } = this.props;
 
-          const { projects } = this.state;
-          const data = projects;
+    const fundedProjects = projects.filter((item) => {
+      return item.fund === `funded`;
+    });
 
-          // based on type of data is array
-          for (let i = 0; i < data.length; i++) {
-            const option = document.createElement(`option`);
-            option.innerText = data[parseInt(i,10)].projectName;
-            option.name = data[parseInt(i,10)].projectName;
-            option.value = data[parseInt(i,10)].projectId;
-            select.appendChild(option);
-          }
-        });
+    this.setState({projects: fundedProjects}, () => {
+      const select = this.projectSelect.current;
 
-      })
-      .catch((error) => console.log(error));
+      const { projects } = this.state;
+      const data = projects;
+
+      // based on type of data is array
+      for (let i = 0; i < data.length; i++) {
+        const option = document.createElement(`option`);
+        option.innerText = data[parseInt(i,10)].projectName;
+        option.name = data[parseInt(i,10)].projectName;
+        option.value = data[parseInt(i,10)].projectId;
+        select.appendChild(option);
+      }
+    });
   }
-  
+
   handleEditorChange(e) {
-    this.setState({ description: e.target.getContent() });
+    this.setState({ description: e.target.getContent({format : "text"}) });
   }
-  
-  
+
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -98,31 +75,31 @@ url = `https://eazsme-backend.herokuapp.com/fund/application/${id}`;
   handleClick = (e) => {
     e.preventDefault();
 
-       const form = document.querySelector(`form[name="create-milestone"]`);
-    const formFields = serialize(form, { hash: true }); // Make api call with form
+    const form = document.querySelector(`form[name="create-milestone"]`);
+    const formFields = serialize(form, { hash: true }); 
+    
     formFields.description=this.state.description;
     formFields.applicationId=this.state.projectId;
-    console.log(formFields);
-    // Make api call with form
-    axios
-      .post(`https://eazsme-backend.herokuapp.com/milestones`, formFields)
-      .then((data) => {
-      
-        if (data.data.status === `success`) {
+
+    const { dispatch } = this.props
+    
+    const createProjectMilestone = fetch({
+      url: "/milestones",
+      method: "post",
+      data: formFields,
+      onSuccess: ""
+    });
+
+    dispatch(createProjectMilestone).then(()=>{
+        const { status, message } = this.props.request;
           this.setState({
-            success: `Milestone Successfully created!`,
+            status, message,
             projectName: ``
           });
-        } else {
-          this.setState({ error: `Error creating Milestone` });
-        }
-      })
-      .catch((error) => console.log(error));
+    });
   };
   render() {
-    //const { description, name, startDate, endDate, success, error } = this.state;
-    const success = this.state.success;
-    const error = this.state.error;
+    const { status, message } = this.state;
     return (
       <Card.Body>
        
@@ -132,49 +109,48 @@ url = `https://eazsme-backend.herokuapp.com/fund/application/${id}`;
         <Row>
           <Col md="12">
 
-          {success ? (
+          {status === "success" ? (
               <div className="text-bold text-success">
-                <h5>{success}</h5>
+                <h5>{message}</h5>
               </div>
             ) : (
               <div className="text-bold text-success">
-                <h5>{error}</h5>
+                <h5>{message}</h5>
               </div>
             )}
             <form name="create-milestone" id="createMilestones">
             <Form.Group controlId="projectId">
                 <Form.Label>Select Project:</Form.Label>
-                <Form.Control as="select" ref={this.projectSelect} name="projectId" 
-                 onChange={(e) => this.setState({projectId: e.target.value})}>>
+                <Form.Control as="select" ref={this.projectSelect} name="projectId"
+                 onChange={(e) => this.setState({projectId: e.target.value})}>
                     </Form.Control>
 
               </Form.Group>
-              <div class="form-row">
+              <div className="form-row">
 
-              <div class="form-group col-md-8">
-                  <label for="name">Name of Milestone</label>
+              <div className="form-group col-md-8">
+                  <label htmlFor="name">Name of Milestone</label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="name"
                     name="name"
-                                      
                   />
                 </div>
-                <div class="form-group col-md-6" controlId="startDate">
-                  <label for="startDate">Start Date</label>
+                <div className="form-group col-md-6" controlId="startDate">
+                  <label htmlFor="startDate">Start Date</label>
                   <input
                     type="date"
                     id="startDate"
-                    //defaultValue={moment("2020/01/01", dateFormat)}
+                    // defaultValue={moment("2020/01/01", dateFormat)}
                     value={this.state.startDate}
                     name="startDate"
                     //format={dateFormat}
                     onChange={this.handleChange}
                   />
                 </div>
-                <div class="form-group col-md-6" controlId="endDate">
-                  <label for="endDate">End Date</label>
+                <div className="form-group col-md-6" controlId="endDate">
+                  <label htmlFor="endDate">End Date</label>
                   <input
                     type="date"
                     id="endDate"
@@ -209,6 +185,7 @@ url = `https://eazsme-backend.herokuapp.com/fund/application/${id}`;
                   }}
                   onChange={this.handleEditorChange}
                   name="description"
+                  outputFormat="text"
                 />
               </Form.Group>
 
@@ -223,4 +200,11 @@ url = `https://eazsme-backend.herokuapp.com/fund/application/${id}`;
     );
   }
 }
-export default CreateMilestone;
+
+const mapStateToProps = (state) =>{
+  return {
+    request: state.request
+  }
+}
+
+export default connect(mapStateToProps)(CreateMilestone);

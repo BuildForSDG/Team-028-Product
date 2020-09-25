@@ -1,16 +1,9 @@
-/*eslint quotes: ["error", "backtick"]*/
-/*eslint-env es6*/
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-multi-str */
-/* eslint-disable no-console */
-/* eslint no-console: "error" */
+
 import React from "react";
-import Card from "react-bootstrap/Card";
-import Table from "react-bootstrap/Table";
-import Button from "react-bootstrap/Button";
-import axios from "axios";
+
 import { Link } from "react-router-dom";
-import Form from "react-bootstrap/Form";
+
+import { Form, Card, Table, Button }  from "react-bootstrap";
 
 class View extends React.Component {
   constructor(props) {
@@ -23,33 +16,19 @@ class View extends React.Component {
       valueChange: ``
     };
 
-    this.fetchData = this.fetchData.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.search = this.search.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   }
 
   componentDidMount() {
-    this.fetchData();
-  }
-
-  fetchData() {
-    axios
-    //.get(`https://eazsme-backend.herokuapp.com/projects/all`)
-      .get(`http://localhost:4000/projects/all`)
-      .then(({ data }) => {
-        const status = data.status;
-        const projects = data.data;
-        console.log(data);
-        if (status === `success`) {
-          let newResults = projects.filter((items) => {
-            return items.fund === `funded`;
-          });
-          this.setState({ data: newResults });
-          //console.log(newResults);
-        }
-      })
-      .catch((error) => console.log(error));
+    const { projects } = this.props;
+    
+    const newResults = projects.filter((item) => {
+      return item.fund === `funded`;
+    });
+    
+    this.setState({ data: newResults });
   }
 
   handleChange(event) {
@@ -139,7 +118,7 @@ class View extends React.Component {
                    </td>
                     <td key={count++}>
                    {/*   <Link to={`/sme/Funds/NewApplication/${item.projectId}`}>Apply</Link>*/}
-                      <Link to={{ pathname: `/sme/Funds/NewApplication/`, query: item.projectId  }}> Apply </Link>
+                      <Link to={{ pathname: `/sme/funds/apply/`, query: item.projectId  }}> Apply </Link>
                     </td>
                   </tr>
                 );
