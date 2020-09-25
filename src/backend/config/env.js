@@ -12,7 +12,9 @@ const env = {
   },
   mail: {
     user: "eazsme@gmail.com",
-    pass: "eazsmebdgs"
+    // pass: "eazsmebdgs",
+    // user: "app173754893@heroku.com"
+    // user: "onyedikachinwosu@rocketmail.com"
   }
 };
 
