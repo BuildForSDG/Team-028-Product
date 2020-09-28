@@ -2,13 +2,10 @@
 /* eslint-disable no-console */
 /* eslint no-console: "error" */
 import React from "react";
-import Card from "react-bootstrap/Card";
-import Table from "react-bootstrap/Table";
-import axios from "axios";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+
+import {Card, Form, Button} from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Search from "antd/lib/transfer/search";
+
 
 class View extends React.Component {
   constructor(props) {

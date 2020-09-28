@@ -1,7 +1,4 @@
-/* eslint-disable no-console */
-/* eslint-disable no-multi-str */
-/*eslint-env es6*/
-/* eslint no-console: "error" */
+
 import React from "react";
 
 import serialize from "form-serialize";
@@ -17,8 +14,8 @@ class Invest extends React.Component {
     super(props);
 
     this.state = {
-      success: "",
-      error: "",
+      status: "",
+      message: "",
       description: "",
       projectName: "",
       organizationId:""
@@ -86,14 +83,18 @@ class Invest extends React.Component {
       });
 
     dispatch(saveInvestment).then(()=>{
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      const { status, message } = this.props.request;
+
+      if (status === "success"){
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
     });
   }
 
   render() {
-    const { status, message } = this.props.request;
+    const { status, message } = this.state;
     return (
       <Card.Body>
         <Row>

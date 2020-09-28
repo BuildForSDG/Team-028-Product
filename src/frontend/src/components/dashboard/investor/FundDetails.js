@@ -1,6 +1,4 @@
-/* eslint-disable no-multi-str */
-/* eslint-disable no-console */
-/* eslint no-console: "error" */
+
 import React from "react";
 import { connect } from "react-redux";
 import serialize from "form-serialize";

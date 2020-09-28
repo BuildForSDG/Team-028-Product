@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
-/* eslint no-console: "error" */
 
 import React from "react";
 import { bindActionCreators } from "redux";
@@ -37,7 +34,7 @@ import ProposalDetails from "./ProposalDetails";
 import ProjectDetails from "../general/project/ProjectDetails";
 import FundDetails from "./FundDetails";
 import EditProfile from "../general/user/EditProfile";
-import Invest from "./invest";
+import Invest from "./Invest";
 
 import ViewProject from "../general/project/View";
 import CreateProject from "../general/project/Create";

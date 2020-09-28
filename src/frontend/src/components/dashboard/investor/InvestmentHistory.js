@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint no-console: "error" */
 
 import React from "react";
 

@@ -1,7 +1,4 @@
-/* eslint-disable react/jsx-no-undef */
-/* eslint-disable no-multi-str */
-/* eslint-disable no-console */
-/* eslint no-console: "error" */
+
 import React from "react";
 
 import { Row, Col} from "react-bootstrap";

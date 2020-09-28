@@ -1,6 +1,4 @@
-/* eslint-disable no-multi-str */
-/* eslint-disable no-console */
-/* eslint no-console: "error" */
+
 import React from "react";
 import { Upload, message, Button } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";

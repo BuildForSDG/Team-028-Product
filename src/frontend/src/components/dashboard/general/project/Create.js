@@ -1,15 +1,8 @@
-/* eslint-disable no-console */
-/* eslint no-console: "error" */
-/* eslint-disable no-multi-str */
-/*eslint quotes: ["error", "backtick"]*/
-/*eslint-env es6*/
+
 
 import React from "react";
-import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+
+import { Card, Form, Button, Row, Col } from "react-bootstrap";
 import { Editor } from "@tinymce/tinymce-react";
 import serialize from "form-serialize";
 import axios from "axios";
@@ -20,8 +13,8 @@ class Create extends React.Component {
 
     this.state = {
       categories: [],
-      success: ``,
-      error: ``,
+      success: "",
+      error: "",
       data: []
     };
     this.handleEditorChange = this.handleEditorChange.bind(this);
@@ -62,7 +55,7 @@ class Create extends React.Component {
   
 
   handleEditorChange(e) {
-    this.setState({ description: e.target.getContent() });
+    this.setState({ description: e.target.getContent({format:"text"}) });
    
   }
 
