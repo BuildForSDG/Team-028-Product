@@ -48,3 +48,8 @@ export  const setProjectsAppliedFor = (payload) => ({
   type: Types.setProjectsAppliedFor,
   payload
 });
+
+export  const setProjectDetails = (payload) => ({
+  type: Types.setProjectDetails,
+  payload
+});

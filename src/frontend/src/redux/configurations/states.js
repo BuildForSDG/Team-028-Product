@@ -32,6 +32,7 @@ export const request = {
 };
 
 export const fundDetails = {};
+export const projectDetails = {};
 
 export const projectProposals = {
   list: [],

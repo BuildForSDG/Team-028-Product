@@ -1,6 +1,10 @@
 
 import React from "react";
-import axios from "axios";
+import { connect } from "react-redux";
+
+import { fetch } from "../../../../redux/actionCreators";
+import * as Types from "../../../../redux/types";
+
 
 class ProjectDetails extends React.Component {
   constructor(props) {
@@ -21,14 +25,19 @@ class ProjectDetails extends React.Component {
     };
   }
   async componentDidMount() {
-    const id=this.props.match.params.projectId;
-    const url = `https://eazsme-backend.herokuapp.com/project/${id}`;
-   
-    const data = await axios.get(url);
+    const id = this.props.match.params.projectId;
 
-    const project = data.data.data;
+    const { fetch } = this.props;
 
-    this.setState({ project });
+    fetch({
+        url: `/project/${id}`,
+        method: "get",
+        data: null,
+        onSuccess: Types.setProjectDetails
+    }).then(()=>{
+        const {project} = this.props;
+        this.setState({ project });
+    });
   }
 
   render() {
@@ -74,4 +83,17 @@ class ProjectDetails extends React.Component {
     );
   }
 }
-export default ProjectDetails;
+
+const mapDispatchToProps = (dispatch) =>{
+    return {
+        fetch : (data) => dispatch(fetch(data))
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        project: state.projectDetails
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectDetails);

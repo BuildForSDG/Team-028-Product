@@ -55,6 +55,16 @@ export const projectsAppliedForReducer = (state = states.projects, action) => {
   }
 };
 
+export const projectDetailsReducer = (state = states.projectDetails, action) => {
+  switch (action.type) {
+    case Types.setProjectDetails: 
+     return Object.assign({}, state, { ...action.payload });
+    default: 
+      return state;
+    
+  }
+};
+
 export const milestoneReducer = (state = states.projects, action) => {
   switch (action.type) {
     case Types.setMilestones: {

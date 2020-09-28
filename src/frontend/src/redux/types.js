@@ -26,3 +26,5 @@ export const setFundDetails = "SET_FUND_DETAILS";
 export const setMilestones = "SET_MILESTONES_lIST";
 
 export const setProjectsAppliedFor = "SET_PROJECTS_APPLIED_FOR";
+
+export const setProjectDetails =  "SET_PROJECT_DETAILS";
