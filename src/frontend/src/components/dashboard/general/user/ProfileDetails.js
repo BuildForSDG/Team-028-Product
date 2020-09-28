@@ -46,7 +46,7 @@ class ProfileDetails extends React.Component {
   fetchData() {
     
     const { email } = this.props.user;
-    console.log(this.props)
+
     const { dispatch } = this.props;
 
     const fetchProfileDetails = fetch({
@@ -60,6 +60,7 @@ class ProfileDetails extends React.Component {
     });
   }
     render() {
+     const { category } = this.props.user;
     return (
       <>
       <div class="jumbotron p-4 p-md-5 text-dark rounded shadow-sm">
@@ -102,7 +103,7 @@ class ProfileDetails extends React.Component {
                   <Row>
                     <Col md="12">
                       <div className="text-right">
-                            <Link to="/investor/EditProfile"> Edit Profile</Link>
+                            <Link to={`edit-profile`}> Edit Profile</Link>
                       </div>
                     </Col>
                   </Row>
@@ -158,7 +159,7 @@ class ProfileDetails extends React.Component {
           <div className="col-md-6">
             <div className="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
               <div className="col p-4 d-flex flex-column position-static">
-                <strong className="d-inline-block mb-2 profile-title-text">Investor Details</strong>
+                <strong className="d-inline-block mb-2 profile-title-text"> {category.charAt(0).toUpperCase() + category.substring(1)} Details</strong>
               <Col>
             <div className="form-row" controlid="companyName">
                     <div className="form-group col-md-12">
@@ -206,7 +207,8 @@ class ProfileDetails extends React.Component {
 }
 const mapStateToProps = (state)=>{
   return {
-    details: state.user.profile
+    details: state.user.profile,
+    user: state.user
   }
 }
 export default connect(mapStateToProps)(ProfileDetails);
