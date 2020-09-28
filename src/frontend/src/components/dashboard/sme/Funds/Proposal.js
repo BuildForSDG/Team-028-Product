@@ -1,69 +1,39 @@
-/* eslint-disable no-multi-str */
-/* eslint-disable no-console */
-/* eslint no-console: "error" */
-/*eslint quotes: ["error", "backtick"]*/
 
 import React from "react";
-import Card from "react-bootstrap/Card";
-import Table from "react-bootstrap/Table";
-import axios from "axios";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+
+
+import { Card, Table, Button, Form} from "react-bootstrap";
+
 import { Link } from "react-router-dom";
-import serialize from "form-serialize";
-
-
-  let URL= ``;
 class View extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      projects: [],
-      filteredProjects: [],
-      searchTerm: ``
-      
+      existingApplications: [],
+      filteredApplications: [],
+      searchTerm: ""
     };
 
-    this.fetchData = this.fetchData.bind(this);
-    this.searchProjects = this.searchProjects.bind(this);
+    this.searchApplications = this.searchApplications.bind(this);
     this.onChange = this.onChange.bind(this);
   }
 
   componentDidMount() {
-    const userObj = JSON.parse(localStorage.getItem(`userObj`));
-    
-    if (userObj) {
-      this.setState(() => ({ userObj }));
-      const id=userObj.organizationId;
-      const form = document.querySelector(`form[name="create-milestone"]`);
-const formFields = serialize(form, { hash: true }); 
-//formFields.organizationId=organizationId;
+    const {existingApplications} = this.props;
 
-URL = `http://localhost:4000/fund/application/${id}`;
-
-    }
-   
-       this.fetchData();
+    this.setState({ existingApplications, filteredApplications: existingApplications });
   }
 
-  async fetchData() {
-    const data = await axios.get(URL);
-    console.log(data);
-    const projects = data.data;
-    console.log(projects);
-    this.setState({ projects, filteredProjects: projects });
-  }
-
-  searchProjects(e) {
+  searchApplications(e) {
     e.preventDefault();
 
     const query = this.state.searchTerm; 
 
     this.setState((prevState) => {
-      let filteredProjects = prevState.projects;
+      let filteredApplications = prevState.existingApplications;
       if (query.trim() !== ``) {
-        filteredProjects = prevState.projects.filter((element) => {
+        filteredApplications = prevState.existingApplications.filter((element) => {
           return (
             element.projectName.toLowerCase().includes(query.toLowerCase()) ||
             element.description.toLowerCase().includes(query.toLowerCase())
@@ -71,24 +41,21 @@ URL = `http://localhost:4000/fund/application/${id}`;
         });
       }
       return {
-        filteredProjects
+        filteredApplications
       };
     });
   }
   onChange(e) {
     const value = e.target.value;
     if (value.trim() === ``) {
-      this.setState({ filteredProjects: this.state.projects, searchTerm: value });
+      this.setState({ filteredApplications: this.state.existingApplications, searchTerm: value });
     } else {
       this.setState({ searchTerm: value });
     }
   }
 
-
-
-
   render() {
-    const data = this.state.filteredProjects;
+    const data = this.state.filteredApplications;
     return (
       <>
         <br></br>
@@ -99,7 +66,7 @@ URL = `http://localhost:4000/fund/application/${id}`;
                 style={{ float: `right`, borderRadius: `5%`, background: `orange` }}
                 variant="default"
                 type="submit"
-                onClick={this.searchProjects}
+                onClick={this.searchApplications}
               >
                 {` `}
                 Search
@@ -128,7 +95,6 @@ URL = `http://localhost:4000/fund/application/${id}`;
                 <th>Amount Received</th>
                 <th>Date</th>
                 <th>Status</th>
-                
               </tr>
             </thead>
             <tbody>
@@ -140,9 +106,9 @@ URL = `http://localhost:4000/fund/application/${id}`;
                     <td>{item.createdBy}</td>
                     <td>{item.dateStart}</td>
                     <td>{item.dateEnd}</td>
-                   {/* <td>
-                      <Link to={`/view-project/${item.projectId}`}>View Details</Link>
-                    </td>*/}
+                   <td>
+                      <Link to={`view-project/${item.projectId}`}>View Details</Link>
+                    </td>
                   </tr>
                 );
               })}

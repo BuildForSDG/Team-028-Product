@@ -243,7 +243,7 @@ class SmeDashboard extends React.Component {
                 <Route path="/sme/fund-milestones" 
                   render={(props) => <ViewMilestones {...props} user={this.props.user} dispatch={this.props.dispatch} projectapplications={this.props.projectapplications} projects={this.props.projects} milestones={this.props.milestones} />} />
                 <Route path="/sme/create-milestones" render={(props) => <CreateMilestones {...props}  projects={this.props.projects} />}  />
-                <Route path="/sme/existing-applications" component={Proposal} />
+                <Route path="/sme/existing-applications" render={(props) => <Proposal {...props} existingApplications={this.props.projectproposals} dispatch={this.props.dispatch} user={this.props.user} />} />
                 <Route path="/sme/create-user" component={Create} />
                 <Route path="/sme/update-user" component={Update} />
                 {/*<Route path="/sme/deactivate-user" component={Remove} />*/}
