@@ -108,13 +108,12 @@ class View extends React.Component {
               {data.map((item, index, arr) => {
                 let count = arr.length;
                 return (
-                  <tr>
-                    <td key={index}>{item.projectName}</td>
-                    <td key={index}>{item.description}</td>
-                    <td key={count++}>
+                  <tr key={index}>
+                    <td>{item.projectName}</td>
+                    <td>{item.description}</td>
+                    <td>
                         {/* <Link to={{ pathname: `/sme/Projects/ProjectDetails/`, queryid: item.projectId  }}> View Details </Link>*/}
-                         <Link to={`/${this.props.userCat}/Projects/ProjectDetails/${item.projectId}`}>View Details</Link>
-                         
+                         <Link to={`/${this.props.userCat}/view-project/${item.projectId}`}>View Details</Link>
                    </td>
                     <td key={count++}>
                    {/*   <Link to={`/sme/Funds/NewApplication/${item.projectId}`}>Apply</Link>*/}

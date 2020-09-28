@@ -1,37 +1,29 @@
 
-/* eslint-disable no-multi-str */
-/* eslint-disable no-console */
-/* eslint no-console: "error" */
-/*eslint quotes: ["error", "backtick"]*/
-/*eslint-env es6*/
-/* eslint no-console: "error" */
-
-
 
 import React from "react";
-import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { connect } from "react-redux";
+
+import { Card, Form, Button, Row, Col} from "react-bootstrap";
+
 import { Editor } from "@tinymce/tinymce-react";
 import serialize from "form-serialize";
-import axios from "axios";
+
+import { fetch } from "../../../../redux/actionCreators";
+import * as Types from "../../../../redux/types";
 
 class CreateApplication extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      organizationId: ``,
-      projectId: ``,
-      description: ``,
-      projectName: ``,
-      dateStart: ``,
-      dateEnd: ``,
+      organizationId: "",
+      projectId: "",
+      description: "",
+      projectName: "",
+      dateStart: "",
+      dateEnd: "",
       proposals: null,
-      success: ``,
-      error: ``
-      
+      status: "",
+      message: ""
     };
     this.handleEditorChange = this.handleEditorChange.bind(this);
     this.handleSubmitForm = this.submitForm.bind(this);
@@ -40,13 +32,7 @@ class CreateApplication extends React.Component {
   }
 
   componentDidMount(){
-    this.setState({ projectId: this.props.location.query });
-   
-      const userObj = JSON.parse(localStorage.getItem(`userObj`));
-   if (userObj) {
-     this.setState(() => ({ userObj }));
-     
-   }
+    this.setState({ projectId: this.props.location.query, status: "", message:"" });
  }
 
 
@@ -63,7 +49,7 @@ class CreateApplication extends React.Component {
   };
 
   handleEditorChange = (e) => {
-    this.setState({ description: e.target.getContent() });
+    this.setState({ description: e.target.getContent({format : "text"}) });
   };
 
   /**
@@ -73,35 +59,32 @@ class CreateApplication extends React.Component {
 
   submitForm = (e) => {
     e.preventDefault();
-const form = document.querySelector(`form[name="create-fundApplication"]`);
-const formFields = serialize(form, { hash: true }); 
-formFields.projectId=this.state.projectId;
-formFields.organizationId=this.state.userObj.organizationId;
-formFields.description=this.state.description;
 
-console.log(formFields);
-    axios
-      .post(`http://localhost:4000/fund/apply`, formFields)
-      .then((res) => {
-        let response = res.data;
-        console.log(response.status);
-        // then print response status
-        if (response.status === `success`) {
-          this.setState({ 
-            success: `Application Created!`, 
-            error:``,
-           });
-        } else {
-          this.setState({ error: `Error creating Application` });
-        }
-      })
-      .catch((error) => console.log(error));
+    const { user, dispatch} = this.props;
+
+    const form = document.querySelector(`form[name="create-fundApplication"]`);
+    const formFields = serialize(form, { hash: true }); 
+    formFields.projectId = this.state.projectId;
+    formFields.organizationId = user.organizationId;
+    formFields.description=this.state.description;
+
+    const applyForFund = fetch({
+      url: "/fund/apply",
+      method: "post",
+      data: formFields,
+      onSuccess: ""
+    });
+
+    dispatch(applyForFund).then(()=>{
+      const { status, message } = this.props.request;
+
+      this.setState({ status ,message });
+    });
   };
 
   render() {
     //const { projectName, dateStart, dateEnd, success, error } = this.state;
-    const success = this.state.success;
-    const error = this.state.error;
+    const { status, message } = this.state;
     return (
       <Card.Body>
        
@@ -110,29 +93,29 @@ console.log(formFields);
         </div>
         <Row>
           <Col md="12">
-          {success ? (
+          {status === "success" ? (
               <div className="text-bold text-success">
-                <h5>{success}</h5>
+                <h5>{message}</h5>
               </div>
             ) : (
               <div className="text-bold text-success">
-                <h5>{error}</h5>
+                <h5>{message}</h5>
               </div>
             )}
             <form name="create-fundApplication" id="createfundApplication">
-              <div class="form-row" controlId="ProjectId">
-                <div class="form-group col-md-12">
-                  <label for="inputTeam">
+              <div className="form-row" controlId="ProjectId">
+                <div className="form-group col-md-12">
+                  <label>
                     Project name: <h4>{this.state.projectName}</h4>
                   </label>
                 </div>
               </div>
-              <div class="form-row" controlId="projectName">
-                <div class="form-group col-md-8">
-                  <label for="projectName">Name of Project</label>
+              <div className="form-row" controlId="projectName">
+                <div className="form-group col-md-8">
+                  <label htmlFor="projectName">Name of Project</label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="projectName"
                     name="projectName"
                     value={this.state.projectName}
@@ -140,7 +123,7 @@ console.log(formFields);
                   />
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="startDate">Start Date </label>
+                  <label htmlFor="startDate">Start Date </label>
                   <input
                     type="date"
                     id="dateStart"
@@ -151,8 +134,8 @@ console.log(formFields);
                     onChange={this.handleChange}
                   />
                 </div>
-                <div class="form-group col-md-6">
-                  <label for="endDate">End Date </label>
+                <div className="form-group col-md-6">
+                  <label htmlFor="endDate">End Date </label>
                   <input
                     type="date"
                     id="dateEnd"
@@ -186,12 +169,12 @@ console.log(formFields);
                 }}
               />
               <br></br>
-              <div class="form-row" controlId="proposals">
-                <div class="form-group col-md-12">
-                  <label for="proposals">Upload Project Proposal</label>
+              <div className="form-row" controlId="proposals">
+                <div className="form-group col-md-12">
+                  <label htmlFor="proposals">Upload Project Proposal</label>
                   <input
                     type="file"
-                    class="form-control"
+                    className="form-control"
                     id="proposals"
                     name="proposals"
                     onChange={this.selectedFileHandler}
@@ -209,4 +192,11 @@ console.log(formFields);
     );
   }
 }
-export default CreateApplication;
+
+const mapStateToProps = (state) => {
+  return {
+    request: state.request
+  }
+}
+
+export default connect(mapStateToProps)(CreateApplication);

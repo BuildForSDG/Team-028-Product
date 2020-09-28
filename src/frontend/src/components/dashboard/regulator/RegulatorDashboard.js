@@ -27,11 +27,11 @@ import Users from "./Users";
 import SMEs from "./SMEs";
 import Funds from "./Funds";
 import Projectcategories from "../admin/category/View";
-import Create from "../general/Create";
+import Create from "../general/project/Create";
 import Remove from "../general/Remove";
 import Update from "../general/Update";
-import ProfileDetails from "./user/ProfileDetails";
-import EditProfile from "./user/EditProfile";
+import ProfileDetails from "../general/user/ProfileDetails";
+import EditProfile from "../general/user/EditProfile";
 
 const menu = (
   <Menu id="dropdown-menu">

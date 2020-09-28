@@ -28,19 +28,19 @@ import SmeProposals from "./SmeProposals";
 import TotalInvestments from "./TotalInvestments";
 import InvestmentHistory from "./InvestmentHistory";
 
-import AllUsers from "./user/AllUsers";
+import AllUsers from "../general/user/AllUsers";
 import Create from "../general/CreateUser";
 import Update from "../general/Update";
 
-import ProfileDetails from "./user/ProfileDetails";
+import ProfileDetails from "../general/user/ProfileDetails";
 import ProposalDetails from "./ProposalDetails";
-import ProjectDetails from "./ProjectDetails";
+import ProjectDetails from "../general/project/ProjectDetails";
 import FundDetails from "./FundDetails";
-import EditProfile from "./user/EditProfile";
+import EditProfile from "../general/user/EditProfile";
 import Invest from "./invest";
 
-import ViewProject from "../general/View";
-import CreateProject from "../general/Create";
+import ViewProject from "../general/project/View";
+import CreateProject from "../general/project/Create";
 
 import * as Types from "../../../redux/types";
 import { fetch } from "../../../redux/actionCreators";

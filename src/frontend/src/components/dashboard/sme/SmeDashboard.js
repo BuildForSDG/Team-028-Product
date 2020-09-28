@@ -30,8 +30,8 @@ import EditProfile from "../general/user/EditProfile";
 
 import FundedProjects from "../sme/Projects/FundedProjects";
 import InvestmentProject from "../sme/Projects/InvestmentProject";
-import ProjectDetails from "../sme/Projects/ProjectDetails";
-import ViewProject from "../general/View";
+import ProjectDetails from "../general/project/ProjectDetails";
+import ViewProject from "../general/project/View";
 
 // import Milestones from "../sme/Projects/Milestones";
 import CreateMilestones from "./Projects/Milestones";
@@ -238,7 +238,7 @@ class SmeDashboard extends React.Component {
                 />
                 */}
                
-                <Route path="/sme/funds/apply" render={(props) => <NewApplication {...props} projects={this.state.projects } />} />
+                <Route path="/sme/funds/apply" render={(props) => <NewApplication {...props} projects={this.props.projects } dispatch={this.props.dispatch} user={this.props.user} />} />
                 <Route path="/sme/Funds/UpdateMilestone" component={UpdateMilestone} />
                 <Route path="/sme/fund-milestones" 
                   render={(props) => <ViewMilestones {...props} user={this.props.user} dispatch={this.props.dispatch} projectapplications={this.props.projectapplications} projects={this.props.projects} milestones={this.props.milestones} />} />
@@ -250,8 +250,8 @@ class SmeDashboard extends React.Component {
                 <Route path="/sme/profile-details" render={(props) => <ProfileDetails {...props} user={this.props.user} dispatch={this.props.dispatch} />} />
                 <Route path="/sme/edit-profile" component={EditProfile} />
                 <Route path="/sme/view-projects" render={(props) => <ViewProject {...props} userCat="sme" projects={this.props.projects} dispatch={this.props.dispatch} />} />
-                <Route path="/sme/funded-projects" render={(props) => <FundedProjects {...props}  projects={this.props.projects} />}  />
-                <Route path="/sme/Projects/ProjectDetails/:projectId" render={(props) => <ProjectDetails {...props} projects={this.state.projects }/>}/>
+                <Route path="/sme/funded-projects" render={(props) => <FundedProjects {...props} userCat="sme" projects={this.props.projects} />}  />
+                <Route path="/sme/view-project/:projectId" render={(props) => <ProjectDetails {...props} dispatch={this.props.dispatch} projects={this.state.projects }/>}/>
                     </Switch>
             </Router>
           </Content>
