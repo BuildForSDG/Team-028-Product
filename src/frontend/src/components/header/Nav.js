@@ -1,14 +1,9 @@
-/* eslint-disable no-console */
-/* eslint-disable quotes */
-/*eslint quotes: ["error", "double"]*/
-/*eslint-env es6*/
-/* eslint no-console: "error" */
+
 import React from "react";
 import { Link, BrowserRouter as Router, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Container from "react-bootstrap/Container";
 import serialize from "form-serialize";
-import axios from "axios";
 
 
 import About from "./About";
@@ -23,8 +18,6 @@ import "../../styles/modal.css";
 import {fetch } from "../../redux/actionCreators";
 
 import * as Types from "../../redux/types";
-
-import { bindActionCreators } from "redux";
 
 class Nav extends React.Component {
   constructor(props) {
@@ -108,12 +101,11 @@ class Nav extends React.Component {
     }).then( ()=>{
       const { status, message } =  this.props.request;
 
+      this.setState({signupStatus: status, signupMessage: message});
+
       if (status === "success") {
-        this.setState({ signupSuccess:message });
         form.reset();
         window.alert("User successfully signed up!");
-      } else {
-        this.setState({ signupError: message });
       }
     });
   }
@@ -173,7 +165,6 @@ class Nav extends React.Component {
         return;
       }
     });
-    const { user } = this.props;
     const userName = document.querySelector(`input[type="email"]`).value;
     const password = document.querySelector(`input[type="password"]`).value;
 

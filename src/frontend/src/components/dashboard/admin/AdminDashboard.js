@@ -66,12 +66,6 @@ class AdminDashboard extends React.Component {
   };
 
   render() {
-    // use localStorage.getItem("user") to get the user object
-    const user = localStorage.getItem("userObj");
-    const history = this.props.history;
-    if (!user || user === null) {
-      history.push("/");
-    }
     return (
       <Layout style={{ minHeight: "100vh" }}>
         <Sider className="admin-sider" collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
@@ -212,9 +206,9 @@ class AdminDashboard extends React.Component {
   }
 }
 const mapStateToProps = (state) => ({
-  companyName: state.admin.companyName,
-  category: state.admin.category,
-  userId: state.admin.userId,
-  organizationId:state.admin.organizationId
+  // companyName: state.admin.companyName,
+  // category: state.admin.category,
+  // userId: state.admin.userId,
+  // organizationId:state.admin.organizationId
 });
 export default connect(mapStateToProps)(AdminDashboard);
