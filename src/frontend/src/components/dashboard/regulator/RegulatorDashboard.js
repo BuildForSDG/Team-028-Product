@@ -1,15 +1,14 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
-/* eslint no-console: "error" */
+
 
 import React from "react";
+
+import { bindActionCreators } from "redux";
+import { connect, batch } from "react-redux";
+
 import { Switch, Router, Route, Link } from "react-router-dom";
+
 import {
   ProfileOutlined,
-  UsergroupAddOutlined,
-  SettingOutlined,
   LogoutOutlined,
   PieChartOutlined,
   BellFilled,
@@ -19,19 +18,25 @@ import {
   OrderedListOutlined,
   UnorderedListOutlined
 } from "@ant-design/icons";
-import { Layout, Menu, Breadcrumb, Row, Col, Badge, Dropdown, Avatar } from "antd";
-import { connect } from "react-redux";
+import { Layout, Menu, Badge, Dropdown, Avatar } from "antd";
+
 import Investors from "./Investors";
-import Projects from "./Projects";
+import ViewProject from "../general/project/View";
+import ProjectDetails from "../general/project/ProjectDetails";
 import Users from "./Users";
 import SMEs from "./SMEs";
 import Funds from "./Funds";
+
 import Projectcategories from "../admin/category/View";
 import Create from "../general/project/Create";
 import Remove from "../general/Remove";
 import Update from "../general/Update";
 import ProfileDetails from "../general/user/ProfileDetails";
 import EditProfile from "../general/user/EditProfile";
+
+import * as Types from "../../../redux/types";
+import { fetch } from "../../../redux/actionCreators";
+
 
 const menu = (
   <Menu id="dropdown-menu">
@@ -46,22 +51,69 @@ const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
 class RegulatorDashboard extends React.Component {
-  state = {
-    collapsed: false
-  };
+  constructor(props) {
+    super(props);
 
+    const { dispatch } = props;
+
+    this.bindActionCreators = bindActionCreators(fetch, dispatch);
+
+    this.state = {
+      collapsed: false
+    };
+  }
+
+  componentDidMount() {
+    const { history, user }= this.props;
+    (!user)?history.push("/"): history.push(`/${user.category}/profile-details`);
+    
+    this.fetchData();
+  }
+  fetchData = async() => {
+
+    const { dispatch } = this.props;
+
+    const fetchProjects = fetch({
+      url:  "/projects/all",
+      method: "get",
+      data: null,
+      onSuccess: Types.setProjects
+    });
+
+    const fetchInvestors = fetch({
+      url: "/organizations/list",
+      method: "get",
+      params: { category: "investor" },
+      onSuccess: Types.setInvestorsList
+    });
+
+    const fetchSMEs = fetch({
+      url: "/organizations/list",
+      method: "get",
+      params: { category: "sme" },
+      onSuccess: Types.setSMEsList
+    });
+
+    const fetchAllFundApplications = fetch({
+      url: "/funds/all",
+      method: "get",
+      data: null,
+      onSuccess: Types.setFundApplicationsList
+    });
+
+    batch(()=>{
+      dispatch(fetchProjects);
+      dispatch(fetchInvestors);
+      dispatch(fetchSMEs);
+      dispatch(fetchAllFundApplications);
+    });
+
+  }
   onCollapse = (collapsed) => {
-    console.log(collapsed);
     this.setState({ collapsed });
   };
 
   render() {
-    // use localStorage.getItem("user") to get the user object
-    const user = localStorage.getItem("userObj");
-    const history = this.props.history;
-    if (!user || user === null) {
-      history.push("/");
-    }
     return (
       <Layout style={{ minHeight: "100vh" }}>
         <Sider className="reg-sider" collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
@@ -85,26 +137,26 @@ class RegulatorDashboard extends React.Component {
             mode="inline"
           >
             <Menu.Item key="1" icon={<ProfileOutlined />}>
-              <Link to="/Regulator/ProfileDetails">Profile Details</Link>
+              <Link to="/regulator/profile-details">Profile Details</Link>
             </Menu.Item>
             <SubMenu key="sub1" icon={<PieChartOutlined />} title="Projects">
               <Menu.Item key="5">
-                <Link to="/regulator/Projectcategories"> Project Categories</Link>
+                <Link to="/regulator/project-categories"> Project Categories</Link>
               </Menu.Item>
               <Menu.Item key="6">
-                <Link to="/regulator/Projects">View Projects</Link>
+                <Link to="/regulator/view-projects">View Projects</Link>
               </Menu.Item>
             </SubMenu>
             <Menu.Item key="2" icon={<UnorderedListOutlined />}>
-              <Link to="/regulator/Investors">Investors List</Link>
+              <Link to="/regulator/investors">Investors List</Link>
             </Menu.Item>
             <Menu.Item key="3" icon={<OrderedListOutlined />}>
-              <Link to="/regulator/SMEs"> SMEs List</Link>
+              <Link to="/regulator/smes"> SMEs List</Link>
             </Menu.Item>
 
             <SubMenu key="sub2" icon={<WalletOutlined />} title="Funds">
               <Menu.Item key="7" icon={<EditOutlined />}>
-                <Link to="/regulator/Funds"> Funds Application</Link>
+                <Link to="/regulator/funds"> Funds Application</Link>
               </Menu.Item>
             </SubMenu>
             <SubMenu key="sub3" icon={<UserOutlined />} title="User">
@@ -143,17 +195,18 @@ class RegulatorDashboard extends React.Component {
           <Content style={{ margin: "0 16px" }}>
             <Router history={this.props.history}>
               <Switch>
-                <Route path="/regulator/projects" component={Projects} />
-                <Route path="/regulator/Projectcategories" component={Projectcategories} />
-                <Route path="/regulator/Investors" component={Investors} />
-                <Route path="/regulator/SMEs" component={SMEs} />
-                <Route path="/regulator/Users" component={Users} />
-                <Route path="/regulator/Funds" component={Funds} />
+                <Route path="/regulator/view-projects" render={(props) => <ViewProject {...props} userCat="regulator" projects={this.props.projects} dispatch={this.props.dispatch} />} />
+                <Route path="/regulator/view-project/:projectId" render={(props) => <ProjectDetails {...props} dispatch={this.props.dispatch} projects={this.state.projects }/>}/>
+                <Route path="/regulator/project-categories" component={Projectcategories} />
+                <Route path="/regulator/investors" render={(props)=> <Investors {...props} investors={this.props.investors}/>} />
+                <Route path="/regulator/smes" render={(props) => <SMEs {...props} smes={this.props.smes} />} />
+                <Route path="/regulator/users" component={Users} />
+                <Route path="/regulator/funds" render={(props)=> <Funds {...props} fundapplications={this.props.fundapplications} />} />
                 <Route path="/regulator/create-user" component={Create} />
                 <Route path="/regulator/update-user" component={Update} />
                 <Route path="/regulator/deactivate-user" component={Remove} />
-                <Route path="/regulator/ProfileDetails" component={ProfileDetails} />
-                <Route path="/regulator/EditProfile" component={EditProfile} />
+                <Route path="/regulator/profile-details" component={ProfileDetails} />
+                <Route path="/regulator/edit-profile" component={EditProfile} />
               </Switch>
             </Router>
           </Content>
@@ -165,9 +218,12 @@ class RegulatorDashboard extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  companyName: state.regulator.companyName,
-  category: state.regulator.category,
-  userId: state.regulator.userId
+  user: state.user,
+  projects: state.projects.list,
+  investors: state.investors.list,
+  smes: state.smes.list,
+  fundapplications: state.fundapplications.list,
+  request: state.request
 });
 
 export default connect(mapStateToProps)(RegulatorDashboard);

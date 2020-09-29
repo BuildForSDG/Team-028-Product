@@ -7,7 +7,6 @@ import { Switch, Link, Router, Route } from "react-router-dom";
 
 
 import { Badge, Dropdown, Layout, Menu, Avatar } from "antd";
-import serialize from "form-serialize";
 
 import {
   ProfileOutlined,
@@ -75,7 +74,7 @@ class SmeDashboard extends React.Component {
   componentDidMount() {
     this.fetchData();
     const { history, user }= this.props;
-    (!user)?history.push("/"): history.push("/sme/profile-details");
+    (!user)?history.push("/"): history.push(`/${user.category}/profile-details`);
   }
   fetchData = async() => {
 
@@ -118,11 +117,11 @@ class SmeDashboard extends React.Component {
       onSuccess: Types.setMilestones
     })
 
-    const fetchProjectsByApplication = fetch({
+    const fetchFundApplicationsByOrganizationId = fetch({
       url: `/fund/application/${this.props.user.organizationId}`,
       method: "get",
       data: null,
-      onSuccess: Types.setProjectsAppliedFor
+      onSuccess: Types.setFundApplicationsList
     })
 
     batch(()=>{
@@ -131,7 +130,7 @@ class SmeDashboard extends React.Component {
       dispatch(fetchProjects);
       dispatch(fetchFundCategories);
       dispatch(fetchMilestones);
-      dispatch(fetchProjectsByApplication);
+      dispatch(fetchFundApplicationsByOrganizationId);
     });
 
   }
@@ -241,7 +240,7 @@ class SmeDashboard extends React.Component {
                 <Route path="/sme/funds/apply" render={(props) => <NewApplication {...props} projects={this.props.projects } dispatch={this.props.dispatch} user={this.props.user} />} />
                 <Route path="/sme/Funds/UpdateMilestone" component={UpdateMilestone} />
                 <Route path="/sme/fund-milestones" 
-                  render={(props) => <ViewMilestones {...props} user={this.props.user} dispatch={this.props.dispatch} projectapplications={this.props.projectapplications} projects={this.props.projects} milestones={this.props.milestones} />} />
+                  render={(props) => <ViewMilestones {...props} user={this.props.user} dispatch={this.props.dispatch} projectapplications={this.props.fundapplications} projects={this.props.projects} milestones={this.props.milestones} />} />
                 <Route path="/sme/create-milestones" render={(props) => <CreateMilestones {...props}  projects={this.props.projects} />}  />
                 <Route path="/sme/existing-applications" render={(props) => <Proposal {...props} existingApplications={this.props.projectproposals} dispatch={this.props.dispatch} user={this.props.user} />} />
                 <Route path="/sme/create-user" component={Create} />
@@ -251,7 +250,7 @@ class SmeDashboard extends React.Component {
                 <Route path="/sme/edit-profile" component={EditProfile} />
                 <Route path="/sme/view-projects" render={(props) => <ViewProject {...props} userCat="sme" projects={this.props.projects} dispatch={this.props.dispatch} />} />
                 <Route path="/sme/funded-projects" render={(props) => <FundedProjects {...props} userCat="sme" projects={this.props.projects} />}  />
-                <Route path="/sme/view-project/:projectId" render={(props) => <ProjectDetails {...props} dispatch={this.props.dispatch} projects={this.state.projects }/>}/>
+                <Route path="/sme/view-project/:projectId" render={(props) => <ProjectDetails {...props} dispatch={this.props.dispatch} projects={this.props.projects }/>}/>
                     </Switch>
             </Router>
           </Content>
@@ -266,7 +265,7 @@ const mapStateToProps = (state) => ({
   projectproposals: state.projectproposals.list,
   disbursements: state.disbursements.list,
   projects: state.projects.list,
-  projectapplications: state.projectapplications.list,
+  fundapplications: state.fundapplications.list,
   fundcategories: state.fundcategories.list,
   organizationusers: state.organizationusers.list,
   milestones: state.milestones.list,

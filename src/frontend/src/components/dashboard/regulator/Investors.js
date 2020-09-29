@@ -1,71 +1,60 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
-/* eslint no-console: "error" */
+
 
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Card from "react-bootstrap/Card";
-import { Table, Tag, Space } from "antd";
-import axios from "axios";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+
+import { Card, Button, Form} from "react-bootstrap";
 
 export default class Investors extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      projects: [],
-      filteredProjects: [],
+      investors: [],
+      filteredInvestors: [],
       searchTerm: ""
     };
-
-    this.fetchData = this.fetchData.bind(this);
-    this.searchProjects = this.searchProjects.bind(this);
+    this.searchInvestors = this.searchInvestors.bind(this);
     this.onChange = this.onChange.bind(this);
 
   }
 
   componentDidMount() {
-    this.fetchData();
+    const { investors } = this.props
+    this.setState({ investors, filteredInvestors: investors });
   }
-  searchProjects(e){
+  searchInvestors(e){
     e.preventDefault();
 
     const query = this.state.searchTerm;
 
     this.setState((prevState) => {
-      let filteredProjects = prevState.projects;
+      let filteredInvestors = prevState.investors;
       if (query.trim() !== ""){
-        filteredProjects = prevState.projects.filter((element) => {
-          const description = element.description || "";
-          const projectName =  element.projectName || "";
+        filteredInvestors = prevState.investors.filter((element) => {
+          const address = element.address  || "";
+          const companyName =  element.companyName || "";
 
-          return description.toLowerCase().includes(query.toLowerCase()) ||
-          projectName.toLowerCase().includes(query.toLowerCase());
+          return address.toLowerCase().includes(query.toLowerCase()) ||
+                companyName.toLowerCase().includes(query.toLowerCase());
         });
       }
       return {
-        filteredProjects
+        filteredInvestors
       };
     });
   }
   onChange(e){
     const value =  e.target.value;
     if (value.trim() === ""){
-      this.setState({filteredProjects: this.state.projects, searchTerm: value});
+      this.setState({filteredInvestors: this.state.investors, searchTerm: value});
     }else{
       this.setState({searchTerm: value});
     }
     
   }
-  async fetchData() {
-    const data = await axios.get("https://eazsme-backend.herokuapp.com/organization/:id");
-    const projects = data.data.data;  
-    this.setState({projects, filteredProjects: projects});
-  }
     render() {
-      const data = this.state.filteredProjects;
+      const data = this.state.filteredInvestors;
       return (
         <Card.Body>
           <div className="invest-fund">
@@ -76,9 +65,9 @@ export default class Investors extends Component {
           </div>
           <div className="sachBody">
         <ul className="sach">
-          <li><Button style={{float:"right",borderRadius:"5%",background:"orange"}}  variant="default" type="submit" > Search</Button></li>
+          <li><Button style={{float:"right",borderRadius:"5%",background:"orange"}}  variant="default" type="submit" onClick={this.searchInvestors} > Search</Button></li>
             <li><Form.Group controlId="searchId">
-            <Form.Control className="searchBar" style={{ width:"250px", float:"right",marginRight:"10px",marginBottom:"15px" }} type="text" placeholder="Enter name to search" name="search" />
+            <Form.Control className="searchBar" onChange={this.onChange} style={{ width:"250px", float:"right",marginRight:"10px",marginBottom:"15px" }} type="text" placeholder="Enter name to search" name="search" />
           </Form.Group></li>
           </ul>
         </div> 
@@ -88,7 +77,7 @@ export default class Investors extends Component {
               <th>Company Name</th>
               <th>Category</th>
               <th>RC Number</th>
-              <th>Incorperation Date</th>
+              <th>Address</th>
               <th>Email</th>
               <th>Action</th>
             </tr>
@@ -100,10 +89,10 @@ export default class Investors extends Component {
                   <td>{item.companyName}</td>
                   <td>{item.category}</td>
                   <td>{item.RCNumber}</td>
-                  <td>{item.dateIncorporated}</td>
+                  <td>{item.address}</td>
                   <td>{item.email}</td>
                   <td>
-                    <Link to={`/view-project/${item.organizationId}`}>View Details</Link>
+                    <Link to={`/view-company/${item.organizationId}`}>View Details</Link>
                   </td>
                 </tr>
               );

@@ -44,12 +44,22 @@ export  const setMilestones = (payload) => ({
   payload
 });
 
-export  const setProjectsAppliedFor = (payload) => ({
-  type: Types.setProjectsAppliedFor,
+export  const setFundApplicationsList = (payload) => ({
+  type: Types.setFundApplicationsList,
   payload
 });
 
 export  const setProjectDetails = (payload) => ({
   type: Types.setProjectDetails,
+  payload
+});
+
+export  const setSMEsList = (payload) => ({
+  type: Types.setSMEsList,
+  payload
+});
+
+export  const setInvestorsList = (payload) => ({
+  type: Types.setInvestorsList,
   payload
 });

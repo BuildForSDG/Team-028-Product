@@ -6,7 +6,7 @@ export const apiMiddleware =  ({dispatch, getState }) => next => async action =>
     return next(action);
   }
 
-  const { url, method, data, onSuccess, onError} = action.payload;
+  const { url, method, data, params, onSuccess, onError} = action.payload;
 
   next(action);
   try {
@@ -15,7 +15,8 @@ export const apiMiddleware =  ({dispatch, getState }) => next => async action =>
       baseURL: "http://localhost:4000",
       url,
       method,
-      data
+      data,
+      params
     });
     const { status, message } =  response.data;
 

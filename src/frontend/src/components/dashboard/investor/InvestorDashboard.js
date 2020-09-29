@@ -69,7 +69,7 @@ class InvestorDashboard extends React.Component {
   componentDidMount() {
     this.fetchData();
     const { history, user }= this.props;
-    (!user)?history.push("/"): history.push("/investor/ProfileDetails");
+    (!user)?history.push("/"): history.push(`/${user.category}/profile-details`);
   }
   fetchData = async() => {
 
@@ -143,11 +143,11 @@ class InvestorDashboard extends React.Component {
           </div>
           <Menu theme="dark" defaultSelectedKeys={["1"]} defaultOpenKeys={['sub1']} mode="inline">
             <Menu.Item key="1" icon={<ProfileOutlined />}>
-              <Link to="/investor/ProfileDetails">Profile Details</Link>
+              <Link to="/investor/profile-details">Profile Details</Link>
             </Menu.Item>
             <SubMenu key="sub1" icon={<UserOutlined />} title="Users">
               <Menu.Item key="2">
-                <Link to="/investor/AllUsers">
+                <Link to="/investor/all-users">
                   <UsergroupAddOutlined />
                   All Users
                 </Link>
@@ -174,17 +174,17 @@ class InvestorDashboard extends React.Component {
                 <Link to="/investor/invest">Invest</Link>
               </Menu.Item>
               <Menu.Item key="8">
-                <Link to="/investor/InvestmentHistory">
+                <Link to="/investor/investment-history">
                   <RiseOutlined />
                   History
                 </Link>
               </Menu.Item>
 
               <Menu.Item key="9" icon={<PoundOutlined />}>
-                <Link to="/investor/TotalInvestments">Amount</Link>
+                <Link to="/investor/total-investments">Amount</Link>
               </Menu.Item>
               <Menu.Item key="10" icon={<AuditOutlined />}>
-                <Link to="/investor/SmeProposals">All Proposals</Link>
+                <Link to="/investor/sme-proposals">All Proposals</Link>
               </Menu.Item>
             </SubMenu>
             <Menu.Item key="12" icon={<LogoutOutlined />}>
@@ -233,29 +233,29 @@ class InvestorDashboard extends React.Component {
               <Router history={this.props.history}>
                 <Switch>
                   <Route
-                    path="/investor/SmeProposals"
+                    path="/investor/sme-proposals"
                     render={(props) => <SmeProposals {...props} projectproposals={this.props.projectproposals} />}
                   />
 
                   <Route
-                    path="/investor/InvestmentHistory"
+                    path="/investor/investment-history"
                     render={(props) => <InvestmentHistory {...props} user={this.props.user} dispatch={this.props.dispatch} disbursements={this.props.disbursements} />}
                   />
                   <Route
-                    path="/investor/TotalInvestments"
+                    path="/investor/total-investments"
                     render={(props) => <TotalInvestments {...props} user={this.props.user} dispatch={this.props.dispatch} />}
                   />
-                  <Route path="/investor/AllUsers" render={(props) => <AllUsers {...props} user={this.props.user} dispatch={this.props.dispatch} organizationusers={this.props.organizationusers} />} />
+                  <Route path="/investor/all-users" render={(props) => <AllUsers {...props} user={this.props.user} dispatch={this.props.dispatch} organizationusers={this.props.organizationusers} />} />
                   <Route path="/investor/create-user" component={Create} />
                   <Route path="/investor/update-user" component={Update} />
                   {/**<Route path="/investor/deactivate-user" component={Remove} />*/}
-                  <Route path="/investor/ProfileDetails" render={(props) => <ProfileDetails {...props} user={this.props.user} dispatch={this.props.dispatch} />} />
-                  <Route path="/investor/EditProfile" component={EditProfile} />
+                  <Route path="/investor/profile-details" render={(props) => <ProfileDetails {...props} user={this.props.user} dispatch={this.props.dispatch} />} />
+                  <Route path="/investor/edit-profile" component={EditProfile} />
                   <Route path="/investor/create-project" component={CreateProject} />
                   <Route path="/investor/view-projects" render={(props) => <ViewProject {...props} userCat="investor" projects={this.props.projects} dispatch={this.props.dispatch} />} />
                   <Route path="/investor/view-project/:projectId" render={(props) => <ProjectDetails {...props} dispatch={this.props.dispatch} />} />
                   <Route path="/investor/proposal-details/:id" render={(props) => <ProposalDetails {...props} projectproposals={this.props.projectproposals} dispatch={this.props.dispatch}  />} />
-                  <Route path="/investor/FundDetails/:id" render={(props) => <FundDetails {...props} user={this.props.user} dispatch={this.props.dispatch} />} />
+                  <Route path="/investor/fund-details/:id" render={(props) => <FundDetails {...props} user={this.props.user} dispatch={this.props.dispatch} />} />
                  <Route path="/investor/invest" render={(props) => <Invest {...props} user={this.props.user} dispatch={this.props.dispatch} projects={this.props.projects} fundcategories={this.props.fundcategories}/>} />
                 </Switch>
               </Router>

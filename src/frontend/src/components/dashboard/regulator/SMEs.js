@@ -1,83 +1,75 @@
-/* eslint-disable no-console */
-/* eslint no-console: "error" */
-/* eslint-disable no-unused-vars */
+
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Card from "react-bootstrap/Card";
-import { Table, Tag, Space } from "antd";
-import axios from "axios";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+
+import { Card, Button, Form} from "react-bootstrap";
+import { smesReducer } from "../../../redux/reducers/reducers";
+
 
 export default class SMEs extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      projects: [],
-      filteredProjects: [],
+      smes: [],
+      filteredSMEs: [],
       searchTerm: ""
     };
 
-    this.fetchData = this.fetchData.bind(this);
-    this.searchProjects = this.searchProjects.bind(this);
+    this.searchSMEs = this.searchSMEs.bind(this);
     this.onChange = this.onChange.bind(this);
 
   }
 
   componentDidMount() {
-    this.fetchData();
+    const { smes } = this.props
+    this.setState({ smes, filteredSMEs: smes });
   }
-  searchProjects(e){
+  searchSMEs(e){
     e.preventDefault();
 
     const query = this.state.searchTerm;
 
     this.setState((prevState) => {
-      let filteredProjects = prevState.projects;
+      let filteredSMEs = prevState.smes;
       if (query.trim() !== ""){
-        filteredProjects = prevState.projects.filter((element) => {
-          const description = element.description || "";
-          const projectName =  element.projectName || "";
+        filteredSMEs = prevState.smes.filter((element) => {
+          const address = element.address || "";
+          const companyName =  element.companyName || "";
 
-          return description.toLowerCase().includes(query.toLowerCase()) ||
-          projectName.toLowerCase().includes(query.toLowerCase());
+          return address.toLowerCase().includes(query.toLowerCase()) ||
+          companyName.toLowerCase().includes(query.toLowerCase());
         });
       }
       return {
-        filteredProjects
+        filteredSMEs
       };
     });
   }
   onChange(e){
     const value =  e.target.value;
     if (value.trim() === ""){
-      this.setState({filteredProjects: this.state.projects, searchTerm: value});
+      this.setState({filteredSMEs: this.state.smes, searchTerm: value});
     }else{
       this.setState({searchTerm: value});
     }
     
   }
-  async fetchData() {
-    const data = await axios.get("https://eazsme-backend.herokuapp.com/organization/:id");
-    const projects = data.data.data;  
-    this.setState({projects, filteredProjects: projects});
-  }
     render() {
-      const data = this.state.filteredProjects;
+      const data = this.state.filteredSMEs;
       return (
         <Card.Body>
           <div className="invest-fund">
             <h5 style={{textAlign:"center"}}>All SMEs</h5>
           </div>
           <div className="update" style={{textAlign:"center"}}>
-            <h5> *** SMEs View *** </h5>         
+            <h5> *** SMEs View *** </h5>
           </div>
           <div className="sachBody">
         <ul className="sach">
-          <li><Button style={{float:"right",borderRadius:"5%",background:"orange"}}  variant="default" type="submit" > Search</Button></li>
+          <li><Button style={{float:"right",borderRadius:"5%",background:"orange"}}  variant="default" type="submit" onClick={this.searchSMEs}> Search</Button></li>
             <li><Form.Group controlId="searchId">
-            <Form.Control className="searchBar" style={{ width:"250px", float:"right",marginRight:"10px",marginBottom:"15px" }} type="text" placeholder="Enter name to search" name="search" />
+            <Form.Control className="searchBar" style={{ width:"250px", float:"right",marginRight:"10px",marginBottom:"15px" }} type="text" placeholder="Enter name to search" name="search" onChange={this.onChange} />
           </Form.Group></li>
           </ul>
         </div> 
@@ -87,7 +79,7 @@ export default class SMEs extends Component {
               <th>Company Name</th>
               <th>Category</th>
               <th>RC Number</th>
-              <th>Incorperation Date</th>
+              <th>Address</th>
               <th>Email</th>
               <th>Action</th>
             </tr>
@@ -99,10 +91,10 @@ export default class SMEs extends Component {
                   <td>{item.companyName}</td>
                   <td>{item.category}</td>
                   <td>{item.RCNumber}</td>
-                  <td>{item.dateIncorporated}</td>
+                  <td>{item.address}</td>
                   <td>{item.email}</td>
                   <td>
-                    <Link to={`/view-project/${item.organizationId}`}>View Details</Link>
+                    <Link to={`/view-company/${item.organizationId}`}>View Details</Link>
                   </td>
                 </tr>
               );

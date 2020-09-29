@@ -25,6 +25,9 @@ export const setFundDetails = "SET_FUND_DETAILS";
 
 export const setMilestones = "SET_MILESTONES_lIST";
 
-export const setProjectsAppliedFor = "SET_PROJECTS_APPLIED_FOR";
+export const setFundApplicationsList = "SET_FUND_APPLICATIONS_LIST";
 
 export const setProjectDetails =  "SET_PROJECT_DETAILS";
+
+export const setInvestorsList = "SET_INVESTORS_LIST";
+export const setSMEsList = "SET_SMES_LIST";

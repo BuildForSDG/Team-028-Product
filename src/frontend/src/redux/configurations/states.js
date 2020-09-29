@@ -14,6 +14,10 @@ export const projects = {
   list: [],
   lastFetch: null
 };
+export const fundApplications = {
+  list: [],
+  lastFetch: null
+};
 
 export const milestones = {
   list: [],
@@ -35,6 +39,15 @@ export const fundDetails = {};
 export const projectDetails = {};
 
 export const projectProposals = {
+  list: [],
+  lastFetch: null
+};
+
+export const investors = {
+  list: [],
+  lastFetch: null
+};
+export const smes = {
   list: [],
   lastFetch: null
 };

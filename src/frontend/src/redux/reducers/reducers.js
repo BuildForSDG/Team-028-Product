@@ -40,9 +40,9 @@ export const projectsReducer = (state = states.projects, action) => {
   }
 };
 
-export const projectsAppliedForReducer = (state = states.projects, action) => {
+export const fundApplicationsReducer = (state = states.fundApplications, action) => {
   switch (action.type) {
-    case Types.setProjectsAppliedFor: {
+    case Types.setFundApplicationsList: {
       return ({
         ...state,
         list: action.payload,
@@ -68,6 +68,37 @@ export const projectDetailsReducer = (state = states.projectDetails, action) => 
 export const milestoneReducer = (state = states.projects, action) => {
   switch (action.type) {
     case Types.setMilestones: {
+      return ({
+        ...state,
+        list: action.payload,
+        lastFetch: Date.now()
+      });
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+
+export const smesReducer = (state = states.smes, action) => {
+  switch (action.type) {
+    case Types.setSMEsList: {
+      return ({
+        ...state,
+        list: action.payload,
+        lastFetch: Date.now()
+      });
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+export const investorsReducer = (state = states.investors, action) => {
+  switch (action.type) {
+    case Types.setInvestorsList: {
       return ({
         ...state,
         list: action.payload,

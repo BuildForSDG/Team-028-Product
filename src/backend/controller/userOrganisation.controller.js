@@ -98,7 +98,9 @@ exports.findOne = (req, res) => {
 
 // Find organization by Category
 exports.findAll = (req, res) => {
-  Organization.findAll({ where: { userCatId: req.body.userCatId } })
+  const { category } =  req.query;
+
+  Organization.findAll({ where: { category } })
     .then((data) => {
       if (!data) {
         return res.status(401).json({
