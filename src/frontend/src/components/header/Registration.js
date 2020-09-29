@@ -105,8 +105,7 @@ class Registration extends React.Component {
   }
 
   render() {
-    const success = this.props.success;
-    const error = this.props.error;
+    const { status, message } = this.props;
     const { errors } = this.state;
     return (
       <>
@@ -125,13 +124,13 @@ class Registration extends React.Component {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body bsPrefix="modal-body">
-            {success ? (
+            {status === "success" ? (
               <div className="text-bold text-success text-center">
-                <h5>{success}</h5>
+                <h5>{message}</h5>
               </div>
             ) : (
               <div className="text-bold text-danger text-center">
-                <h5>{error}</h5>
+                <h5>{message}</h5>
               </div>
             )}
 

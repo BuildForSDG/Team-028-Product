@@ -37,11 +37,10 @@ export const apiMiddleware =  ({dispatch, getState }) => next => async action =>
       else dispatch({ type: Types.api_failure, payload: { status, message } });
     }
   } catch (error) {
-
-    dispatch({type: Types.api_failure});
+    dispatch({type: Types.api_failure, payload: {status: "error", message:error.message} });
 
     if (onError){
-      dispatch({type: onError, payload: error.message});
+      dispatch({type: onError, payload: {status: "error", message:error.message}});
     }
   }
 }

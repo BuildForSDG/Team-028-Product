@@ -39,10 +39,10 @@ class Nav extends React.Component {
       confirmPassword: "",
       redirect: null,
 
-      loginSuccess: "",
-      loginError: "",
-      signupSuccess: "",
-      signupError: ""
+      loginStatus: "",
+      loginMessage: "",
+      signupStatus: "",
+      signupMessage: ""
     };
     this.showRegistrationModal = this.showRegistrationModal.bind(this);
     this.closeRegistrationModal = this.closeRegistrationModal.bind(this);
@@ -193,13 +193,12 @@ class Nav extends React.Component {
       }).then( ()=>{
         const { status, message } = this.props.request;
 
+        this.setState({loginStatus: status, loginMessage: message});
         if (status === "success"){
           const { user } =  this.props;
 
           if (user.category === undefined || user.category === "") return;
           this.props.history.push("/"+ user.category);
-        }else{
-          this.setState({ loginError: "Invalid Credentials" });
         }
       });
     }
@@ -261,16 +260,16 @@ class Nav extends React.Component {
           handleBlur={this.handleBlur}
           handleConfirmPasswordChange={this.handleConfirmPasswordChange}
           handlePasswordChange={this.handlePasswordChange}
-          success={this.state.signupSuccess}
-          error={this.state.signupError}
+          status={this.state.signupStatus}
+          message={this.state.signupMessage}
         />
         <Login
           showModal={this.state.showLog}
           closeModal={this.closeLoginModal}
           login={this.handleLogin}
           current={this.logFormText}
-          success={this.state.loginSuccess}
-          error={this.state.loginError}
+          status={this.state.loginStatus}
+          message={this.state.loginMessage}
         />
         <Contact showModal={this.state.showContact} closeModal={this.closeContactModal} />
         <About showModal={this.state.showAbout} closeModal={this.closeAboutModal} />

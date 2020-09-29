@@ -108,7 +108,7 @@ class CreateMilestone extends React.Component {
         </div>
         <Row>
           <Col md="12">
-
+ 
           {status === "success" ? (
               <div className="text-bold text-success">
                 <h5>{message}</h5>

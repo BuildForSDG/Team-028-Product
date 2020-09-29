@@ -21,12 +21,9 @@ exports.findOne = (req, res) => {
     .then((data) => {
       // Check if login credentials exist
       if (!data) {
-        const result = {
-          message: " Invalid username or password"
-        };
         return res.status(401).json({
           status: "error",
-          data: result
+          message: " Invalid username or password"
         });
       }
       // verify if user is activated.

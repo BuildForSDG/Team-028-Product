@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint no-console: "error" */
 
 import React from "react";
 import { Modal, Form, Button, Col, Row } from "react-bootstrap";
@@ -31,8 +29,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const success = this.props.success;
-    const error = this.props.error;
+    const { status, message } = this.props;
     return (
       <>
         {/*** Login Modal */}
@@ -54,13 +51,13 @@ class Login extends React.Component {
             </Row>
           </Modal.Header>
           <Modal.Body bsPrefix="modal-body">
-            {success ? (
+            {status === "success" ? (
               <div className="text-bold text-success text-center">
-                <h5>{success}</h5>
+                <h5>{message}</h5>
               </div>
             ) : (
               <div className="text-center">
-                <h5 className="text-danger">{error}</h5>
+                <h5 className="text-danger">Login Failed</h5>
               </div>
             )}
             <Form name="login">
